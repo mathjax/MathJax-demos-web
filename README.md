@@ -1,6 +1,12 @@
 # [mj3-demos](https://github.com/pkra/mj3-demos)
 
-A repository with examples using mathjax-v3
+A repository with examples using [mathjax-v3](https://github.com/mathjax/mathjax-v3).
+
+## NOTE
+
+Mathjax v3 is in early alpha. Do not use this in production but please test it and report issues at https://github.com/mathjax/mathjax-v3!
+
+Thanks!
 
 ## Live demo
 
