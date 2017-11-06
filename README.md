@@ -17,8 +17,8 @@ There are two basic examples for each input available:
 
 * simple "render the page" setup
   * Implements a simple conversion pass on load.
-  * mj3-mml2html-global.js ([demo html](https://pkra.github.io/mj3-demos/mj3-mml2html.html))
-  * mj3-tex2html-global.js ([demo html](https://pkra.github.io/mj3-demos/mj3-tex2html.html)
+  * mj3-mml2html.js ([demo html](https://pkra.github.io/mj3-demos/mj3-mml2html.html))
+  * mj3-tex2html.js ([demo html](https://pkra.github.io/mj3-demos/mj3-tex2html.html)
   * The demo html pages contain a few samples
 * simple global method for rendering individual equations
   * mj3-mml2html-global.js ([demo html](https://pkra.github.io/mj3-demos/mj3-mml2html-global.html))
