@@ -2,6 +2,10 @@
 
 A repository with examples using mathjax-v3
 
+## Live demo
+
+[pkra.github.io/mj3-demos](https://pkra.github.io/mj3-demos)
+
 ## Getting started
 
 * Install NodeJS (8+ recommended) and npm (5.2+).
