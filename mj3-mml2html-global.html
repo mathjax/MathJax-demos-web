@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Testing MathJax v3 setup</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+  <script src="mj3-mml2html-global.dist.js"></script>
+</head>
+
+<body>
+</body>
+<textarea id="txtarea"  rows="10" cols="50"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mi>x</mi> <mo>=</mo>
+  <mrow>
+    <mfrac>
+      <mrow>
+        <mo>&#x2212;</mo>
+        <mi>b</mi>
+        <mo>&#x00B1;</mo>
+        <msqrt>
+          <msup><mi>b</mi><mn>2</mn></msup>
+          <mo>&#x2212;</mo>
+          <mn>4</mn><mi>a</mi><mi>c</mi>
+        </msqrt>
+      </mrow>
+      <mrow> <mn>2</mn><mi>a</mi> </mrow>
+    </mfrac>
+  </mrow>
+  <mtext>.</mtext>
+</math></textarea>
+<input type="button" value="Render MathML" id="add" onclick="convert()" />
+<br>
+<div id="output"></div>
+<script>
+  function convert() {
+    var input = document.getElementById("txtarea").value;
+    output = document.getElementById('output');
+    if (output.firstChild) output.removeChild(output.firstChild);
+    console.time('wrapper');
+    output.appendChild(Typeset(input));
+    console.timeEnd('wrapper');
+  }
+</script>
+
+</html>

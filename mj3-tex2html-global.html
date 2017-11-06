@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Testing MathJax v3 setup</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.26.0/polyfill.min.js"></script>
+  <script src="mj3-tex2html-global.dist.js"></script>
+</head>
+
+<body>
+</body>
+<textarea id="txtarea"  rows="10" cols="50">x = {-b \pm \sqrt{b^2-4ac} \over 2a}.</textarea>
+<input type="button" value="Render TeX" id="add" onclick="convert()" />
+<br>
+<div id="output"></div>
+<script>
+  function convert() {
+    var input = document.getElementById("txtarea").value;
+    output = document.getElementById('output');
+    if (output.firstChild) output.removeChild(output.firstChild);
+    console.time('wrapper');
+    output.appendChild(Typeset(input, true));
+    console.timeEnd('wrapper');
+  }
+</script>
+
+</html>
