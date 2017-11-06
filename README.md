@@ -1,4 +1,4 @@
-# mj3-demos
+# [mj3-demos](https://github.com/pkra/mj3-demos)
 
 A repository with examples using mathjax-v3
 
