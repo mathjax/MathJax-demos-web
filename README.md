@@ -19,6 +19,7 @@ Thanks!
   *  `$ npm install https://github.com/pkra/mj3-demos.git`
 * This should automatically run the post-installation script `install.sh` which will clone the mathjax-v3 repository, create a suitable branch, compile Typescript, and build the webpack distributions specified here.
 * Load any of the HTML files into your browser.
+  * **Note** they'll be in `./node_modules/mj3-demos/`
 
 
 ## Sample setups
