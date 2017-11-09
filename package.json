@@ -21,12 +21,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pkra/mathjax-v3-demos/"
+    "url": "https://github.com/mathjax/mathjax-v3-demos/"
   },
   "keywords": [
     "MathJax"
   ],
   "license": "Apache-2.0",
-  "scripts" :
-    { "postinstall" : "sh ./install.sh"}
+  "scripts": {
+    "postinstall": "sh ./install.sh"
+  }
 }
