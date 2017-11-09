@@ -127,5 +127,5 @@ const tex2htmlglobal =
 }
 
 module.exports = [mmlhtml, texhtml, mml2htmlglobal, tex2htmlglobal];
-// OR
-// module.exports = global;
+// OR to compile one configuration:
+module.exports = texhtml;
