@@ -1,24 +1,16 @@
 #/bin/bash
 
 # clone the source into ./v3 and install dependencies
-git clone https://github.com/mathjax/mathjax-v3.git v3
+echo "clone mathjax-v3 repository"
+git clone --branch alpha https://github.com/mathjax/mathjax-v3.git v3
 cd ./v3
 npm install
-git checkout package.json
-
-# create separate branch
-git checkout -b pkra-mj3-demos
-
-# merge latest HTML output branch
-# NOTE subject to change
-git merge -m 'merge html output' origin/stretchy-cells
-# merge latest TeX input  branch
-# NOTE subject to change
-git merge -m 'merge TeX input' origin/tex_input_typescript
 
 # complile v3 source
+echo "compile typescript"
 npx tsc
 
 # return and run webpack
 cd ..
+echo "run webpack"
 npx webpack
