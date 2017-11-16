@@ -12,7 +12,7 @@ MathJax.handlers.register(new HTMLHandler());
 
 // initialize mathjax with with a DOM document (e.g., browser, jsdom); other documents are possible
 const html = MathJax.document(window.document, {
-    InputJax: new TeX(),
+    InputJax: new TeX({inlineMath: [['$', '$'], ['\\(', '\\)'] ]}),
     OutputJax: new CHTML()
 });
 
