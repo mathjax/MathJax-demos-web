@@ -4,7 +4,11 @@ import { AbstractMathItem } from './v3/mathjax3/core/MathItem.js';
 import { AbstractMathDocument } from './v3/mathjax3/core/MathDocument.js';
 
 let mml = new MathML();
-let chtml = new CHTML();
+const chtmloptions = {
+  fontURL:
+    'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-alpha.2//mathjax2/css/'
+};
+let chtml = new CHTML(chtmloptions);
 
 let doc = new AbstractMathDocument(document, { OutputJax: chtml });
 chtml.nodes.document = doc.document;
@@ -15,7 +19,6 @@ window.Typeset = function(string, display) {
   math.display = display; // boolean;
   math.setMetrics(16, 8, 1000000, 100000, 1);
   math.compile();
-  math.typeset(doc)
+  math.typeset(doc);
   return math.typesetRoot;
 };
-

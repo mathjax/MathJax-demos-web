@@ -10,10 +10,14 @@ import {CHTML} from "./v3/mathjax3/output/chtml.js";
 import {HTMLHandler} from "./v3/mathjax3/handlers/html/HTMLHandler.js";
 MathJax.handlers.register(new HTMLHandler());
 
+const chtmloptions = {
+    fontURL:
+      'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-alpha.2//mathjax2/css/'
+  };
 // initialize mathjax with with a DOM document (e.g., browser, jsdom); other documents are possible
 const html = MathJax.document(window.document, {
     InputJax: new TeX({inlineMath: [['$', '$'], ['\\(', '\\)'] ]}),
-    OutputJax: new CHTML()
+    OutputJax: new CHTML(chtmloptions)
 });
 
 window.addEventListener("load", function () {
