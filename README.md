@@ -33,12 +33,12 @@ There are two basic examples for each input available:
 * simple global method for rendering individual equations
   * mj3-mml2html-global.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/mj3-mml2html-global.html)
   * mj3-tex2html-global.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/mj3-tex2html-global.html)
-  * implements `window.Typeset(string, boolean)`
-    * accepts an input string and a Boolean (to set/override display `block`).
+  * implements `window.Typeset(string, boolean)` for TeX and `window.Typeset(string)` for MathML.
+    * accepts an input string and a boolean (to set display mode).
     * Returns the resulting HTML node
   * The demo html pages contain a simple textarea input example
 
 
 ## Webfonts
 
-The `./mathjax2` folder contains the webfonts (and their location is hard-coded right now).
+The `./mathjax2` folder contains the webfonts.  The location is given in the configuration witin the driver files when the output object is created.  You can modifiy the location there and run webpack to compile the files needed for your URLs.
