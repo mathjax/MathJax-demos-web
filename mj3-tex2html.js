@@ -1,19 +1,22 @@
 const MathJax = require("./v3/mathjax3/mathjax.js").MathJax       // MathJax core
 const TeX     = require("./v3/mathjax3/input/tex.js").TeX;        // TeX input
 const CHTML   = require("./v3/mathjax3/output/chtml.js").CHTML;   // HTML output
+const browser = require("./v3/mathjax3/adaptors/browserAdaptor").browserAdaptor; // browser DOM
 
 //
-//  Register the HTML handler
+//  Register the HTML handler with the browser adaptor
 //
-const HTMLHandler = require("./v3/mathjax3/handlers/html/HTMLHandler.js").HTMLHandler;
-MathJax.handlers.register(new HTMLHandler());
+require("./v3/mathjax3/handlers/html.js").RegisterHTMLHandler(browser());
 
 //
-//  Initialize mathjax with with a DOM document (e.g., browser, jsdom); other documents are possible
+//  Initialize mathjax with with a DOM document (e.g., browser, jsdom);
+//  other documents are possible, but we use browser document here.
 //
 const html = MathJax.document(document, {
     InputJax: new TeX({inlineMath: [['$', '$'], ['\\(', '\\)']]}),
-    OutputJax: new CHTML({fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-alpha.3/mathjax2/css/'})
+    OutputJax: new CHTML({
+      fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-alpha.3/mathjax2/css/'
+    })
 });
 
 window.addEventListener("load", function () {
