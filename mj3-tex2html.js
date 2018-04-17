@@ -15,7 +15,7 @@ require("./v3/mathjax3/handlers/html.js").RegisterHTMLHandler(browser());
 const html = MathJax.document(document, {
     InputJax: new TeX({inlineMath: [['$', '$'], ['\\(', '\\)']]}),
     OutputJax: new CHTML({
-      fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-alpha.3/mathjax2/css/'
+      fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-alpha.4/mathjax2/css/'
     })
 });
 

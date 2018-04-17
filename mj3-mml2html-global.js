@@ -9,15 +9,15 @@ class GenericMathItem extends AbstractMathItem {};
 
 const mml = new MathML();
 const chtml = new CHTML({
-  fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-alpha.3/mathjax2/css/'
+  fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-alpha.4/mathjax2/css/'
 });
 
-const doc = new GenericMathDocument(document, browserAdaptor(), {OutputJax: chtml});
+const doc = new GenericMathDocument(document, browserAdaptor(), {InputJax: mml, OutputJax: chtml});
 document.head.appendChild(chtml.styleSheet(doc));
 
 window.Typeset = function(string) {
   let math = new GenericMathItem(string, mml);
-  math.setMetrics(16, 8, 1000000, 100000, 1);
+  math.setMetrics(16, 8, 80*16, 100000, 1);
   math.compile();
   math.typeset(doc);
   return math.typesetRoot;

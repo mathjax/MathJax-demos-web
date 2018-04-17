@@ -14,7 +14,7 @@ require("./v3/mathjax3/handlers/html.js").RegisterHTMLHandler(adaptor());
 //
 const html = MathJax.document(document, {
     InputJax: new MathML(),
-    OutputJax: new CHTML({fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-alpha.3/mathjax2/css/'})
+    OutputJax: new CHTML({fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-alpha.4/mathjax2/css/'})
 });
 
 window.addEventListener("load", function () {
