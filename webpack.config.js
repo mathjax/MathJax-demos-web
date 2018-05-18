@@ -48,8 +48,12 @@ const CONFIG = function (name) {
         filename: 'mj3-' + name + '.dist.js'
     },
     module: MODULE(),
-    plugins: PLUGINS()
-  }
+    plugins: PLUGINS(),
+    performance: {
+      hints: false
+    },
+    mode: 'production'
+  };
 }
 
 //
