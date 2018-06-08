@@ -100,8 +100,11 @@ The demo pages provide a text area where you can type MathML or TeX (depending o
 
 * Install NodeJS (8+ recommended) and npm (5.2+).
 * Install this repository via npm:
-  *  `$ npm install https://github.com/mathjax/mj3-demos.git`
+
+      `npm install https://github.com/mathjax/mj3-demos.git`
+
 * This should automatically run the post-installation script `install.sh` which will clone the mathjax-v3 repository, checkout the `beta` branch, compile the Typescript source to ES5 javascript files, and then build the webpack distributions specified in this repo.
+* You may get a few warning messages about `package.json` in the end, but these are OK.  The `.js` files will have been built in the `node_modules/mj3-demos` directory.
 * Load any of the HTML files into your browser.
 
 You can use the `.js` files provided here to create your own custom loaders for MathJax, and edit the `webpack.config.js` file to build the combined javascript file needed for use on the web.
