@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width">
   <title>Testing MathJax v3 setup with TeX input</title>
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script src="mj3-tex2html.dist.js"></script>
+  <script>
+  MathJaxConfig = {
+    TeX: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+  };
+  </script>
+  <script src="mj3-tex2html-beta.dist.js"></script>
 </head>
 <body>
 
@@ -79,8 +84,9 @@
 
     <p>Finally, while display equations look good for a page of samples, the
     ability to mix math and text in a paragraph is also important.  This
-    expression \(\sqrt{3x-1}+(1+x)^2\) is an example of an inline equation.  As
+    expression $\sqrt{3x-1}+(1+x)^2$ is an example of an inline equation.  As
     you see, MathJax equations can be used this way as well, without unduly
     disturbing the spacing between lines.</p>
+
 </body>
 </html>

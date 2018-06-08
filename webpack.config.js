@@ -64,10 +64,15 @@ const tex2html = CONFIG('tex2html');
 const mml2htmlglobal = CONFIG('mml2html-global');
 const tex2htmlglobal = CONFIG('tex2html-global');
 
+const mml2htmlbeta = CONFIG('mml2html-beta');
+const tex2htmlbeta = CONFIG('tex2html-beta');
+
 //
-//  Compile all four
+//  Compile all configurations
 //
-module.exports = [mml2html, tex2html, mml2htmlglobal, tex2htmlglobal];
+module.exports = [mml2html, tex2html,
+                  mml2htmlglobal, tex2htmlglobal,
+                  mml2htmlbeta, tex2htmlbeta];
 
 // OR compile one configuration, e.g.,:
 // module.exports = tex2html;

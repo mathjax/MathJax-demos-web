@@ -56,12 +56,13 @@
 </div>
 
 <script>
+  document.head.appendChild(MathJax.Stylesheet());
   function convert() {
     var input = document.getElementById("txtarea").value;
     output = document.getElementById('output');
     if (output.firstChild) output.removeChild(output.firstChild);
     console.time('wrapper');
-    output.appendChild(Typeset(input));
+    output.appendChild(MathJax.Typeset(input));
     console.timeEnd('wrapper');
   }
 </script>
