@@ -6,7 +6,7 @@ import {browserAdaptor} from './v3/mathjax3/adaptors/browserAdaptor.js';
 
 const mml = new MathML();
 const chtml = new CHTML({
-    fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-alpha.6/mathjax2/css'
+    fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.1/mathjax2/css'
 });
 
 const doc = new HTMLDocument(document, browserAdaptor(), {InputJax: mml, OutputJax: chtml});
