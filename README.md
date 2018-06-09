@@ -20,7 +20,13 @@ The ability to configure MathJax through a configuration object, as in v2, is li
 
 ## Sample Loaders
 
-There are three basic examples for each input available.
+There are three basic examples for each input available. If you wish to use any of the javascript files in your own test pages, you can either download the `.js` file from [https://github.com/mathjax/mj3-demos/](https://github.com/mathjax/mj3-demos/) and host it on your own server, or you can refer to the file from [https://cdn.rawgit.com](https://cdn.rawgit.com), as described below.  You may also want to include [https://cdn.polyfill.io](https://cdn.polyfill.io) to support older browsers.
+
+For example:
+
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <script src="https://cdn.rawgit.com/mathjax/mj3-demos/3.0.0-beta.1/mj3-tex2html-beta.js"></script>
+
 
 ### The single-pass demos
 
