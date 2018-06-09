@@ -1,6 +1,6 @@
 {
   "name": "mj3-demos",
-  "version": "1.1.1",
+  "version": "3.0.0-beta.1",
   "description": "Demos using MathJax v3 beta",
   "dependencies": {
     "ajv": "^6.4.0",
