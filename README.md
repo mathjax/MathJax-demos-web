@@ -105,18 +105,26 @@ The demo pages provide a text area where you can type MathML or TeX (depending o
 ## Building Custom Configurations
 
 * Install NodeJS (8+ recommended) and npm (5.2+).
+
 * Install this repository via npm:
 
-      `npm install https://github.com/mathjax/mj3-demos.git`
+        npm install https://github.com/mathjax/mj3-demos.git
 
-* This should automatically run the post-installation script `install.sh` which will clone the mathjax-v3 repository, checkout the `beta` branch, compile the Typescript source to ES5 javascript files, and then build the webpack distributions specified in this repo.
-* You may get a few warning messages about `package.json` in the end, but these are OK.  The `.js` files will have been built in the `node_modules/mj3-demos` directory.
+* You may get a few warning messages about `package.json` in the end, but these are normal if you run `nom install` in a directory without a `package.json` file.
 * Load any of the HTML files into your browser.
 
-You can use the `.js` files provided here to create your own custom loaders for MathJax, and edit the `webpack.config.js` file to build the combined javascript file needed for use on the web.
+You can use the `.js` files provided here to create your own custom loaders for MathJax, and edit the `webpack.config.js` file to build the combined javascript file needed for use on the web, and then use
 
-For use with NodeJS, you should be able to import the files from `v3/mathjax3` directly.
+    npx webpack
+
+to create the packed `.dist.js` file.
+
+For use with NodeJS, you should be able to import the files from the `mathjax3/mathjax3` directory directly.  See the [mj3-demos-node](https://github.com/mathjax/mj3-demos-node) repository for examples that use NodeJS.
 
 ## Webfonts
 
-The `./mathjax2` folder contains the webfonts.  The location is given in the configuration within the driver files when the output object is created.The default location is to load from `https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.1/mathjax2/css`, but you can modifiy the location there and run webpack to compile the files needed for your URLs.  The `*-beta.js` files allow you to configure the URL inline within the HTML page that loads them.
+The `./mathjax2` folder contains the webfonts.  The location is given in the configuration within the driver files when the output object is created. The default location is to load from
+
+    https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.1/mathjax2/css
+  
+but you can modifiy the location there and run webpack to compile the files needed for your URLs.  The `*-beta.js` files allow you to configure the URL inline within the HTML page that loads them.

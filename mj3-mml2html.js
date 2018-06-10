@@ -21,15 +21,15 @@
  *  limitations under the License.
  */
 
-const MathJax = require('./v3/mathjax3/mathjax.js').MathJax       // MathJax core
-const MathML  = require('./v3/mathjax3/input/mathml.js').MathML;  // MathML input
-const CHTML   = require('./v3/mathjax3/output/chtml.js').CHTML;   // HTML output
-const adaptor = require('./v3/mathjax3/adaptors/browserAdaptor').browserAdaptor; // browser DOM
+const MathJax = require('mathjax3/mathjax3/mathjax.js').MathJax       // MathJax core
+const MathML  = require('mathjax3/mathjax3/input/mathml.js').MathML;  // MathML input
+const CHTML   = require('mathjax3/mathjax3/output/chtml.js').CHTML;   // HTML output
+const adaptor = require('mathjax3/mathjax3/adaptors/browserAdaptor').browserAdaptor; // browser DOM
 
 //
 //  Register the HTML handler with the browser adaptor
 //
-require('./v3/mathjax3/handlers/html.js').RegisterHTMLHandler(adaptor());
+require('mathjax3/mathjax3/handlers/html.js').RegisterHTMLHandler(adaptor());
 
 //
 //  Initialize mathjax with with a DOM document (e.g., browser, jsdom);

@@ -21,17 +21,17 @@
  *  limitations under the License.
  */
 
-import {TeX} from './v3/mathjax3/input/tex.js';
-import {CHTML} from './v3/mathjax3/output/chtml.js';
-import {HTMLMathItem} from './v3/mathjax3/handlers/html/HTMLMathItem.js';
-import {HTMLDocument} from './v3/mathjax3/handlers/html/HTMLDocument.js';
-import {browserAdaptor} from './v3/mathjax3/adaptors/browserAdaptor.js';
+import {TeX} from 'mathjax3/mathjax3/input/tex.js';
+import {CHTML} from 'mathjax3/mathjax3/output/chtml.js';
+import {HTMLMathItem} from 'mathjax3/mathjax3/handlers/html/HTMLMathItem.js';
+import {HTMLDocument} from 'mathjax3/mathjax3/handlers/html/HTMLDocument.js';
+import {browserAdaptor} from 'mathjax3/mathjax3/adaptors/browserAdaptor.js';
 
-import './v3/mathjax3/input/tex/base/BaseConfiguration.js';
-import './v3/mathjax3/input/tex/ams/AmsConfiguration.js';
-import './v3/mathjax3/input/tex/noundefined/NoUndefinedConfiguration.js';
-import './v3/mathjax3/input/tex/newcommand/NewcommandConfiguration.js';
-import './v3/mathjax3/input/tex/boldsymbol/BoldsymbolConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/base/BaseConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/ams/AmsConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/noundefined/NoUndefinedConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/newcommand/NewcommandConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/boldsymbol/BoldsymbolConfiguration.js';
 
 //
 //  Create the input and output jax

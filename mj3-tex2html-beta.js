@@ -24,21 +24,21 @@
 //
 //  Load the desired components
 //
-const MathJax = require('./v3/mathjax3/mathjax.js').MathJax       // MathJax core
-const TeX     = require('./v3/mathjax3/input/tex.js').TeX;        // TeX input
-const CHTML   = require('./v3/mathjax3/output/chtml.js').CHTML;   // HTML output
-const browser = require('./v3/mathjax3/adaptors/browserAdaptor').browserAdaptor; // browser DOM
+const MathJax = require('mathjax3/mathjax3/mathjax.js').MathJax       // MathJax core
+const TeX     = require('mathjax3/mathjax3/input/tex.js').TeX;        // TeX input
+const CHTML   = require('mathjax3/mathjax3/output/chtml.js').CHTML;   // HTML output
+const browser = require('mathjax3/mathjax3/adaptors/browserAdaptor').browserAdaptor; // browser DOM
 
-require('./v3/mathjax3/input/tex/base/BaseConfiguration.js');
-require('./v3/mathjax3/input/tex/ams/AmsConfiguration.js');
-require('./v3/mathjax3/input/tex/noundefined/NoUndefinedConfiguration.js');
-require('./v3/mathjax3/input/tex/newcommand/NewcommandConfiguration.js');
-require('./v3/mathjax3/input/tex/boldsymbol/BoldsymbolConfiguration.js');
+require('mathjax3/mathjax3/input/tex/base/BaseConfiguration.js');
+require('mathjax3/mathjax3/input/tex/ams/AmsConfiguration.js');
+require('mathjax3/mathjax3/input/tex/noundefined/NoUndefinedConfiguration.js');
+require('mathjax3/mathjax3/input/tex/newcommand/NewcommandConfiguration.js');
+require('mathjax3/mathjax3/input/tex/boldsymbol/BoldsymbolConfiguration.js');
 
 //
 //  Register the HTML handler with the browser adaptor
 //
-require('./v3/mathjax3/handlers/html.js').RegisterHTMLHandler(browser());
+require('mathjax3/mathjax3/handlers/html.js').RegisterHTMLHandler(browser());
 
 //
 //  Get the input and output jax configurations from the user

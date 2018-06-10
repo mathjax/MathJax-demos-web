@@ -21,11 +21,11 @@
  *  limitations under the License.
  */
 
-import {MathML} from './v3/mathjax3/input/mathml.js';
-import {CHTML} from './v3/mathjax3/output/chtml.js';
-import {HTMLMathItem} from './v3/mathjax3/handlers/html/HTMLMathItem.js';
-import {HTMLDocument} from './v3/mathjax3/handlers/html/HTMLDocument.js';
-import {browserAdaptor} from './v3/mathjax3/adaptors/browserAdaptor.js';
+import {MathML} from 'mathjax3/mathjax3/input/mathml.js';
+import {CHTML} from 'mathjax3/mathjax3/output/chtml.js';
+import {HTMLMathItem} from 'mathjax3/mathjax3/handlers/html/HTMLMathItem.js';
+import {HTMLDocument} from 'mathjax3/mathjax3/handlers/html/HTMLDocument.js';
+import {browserAdaptor} from 'mathjax3/mathjax3/adaptors/browserAdaptor.js';
 
 //
 //  Create the input and output jax
