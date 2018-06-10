@@ -25,7 +25,7 @@ There are three basic examples for each input available. If you wish to use any 
 For example:
 
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-    <script src="https://cdn.rawgit.com/mathjax/mj3-demos/3.0.0-beta.1/mj3-tex2html-beta.js"></script>
+    <script src="https://cdn.rawgit.com/mathjax/mj3-demos/3.0.0-beta.1/mj3-tex2html-beta.dist.js"></script>
 
 
 ### The single-pass demos
