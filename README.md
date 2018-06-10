@@ -119,4 +119,4 @@ For use with NodeJS, you should be able to import the files from `v3/mathjax3` d
 
 ## Webfonts
 
-The `./mathjax2` folder contains the webfonts.  The location is given in the configuration within the driver files when the output object is created.The default location is to load from `https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-alpha.6/mathjax2/css`, but you can modifiy the location there and run webpack to compile the files needed for your URLs.  The `*-beta.js` files allow you to configure the URL inline within the HTML page that loads them.
+The `./mathjax2` folder contains the webfonts.  The location is given in the configuration within the driver files when the output object is created.The default location is to load from `https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.1/mathjax2/css`, but you can modifiy the location there and run webpack to compile the files needed for your URLs.  The `*-beta.js` files allow you to configure the URL inline within the HTML page that loads them.
