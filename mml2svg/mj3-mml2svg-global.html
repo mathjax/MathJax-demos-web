@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Testing MathJax v3 setup with MathML input and a global</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script src="mj3-mml2svg-global.dist.js"></script>
+  <style>
+  #frame {
+    max-width: 40em;
+    margin: auto;
+    text-align: right;
+  }
+  textarea {
+    border: 1px solid grey;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  #output {
+    margin-top: .75em;
+    border: 1px solid grey;
+    padding: 0 .25em;
+    min-height: 2em;
+  }
+  </style>
+</head>
+
+<body>
+<div id="frame">
+<textarea id="txtarea"  rows="20" cols="10"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mi>x</mi> <mo>=</mo>
+  <mrow>
+    <mfrac>
+      <mrow>
+        <mo>&#x2212;</mo>
+        <mi>b</mi>
+        <mo>&#x00B1;</mo>
+        <msqrt>
+          <msup><mi>b</mi><mn>2</mn></msup>
+          <mo>&#x2212;</mo>
+          <mn>4</mn><mi>a</mi><mi>c</mi>
+        </msqrt>
+      </mrow>
+      <mrow> <mn>2</mn><mi>a</mi> </mrow>
+    </mfrac>
+  </mrow>
+  <mtext>.</mtext>
+</math></textarea>
+<br>
+<input type="button" value="Render MathML" id="add" onclick="convert()" />
+<br>
+<div id="output"></div>
+</div>
+
+<script>
+  document.head.appendChild(MathJax.Stylesheet());
+  function convert() {
+    var input = document.getElementById("txtarea").value.trim();
+    output = document.getElementById('output');
+    if (output.firstChild) output.removeChild(output.firstChild);
+    console.time('wrapper');
+    output.appendChild(MathJax.Typeset(input));
+    console.timeEnd('wrapper');
+  }
+</script>
+</body>
+
+</html>
