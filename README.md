@@ -36,10 +36,10 @@ For example:
 
 These implement a simple "render the page" setup that implements a single conversion pass when the page is loaded.
 
-* mj3-mml2html-simple.js - [LIVE DEMO](mml2html/mj3-mml2html-simple.html)
-* mj3-tex2html-simple.js - [LIVE DEMO](tex2html/mj3-tex2html-simple.html)
-* mj3-mml2svg-simple.js - [LIVE DEMO](mml2svg/mj3-mml2svg-simple.html)
-* mj3-tex2svg-simple.js - [LIVE DEMO](tex2svg/mj3-tex2svg-simple.html)
+* mj3-mml2html-simple.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/mml2html/mj3-mml2html-simple.html)
+* mj3-tex2html-simple.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/tex2html/mj3-tex2html-simple.html)
+* mj3-mml2svg-simple.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/mml2svg/mj3-mml2svg-simple.html)
+* mj3-tex2svg-simple.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/tex2svg/mj3-tex2svg-simple.html)
 
 Each HTML page includes a number of examples.  The javascript files are intended as examples of how to build a packed version of MathJax.  For a more practical generic packed version, see the next section.
 
@@ -48,10 +48,10 @@ Each HTML page includes a number of examples.  The javascript files are intended
 
 These implement a configurable "render the page" setup that is a bit more sophisticated than the ones above.  These can be run more than once, and can be loaded with the `async` attribute.
 
-* mj3-mml2html-beta.js - [LIVE DEMO](mml2html/mj3-mml2html-beta.html)
-* mj3-tex2html-beta.js - [LIVE DEMO](tex2html/mj3-tex2html-beta.html)
-* mj3-mml2svg-beta.js - [LIVE DEMO](mml2svg/mj3-mml2svg-beta.html)
-* mj3-tex2svg-beta.js - [LIVE DEMO](tex2svg/mj3-tex2svg-beta.html)
+* mj3-mml2html-beta.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/mml2html/mj3-mml2html-beta.html)
+* mj3-tex2html-beta.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/tex2html/mj3-tex2html-beta.html)
+* mj3-mml2svg-beta.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/mml2svg/mj3-mml2svg-beta.html)
+* mj3-tex2svg-beta.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/tex2svg/mj3-tex2svg-beta.html)
 
 To configure MathJax, use
 
@@ -121,10 +121,10 @@ These files can be loaded with the `async` attribute, but if you do, the page wi
 
 These provide a simple method for rendering individual equations.
 
-* mj3-mml2html-global.js - [LIVE DEMO](mml2html/mj3-mml2html-global.html)
-* mj3-tex2html-global.js - [LIVE DEMO](tex2html/mj3-tex2html-global.html)
-* mj3-mml2svg-global.js - [LIVE DEMO](mml2svg/mj3-mml2svg-global.html)
-* mj3-tex2svg-global.js - [LIVE DEMO](tex2svg/mj3-tex2svg-global.html)
+* mj3-mml2html-global.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/mml2html/mj3-mml2html-global.html)
+* mj3-tex2html-global.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/tex2html/mj3-tex2html-global.html)
+* mj3-mml2svg-global.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/mml2svg/mj3-mml2svg-global.html)
+* mj3-tex2svg-global.js - [LIVE DEMO](https://mathjax.github.io/mj3-demos/tex2svg/mj3-tex2svg-global.html)
 
 The demo pages provide a text area where you can type MathML or TeX (depending on the demo), and typeset them.  The javascript file provides a `MathJax` object that has the following methods:
 
