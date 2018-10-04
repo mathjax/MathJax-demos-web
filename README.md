@@ -37,7 +37,7 @@ For example:
 These implement a simple "render the page" setup that implements a single conversion pass when the page is loaded.
 
 * mj3-mml2html-simple.js - [LIVE DEMO](mml2html/mj3-mml2html-simple.html)
-* mj3-tex2html-simple.js - [LIVE DEMO](tex2html/mj3-tex2html.html)
+* mj3-tex2html-simple.js - [LIVE DEMO](tex2html/mj3-tex2html-simple.html)
 * mj3-mml2svg-simple.js - [LIVE DEMO](mml2svg/mj3-mml2svg-simple.html)
 * mj3-tex2svg-simple.js - [LIVE DEMO](tex2svg/mj3-tex2svg-simple.html)
 
