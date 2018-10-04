@@ -34,6 +34,12 @@ require('mathjax3/mathjax3/input/tex/ams/AmsConfiguration.js');
 require('mathjax3/mathjax3/input/tex/noundefined/NoUndefinedConfiguration.js');
 require('mathjax3/mathjax3/input/tex/newcommand/NewcommandConfiguration.js');
 require('mathjax3/mathjax3/input/tex/boldsymbol/BoldsymbolConfiguration.js');
+require('mathjax3/mathjax3/input/tex/braket/BraketConfiguration.js');
+require('mathjax3/mathjax3/input/tex/mhchem/MhchemConfiguration.js');
+require('mathjax3/mathjax3/input/tex/physics/PhysicsConfiguration.js');
+require('mathjax3/mathjax3/input/tex/verb/VerbConfiguration.js');
+require('mathjax3/mathjax3/input/tex/cancel/CancelConfiguration.js');
+require('mathjax3/mathjax3/input/tex/enclose/EncloseConfiguration.js');
 
 //
 //  Register the HTML handler with the browser adaptor
@@ -47,10 +53,12 @@ require('mathjax3/mathjax3/handlers/html.js').RegisterHTMLHandler(browser());
 const html = MathJax.document(document, {
     InputJax: new TeX({
         inlineMath: [['$', '$'], ['\\(', '\\)']],
-        packages: ['base', 'ams', 'noundefined', 'newcommand', 'boldsymbol']
+        packages: ['base', 'ams', 'noundefined', 'newcommand',
+                   'boldsymbol', 'braket', 'mhchem', 'physics',
+                   'verb', 'cancel', 'enclose']
     }),
     OutputJax: new CHTML({
-        fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.1/mathjax2/css'
+        fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.2/mathjax2/css'
     })
 });
 

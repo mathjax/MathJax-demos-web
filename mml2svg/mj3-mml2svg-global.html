@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width">
   <title>Testing MathJax v3 setup with MathML input and a global</title>
   <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-  <script src="mj3-mml2html-global.dist.js"></script>
+  <script src="mj3-mml2svg-global.dist.js"></script>
   <style>
   #frame {
     max-width: 40em;
@@ -58,7 +58,7 @@
 <script>
   document.head.appendChild(MathJax.Stylesheet());
   function convert() {
-    var input = document.getElementById("txtarea").value;
+    var input = document.getElementById("txtarea").value.trim();
     output = document.getElementById('output');
     if (output.firstChild) output.removeChild(output.firstChild);
     console.time('wrapper');

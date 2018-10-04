@@ -1,8 +1,8 @@
 /*************************************************************************
  *
- *  mj3-tex2html-global.js
+ *  mj3-tex2svg-global.js
  *
- *  Uses MathJax v3 to convert a TeX expression to an HTML tree.
+ *  Uses MathJax v3 to convert a TeX expression to an SVG tree.
  *
  * ----------------------------------------------------------------------
  *
@@ -22,7 +22,7 @@
  */
 
 import {TeX} from 'mathjax3/mathjax3/input/tex.js';
-import {CHTML} from 'mathjax3/mathjax3/output/chtml.js';
+import {SVG} from 'mathjax3/mathjax3/output/svg.js';
 import {HTMLMathItem} from 'mathjax3/mathjax3/handlers/html/HTMLMathItem.js';
 import {HTMLDocument} from 'mathjax3/mathjax3/handlers/html/HTMLDocument.js';
 import {browserAdaptor} from 'mathjax3/mathjax3/adaptors/browserAdaptor.js';
@@ -32,21 +32,28 @@ import 'mathjax3/mathjax3/input/tex/ams/AmsConfiguration.js';
 import 'mathjax3/mathjax3/input/tex/noundefined/NoUndefinedConfiguration.js';
 import 'mathjax3/mathjax3/input/tex/newcommand/NewcommandConfiguration.js';
 import 'mathjax3/mathjax3/input/tex/boldsymbol/BoldsymbolConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/braket/BraketConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/mhchem/MhchemConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/physics/PhysicsConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/physics/PhysicsConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/verb/VerbConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/cancel/CancelConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/enclose/EncloseConfiguration.js';
 
 //
 //  Create the input and output jax
 //
 const tex = new TeX({
-    packages: ['base', 'ams', 'noundefined', 'newcommand', 'boldsymbol']
+    packages: ['base', 'ams', 'noundefined', 'newcommand',
+               'boldsymbol', 'braket', 'mhchem', 'physics',
+               'verb', 'cancel', 'enclose']
 });
-const chtml = new CHTML({
-    fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.1/mathjax2/css'
-});
+const svg = new SVG();
 
 //
 //  Make a new HTML Math Document for the browser document
 //
-const doc = new HTMLDocument(document, browserAdaptor(), {InputJax: tex, OutputJax: chtml});
+const doc = new HTMLDocument(document, browserAdaptor(), {InputJax: tex, OutputJax: svg});
 
 //
 //  The MathJax object
@@ -56,11 +63,11 @@ window.MathJax = {
     //  Return the stylesheet DOM node
     //
     Stylesheet: function () {
-        return chtml.styleSheet(doc);
+        return svg.styleSheet(doc);
     },
 
     //
-    //  Typeset a MathML expression and return the HTML tree for it
+    //  Typeset a MathML expression and return the SVG tree for it
     //
     Typeset: function(string, display, em = 16, ex = 8, cwidth = 80*16) {
         let math = new HTMLMathItem(string, tex, display);
@@ -68,5 +75,13 @@ window.MathJax = {
         math.compile();
         math.typeset(doc)
         return math.typesetRoot;
+    },
+
+    //
+    //  Reset tags and labels
+    //
+    Reset: function (n) {
+      if (n) {n--} else {n = 0}
+      tex.parseOptions.tags.reset(n);
     }
 };

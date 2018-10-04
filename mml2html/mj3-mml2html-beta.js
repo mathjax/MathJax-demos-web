@@ -38,7 +38,7 @@ const MathJaxConfig = window.MathJaxConfig || {};
 
 const mmlConfig = Object.assign({}, MathJaxConfig.MathML || {});
 const htmlConfig = Object.assign({
-  fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.1/mathjax2/css'
+  fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.2/mathjax2/css'
 }, MathJaxConfig.HTML || {});
 
 //

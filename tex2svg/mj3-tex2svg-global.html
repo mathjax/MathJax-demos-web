@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Testing MathJax v3 setup with TeX input and a global</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script src="mj3-tex2svg-global.dist.js"></script>
+  <style>
+  #frame {
+    max-width: 40em;
+    margin: auto;
+    text-align: right;
+  }
+  textarea {
+    border: 1px solid grey;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  #output {
+    margin-top: .75em;
+    border: 1px solid grey;
+    padding: 0 .25em;
+    min-height: 2em;
+  }
+  </style>
+</head>
+
+<body>
+<div id="frame">
+<textarea id="txtarea" rows="15" cols="10">x = {-b \pm \sqrt{b^2-4ac} \over 2a}.</textarea>
+<br>
+<input type="button" value="Render TeX" id="add" onclick="convert()" />
+<br>
+<div id="output"></div>
+</div>
+
+<script>
+  document.head.appendChild(MathJax.Stylesheet());
+  function convert() {
+    var input = document.getElementById("txtarea").value.trim();
+    output = document.getElementById('output');
+    if (output.firstChild) output.removeChild(output.firstChild);
+    MathJax.Reset();
+    console.time('wrapper');
+    output.appendChild(MathJax.Typeset(input, true));
+    console.timeEnd('wrapper');
+  }
+</script>
+</body>
+
+</html>

@@ -1,8 +1,8 @@
 /*************************************************************************
  *
- *  mj3-mml2html.js
+ *  mj3-mml2svg-simple.js
  *
- *  Uses MathJax v3 to convert MathML to HTML within a browser.
+ *  Uses MathJax v3 to convert MathML to SVG within a browser.
  *
  * ----------------------------------------------------------------------
  *
@@ -23,7 +23,7 @@
 
 const MathJax = require('mathjax3/mathjax3/mathjax.js').MathJax       // MathJax core
 const MathML  = require('mathjax3/mathjax3/input/mathml.js').MathML;  // MathML input
-const CHTML   = require('mathjax3/mathjax3/output/chtml.js').CHTML;   // HTML output
+const SVG     = require('mathjax3/mathjax3/output/svg.js').SVG;       // SVG output
 const adaptor = require('mathjax3/mathjax3/adaptors/browserAdaptor').browserAdaptor; // browser DOM
 
 //
@@ -37,9 +37,7 @@ require('mathjax3/mathjax3/handlers/html.js').RegisterHTMLHandler(adaptor());
 //
 const html = MathJax.document(document, {
     InputJax: new MathML(),
-    OutputJax: new CHTML({
-        fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.1/mathjax2/css'
-    })
+    OutputJax: new SVG()
 });
 
 //

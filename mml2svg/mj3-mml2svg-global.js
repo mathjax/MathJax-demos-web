@@ -1,8 +1,8 @@
 /*************************************************************************
  *
- *  mj3-mml2html-global.js
+ *  mj3-mml2svg-global.js
  *
- *  Uses MathJax v3 to convert a MathML expression to an HTML tree.
+ *  Uses MathJax v3 to convert a MathML expression to a SVG tree.
  *
  * ----------------------------------------------------------------------
  *
@@ -22,7 +22,7 @@
  */
 
 import {MathML} from 'mathjax3/mathjax3/input/mathml.js';
-import {CHTML} from 'mathjax3/mathjax3/output/chtml.js';
+import {SVG} from 'mathjax3/mathjax3/output/svg.js';
 import {HTMLMathItem} from 'mathjax3/mathjax3/handlers/html/HTMLMathItem.js';
 import {HTMLDocument} from 'mathjax3/mathjax3/handlers/html/HTMLDocument.js';
 import {browserAdaptor} from 'mathjax3/mathjax3/adaptors/browserAdaptor.js';
@@ -31,14 +31,12 @@ import {browserAdaptor} from 'mathjax3/mathjax3/adaptors/browserAdaptor.js';
 //  Create the input and output jax
 //
 const mml = new MathML();
-const chtml = new CHTML({
-    fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.1/mathjax2/css'
-});
+const svg = new SVG();
 
 //
 //  Make a new HTML Math Document for the browser document
 //
-const doc = new HTMLDocument(document, browserAdaptor(), {InputJax: mml, OutputJax: chtml});
+const doc = new HTMLDocument(document, browserAdaptor(), {InputJax: mml, OutputJax: svg});
 
 //
 //  The MathJax object
@@ -48,11 +46,11 @@ window.MathJax = {
     //  Return the stylesheet DOM node
     //
     Stylesheet: function () {
-        return chtml.styleSheet(doc);
+        return svg.styleSheet(doc);
     },
 
     //
-    //  Typeset a MathML expression and return the HTML tree for it
+    //  Typeset a MathML expression and return the SVG tree for it
     //
     Typeset: function (string, em = 16, ex = 8, cwidth = 80*16) {
         let math = new HTMLMathItem(string, mml);
