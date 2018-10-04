@@ -32,15 +32,23 @@ import 'mathjax3/mathjax3/input/tex/ams/AmsConfiguration.js';
 import 'mathjax3/mathjax3/input/tex/noundefined/NoUndefinedConfiguration.js';
 import 'mathjax3/mathjax3/input/tex/newcommand/NewcommandConfiguration.js';
 import 'mathjax3/mathjax3/input/tex/boldsymbol/BoldsymbolConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/braket/BraketConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/mhchem/MhchemConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/physics/PhysicsConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/verb/VerbConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/cancel/CancelConfiguration.js';
+import 'mathjax3/mathjax3/input/tex/enclose/EncloseConfiguration.js';
 
 //
 //  Create the input and output jax
 //
 const tex = new TeX({
-    packages: ['base', 'ams', 'noundefined', 'newcommand', 'boldsymbol']
+    packages: ['base', 'ams', 'noundefined', 'newcommand',
+               'boldsymbol', 'braket', 'mhchem', 'physics',
+               'verb', 'cancel', 'enclose']
 });
 const chtml = new CHTML({
-    fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.1/mathjax2/css'
+    fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.2/mathjax2/css'
 });
 
 //
@@ -68,5 +76,13 @@ window.MathJax = {
         math.compile();
         math.typeset(doc)
         return math.typesetRoot;
+    },
+
+    //
+    //  Reset tags and labels
+    //
+    Reset: function (n) {
+      if (n) {n--} else {n = 0}
+      tex.parseOptions.tags.reset(n);
     }
 };

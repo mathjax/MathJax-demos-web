@@ -58,7 +58,7 @@
 <script>
   document.head.appendChild(MathJax.Stylesheet());
   function convert() {
-    var input = document.getElementById("txtarea").value;
+    var input = document.getElementById("txtarea").value.trim();
     output = document.getElementById('output');
     if (output.firstChild) output.removeChild(output.firstChild);
     console.time('wrapper');

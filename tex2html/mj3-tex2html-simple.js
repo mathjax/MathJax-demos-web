@@ -1,8 +1,8 @@
 /*************************************************************************
  *
- *  mj3-tex2html-beta.js
+ *  mj3-tex2html.js
  *
- *  Uses MathJax v3 to convert TeX to HTML within the browser.
+ *  Uses MathJax v3 to convert TeX to HTML within a browser.
  *
  * ----------------------------------------------------------------------
  *
@@ -47,60 +47,35 @@ require('mathjax3/mathjax3/input/tex/enclose/EncloseConfiguration.js');
 require('mathjax3/mathjax3/handlers/html.js').RegisterHTMLHandler(browser());
 
 //
-//  Get the input and output jax configurations from the user
-//
-const MathJaxConfig = window.MathJaxConfig || {};
-
-const texConfig = Object.assign({
-    packages: ['base', 'ams', 'noundefined', 'newcommand',
-               'boldsymbol', 'braket', 'mhchem', 'physics',
-               'verb', 'cancel', 'enclose']
-}, MathJaxConfig.TeX || {});
-
-const htmlConfig = Object.assign({
-    fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.2/mathjax2/css'
-}, MathJaxConfig.HTML || {});
-
-//
-//  Initialize mathjax with a DOM document.
+//  Initialize mathjax with a DOM document (e.g., browser, jsdom);
+//  other documents are possible, but we use browser document here.
 //
 const html = MathJax.document(document, {
-    InputJax: new TeX(texConfig),
-    OutputJax: new CHTML(htmlConfig)
+    InputJax: new TeX({
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        packages: ['base', 'ams', 'noundefined', 'newcommand',
+                   'boldsymbol', 'braket', 'mhchem', 'physics',
+                   'verb', 'cancel', 'enclose']
+    }),
+    OutputJax: new CHTML({
+        fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.2/mathjax2/css'
+    })
 });
 
 //
-//  The global MathJax object
+//  When the page is ready...
 //
-window.MathJax = {
-    version: MathJax.version,
-    html: html,
+window.addEventListener('load', () => {
+    console.time('wrapper');
 
     //
     //  Process the document
     //
-    Typeset: function(...elements) {
-        this.html.findMath(elements.length ? {elements} : {})
-                 .compile()
-                 .getMetrics()
-                 .typeset()
-                 .updateDocument()
-                 .clear();
-    }
-}
+    html.findMath()
+        .compile()
+        .getMetrics()
+        .typeset()
+        .updateDocument();
 
-//
-//  Do the initial typesetting
-//
-if (!MathJaxConfig.skipInitialTypeset) {
-    //
-    //  If the window is already loaded, just call Typeset()
-    //  Otherwise, set an event listener and run Typeset() when DOM is loaded
-    //
-    if (document.readyState && document.readyState !== 'loading') {
-        window.MathJax.Typeset(...(MathJaxConfig.elements || []));
-    } else {
-        window.addEventListener('DOMContentLoaded',
-            () => window.MathJax.Typeset(...(MathJaxConfig.elements || [])), false);
-    }
-}
+    console.timeEnd('wrapper');
+});
