@@ -27,26 +27,13 @@ import {HTMLMathItem} from 'mathjax3/mathjax3/handlers/html/HTMLMathItem.js';
 import {HTMLDocument} from 'mathjax3/mathjax3/handlers/html/HTMLDocument.js';
 import {browserAdaptor} from 'mathjax3/mathjax3/adaptors/browserAdaptor.js';
 
-import 'mathjax3/mathjax3/input/tex/base/BaseConfiguration.js';
-import 'mathjax3/mathjax3/input/tex/ams/AmsConfiguration.js';
-import 'mathjax3/mathjax3/input/tex/noundefined/NoUndefinedConfiguration.js';
-import 'mathjax3/mathjax3/input/tex/newcommand/NewcommandConfiguration.js';
-import 'mathjax3/mathjax3/input/tex/boldsymbol/BoldsymbolConfiguration.js';
-import 'mathjax3/mathjax3/input/tex/braket/BraketConfiguration.js';
-import 'mathjax3/mathjax3/input/tex/mhchem/MhchemConfiguration.js';
-import 'mathjax3/mathjax3/input/tex/physics/PhysicsConfiguration.js';
-import 'mathjax3/mathjax3/input/tex/physics/PhysicsConfiguration.js';
-import 'mathjax3/mathjax3/input/tex/verb/VerbConfiguration.js';
-import 'mathjax3/mathjax3/input/tex/cancel/CancelConfiguration.js';
-import 'mathjax3/mathjax3/input/tex/enclose/EncloseConfiguration.js';
+import {AllPackages} from 'mathjax3/mathjax3/input/tex/AllPackages.js';
 
 //
 //  Create the input and output jax
 //
 const tex = new TeX({
-    packages: ['base', 'ams', 'noundefined', 'newcommand',
-               'boldsymbol', 'braket', 'mhchem', 'physics',
-               'verb', 'cancel', 'enclose']
+    packages: AllPackages
 });
 const svg = new SVG();
 
@@ -72,7 +59,7 @@ window.MathJax = {
     Typeset: function(string, display, em = 16, ex = 8, cwidth = 80*16) {
         let math = new HTMLMathItem(string, tex, display);
         math.setMetrics(em, ex, cwidth, 100000, 1);
-        math.compile();
+        math.compile(doc);
         math.typeset(doc)
         return math.typesetRoot;
     },

@@ -32,7 +32,7 @@ import {browserAdaptor} from 'mathjax3/mathjax3/adaptors/browserAdaptor.js';
 //
 const mml = new MathML();
 const chtml = new CHTML({
-    fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.2/mathjax2/css'
+    fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-beta.3/mathjax2/css'
 });
 
 //
@@ -57,7 +57,7 @@ window.MathJax = {
     Typeset: function (string, em = 16, ex = 8, cwidth = 80*16) {
         let math = new HTMLMathItem(string, mml);
         math.setMetrics(em, ex, cwidth, 100000, 1);
-        math.compile();
+        math.compile(doc);
         math.typeset(doc);
         return math.typesetRoot;
     }

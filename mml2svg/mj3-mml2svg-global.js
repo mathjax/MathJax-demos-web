@@ -55,7 +55,7 @@ window.MathJax = {
     Typeset: function (string, em = 16, ex = 8, cwidth = 80*16) {
         let math = new HTMLMathItem(string, mml);
         math.setMetrics(em, ex, cwidth, 100000, 1);
-        math.compile();
+        math.compile(doc);
         math.typeset(doc);
         return math.typesetRoot;
     }
