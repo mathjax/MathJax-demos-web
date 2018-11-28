@@ -10,7 +10,7 @@ Mathjax v3 is in beta release. **Do not use this in production** but please test
 
 This beta version includes two input processors (TeX and MathML) and two output processors (CommonHTML and SVG).  Other input and output processors (e.g., AsciiMath input) will be added in the future.
 
-The current TeX input processor has all the core functionality of the MathJax v2 TeX input, and several of the extensions built in, but some extensions are still to come.  For example, `\unicode`, `\bbox`, and the `color` extension are not yet available.
+The current TeX input processor has all the core functionality of the MathJax v2 TeX input, and nearly all the extensions are now available in v3.
 
 The CommonHTML and SVG output implement all the MathML elements that they do in v2, but do not yet include support for line breaking (neither automatic nor explicit ones); this will be implemented in a later beta version.  Both output renderers currently only support the MathJax TeX font; other fonts will be added in the future.  
 
