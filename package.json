@@ -1,13 +1,13 @@
 {
   "name": "mj3-demos",
-  "version": "3.0.0-beta.2",
+  "version": "3.0.0-beta.3",
   "description": "Demos using MathJax v3 beta",
   "dependencies": {
     "ajv": "^6.4.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
-    "mathjax3": "^3.0.0-beta.2",
+    "mathjax3": "^3.0.0-beta.3",
     "typedoc": "^0.9.0",
     "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^4.19.0",
