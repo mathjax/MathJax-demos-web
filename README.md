@@ -29,7 +29,7 @@ There are three basic examples for each input and output combination. If you wis
 For example:
 
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-    <script src="https://cdn.rawgit.com/mathjax/mj3-demos/3.0.0-beta.2/mj3-tex2html-beta.dist.js"></script>
+    <script src="https://cdn.rawgit.com/mathjax/mj3-demos/3.0.0-beta.3/mj3-tex2html-beta.dist.js"></script>
 
 
 ### The single-pass demos
