@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>MathJax v3 dynamic equations using CSS and javascript</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+    chtml: {
+      displayAlign: 'left'
+    },
+    startup: {
+      ready: function () {
+        //
+        //  Do the usual startup (which does a typeset)
+        //
+        MathJax.startup.defaultReady();
+        //
+        //  When that is all done, un-hide the page
+        //
+        MathJax.startup.promise.then(function () {
+          document.getElementById("hidden").disabled = true;
+        });
+      }
+    }
+  };
+  </script>
+  <script src="mathjax3/tex-chtml.js" id="MathJax-script" async></script>
+
+  <script type="text/javascript">
+  //
+  //  Use a closure to hide the local variable
+  //
+  (function () {
+    var n = 1;
+
+    //
+    //  Make the current step be visible, and increment the step.
+    //  If it is the last step, disable the step button.
+    //  Once a step is taken, the reset button is made available.
+    //
+    window.ShowStep = function () {
+      document.getElementById("Step" + n++).style.visibility = "visible";
+      if (!document.getElementById("Step" + n)) {
+        document.getElementById("step").disabled = true;
+      }
+      document.getElementById("reset").disabled = false;
+    }
+
+    //
+    //  Enable the step button and disable the reset button.
+    //  Hide the steps.
+    //
+    window.ResetSteps = function () {
+      document.getElementById("step").disabled = false;
+      document.getElementById("reset").disabled = true;
+      var i = 1, step; n = 1;
+      while (step = document.getElementById("Step" + i)) {
+        step.style.visibility = "hidden";
+        i++
+      }
+    }
+  })();
+  </script>
+
+  <style>
+    /*
+     *  Start with the steps being hidden
+     */
+    #Step1, #Step2, #Step3, #Step4, #Step5 {
+      visibility: hidden;
+    }
+
+    h1 {
+      background: #CCCCCC;
+      padding: .2em 1em;
+      border-top: 3px solid #666666;
+      border-bottom: 3px solid #999999;
+    }
+
+    #frame {
+      margin-left: 2em;
+    }
+
+  </style>
+
+  <style id="hidden">
+    body {
+      visibility: hidden;
+    }
+  </style>
+
+</head>
+<body>
+<h1>Dynamic Equations in MathJax</h1>
+
+<div id="frame">
+<p>
+Expand the following:
+\begin{align}
+  (x+1)^2
+    &= \cssId{Step1}{(x+1)(x+1)}            \\[3px]
+    &\cssId{Step2}{{} = x(x+1) + 1(x+1)}    \\[3px]
+    &\cssId{Step3}{{} = (x^2+x) + (x+1)}    \\[3px]
+    &\cssId{Step4}{{} = x^2 + (x + x) + 1}  \\[3px]
+    &\cssId{Step5}{{} = x^2 + 2x + 1}
+\end{align}
+</p>
+
+<p>
+<input type="button" onclick="ShowStep()" value="Show Next Step" id="step" />
+<input type="button" onclick="ResetSteps()" value="Reset" id="reset"
+disabled="true" />
+</p>
+
+</div>
+
+</body>
+</html>
