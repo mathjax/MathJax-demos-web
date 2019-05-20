@@ -60,7 +60,7 @@ The examples below show how to use and configure MathJax components in your web 
 
 The component files for these demos are stored in the `mathjax3` directory of this repository, and reflect the expected contents of the CDN version of MathJax when version 3.0.0 is released officially.  For now, you can access these file either by downloading them and serving them from your own server, or by referencing them using one of the CDNs that serves files directly from git, such as `raw.githack.com`.  For example, you could include
 
-    <script src="https://rawcdn.githack.com/mathjax/mathjax-v3/3.0.0-beta.4/mathjax3/tex-chtml.js"></script>
+    <script src="https://rawcdn.githack.com/mathjax/mj3-demos/3.0.0-beta.4/mathjax3/tex-chtml.js"></script>
 
 to use the `tex-chtml` component in a web page for your testing purposes.
 
