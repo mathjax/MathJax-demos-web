@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>MathJax v3 with TeX input and HTML output with speech</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>
+  MathJax = {
+    loader: {load: ['a11y/semantic-enrich']},
+    options: {
+      enrichSpeech: 'shallow',  // one of: 'deep', 'shallow', or 'none'
+      renderActions: {
+        //
+        // Force speech enrichment regardless of the menu settings
+        //
+        enrich: {'[+]': [
+          function (doc) {doc.enrich(true)},
+          function (math, doc) {math.enrich(doc, true)}  
+        ]}
+      }
+    },
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+  };
+  </script>
+  <script src="mathjax3/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+  <p>
+  These expressions will have auto-generated speech attached for screen readers.
+  </p>
+
+  <p>
+  When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
+  $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+  </p>
+
+</body>
+</html>

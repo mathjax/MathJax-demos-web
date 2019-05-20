@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>A custom build of MathJax v3 with speech</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script src="../mathjax3/sre/sre_browser.js"></script>
+  <script>
+    MathJax = {
+      ready: function () {
+        document.getElementById("display").disabled = false;
+        document.getElementById("level").disabled = false;
+        document.getElementById("render").disabled = false;
+        convert();
+      }
+    };
+  </script>
+  <script src="custom-mathjax.min.js" async></script>
+  <script>
+    function convert() {
+      var input = document.getElementById("input").value.trim();
+      var display = document.getElementById("display");
+      output = document.getElementById('output').firstChild;
+      output.innerHTML = '';
+      const mml = MathJax.toSpeechMML(input, display);
+      output.appendChild(document.createTextNode(mml));
+    }
+    function changeLevel(level) {
+      MathJax.speechLevel(level);
+      convert();
+    }
+  </script>
+  <style>
+  #frame {
+    max-width: 40em;
+    margin: auto;
+  }
+  #input {
+    border: 1px solid grey;
+    margin: 0 0 .25em;
+    width: 100%;
+    font-size: 120%;
+    box-sizing: border-box;
+  }
+  #output {
+    margin-top: .75em;
+    border: 1px solid grey;
+    padding: .25em;
+    min-height: 2em;
+    overflow: auto;
+  }
+  #output > pre {
+    margin: 0;
+  }
+  .left {
+    float: left;
+  }
+  .right {
+    float: right;
+  }
+  .spacer {
+    display: inline-block;
+    width: 2em;
+  }
+  </style>
+</head>
+
+<body>
+<div id="frame">
+<textarea id="input" rows="15" cols="10">
+%
+% Enter TeX commands below
+%
+x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
+</textarea>
+<br />
+<div class="left">
+<input type="checkbox" id="display" checked disabled  onchange="convert()"> <label for="display">Display style</label>
+<span class="spacer"></span>
+<label for="level">Speech:</level>
+<select id="level" disabled onchange="changeLevel(this.value)">
+<option value="deep">Deep</option>
+<option value="shallow">Shallow</option>
+<option value="none">None</option>
+</select>
+</div>
+<div class="right">
+<input type="button" value="Convert to MML" id="render" onclick="convert()" disabled="true"/>
+</div>
+<br clear="all" />
+<div id="output"><pre></pre></div>
+</div>
+
+</body>
+
+</html>

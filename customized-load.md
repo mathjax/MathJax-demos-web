@@ -1,0 +1,32 @@
+# [customized-load.html](https://mathjax.github.io/mj3-demos/customized-load.html)
+
+This example shows how to mix-and-match the components that are loaded (if there isn't a combined component that includes what you need).  This is done by setting the `load` array in the `loader` section of you MathJax configuration, as shown below.
+
+The key lines are
+
+```
+  <script>
+  MathJax = {
+    loader: {
+      load: [
+        'input/tex-base', '[tex]/newcommand', '[tex]/action',
+        'output/chtml',
+        'a11y/explorer'
+      ]
+    },
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      packages: ['base', 'newcommand', 'action']
+    }
+  };
+  </script>
+  <script src="mathjax3/startup.js" id="MathJax-script" async></script>
+```
+
+Here, we specify the 'tex-base' input jax (which is TeX with no extra packages included), and explicitly load the `newcommand` and `action` extensions.  We also load the `chtml` output jax, and the `explorer` assistive technology module.
+
+The TeX configuration registers the loaded packages with the TeX input jax (it is possible to load extensions without initially enabling them).
+
+The expression in the `\texttip` macro from the `action` module to add a tool-tip to part of the quadratic equation; hover the mouse over the discriminant to see.
+
+[Run the example](https://mathjax.github.io/mj3-demos/customized-load.html)
