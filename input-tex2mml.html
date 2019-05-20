@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>MathJax v3 with interactive TeX input and MathML output</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>
+  MathJax = {
+    loader: {load: ['input/tex']}
+  };
+  </script>
+  <script src="mathjax3/startup.js" id="MathJax-script" async></script>
+  <script>
+    function convert() {
+      //
+      //  Get the TeX input
+      //
+      var input = document.getElementById("input").value.trim();
+      //
+      //  Disable the display and render buttons until MathJax is done
+      //
+      var display = document.getElementById("display");
+      var button = document.getElementById("render");
+      button.disabled = display.disabled = true;
+      //
+      //  Clear the old output
+      //
+      output = document.getElementById('output');
+      output.innerHTML = '<pre></pre>';
+      //
+      //  Reset the tex labels (and automatic equation numbers, though there aren't any here).
+      //  Convert the input to MathML output and use a promise to wait for it to be ready
+      //    (in case an extension needs to be loaded dynamically).
+      //
+      MathJax.texReset();
+      MathJax.tex2mmlPromise(input, {display: display.checked}).then(function (mml) {
+        //
+        //  The promise returns the serialized MathML, and we add that
+        //  to the <pre> element in the output.
+        //
+        output.firstChild.appendChild(document.createTextNode(mml));
+      }).catch(function (err) {
+        //
+        //  If there was an error, put the message into the output instead
+        //
+        output.firstChild.appendChild(document.createTextNode(err.message));
+      }).then(function () {
+        //
+        //  Error or not, re-enable the display and render buttons
+        //
+        button.disabled = display.disabled = false;
+      });
+    }
+  </script>
+  <style>
+  #frame {
+    max-width: 40em;
+    margin: auto;
+  }
+  #input {
+    border: 1px solid grey;
+    margin: 0 0 .25em;
+    width: 100%;
+    font-size: 120%;
+    box-sizing: border-box;
+  }
+  #output {
+    margin-top: .75em;
+    border: 1px solid grey;
+    padding: .25em;
+    min-height: 2em;
+    overflow: auto;
+  }
+  #output > pre {
+    margin: 0;
+  }
+  .left {
+    float: left;
+  }
+  .right {
+    float: right;
+  }
+  </style>
+</head>
+
+<body>
+<div id="frame">
+
+<h1>MathJax v3: TeX to MathML</h1>
+
+<textarea id="input" rows="15" cols="10">
+%
+% Enter TeX commands below
+%
+x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
+</textarea>
+<br />
+<div class="left">
+<input type="checkbox" id="display" checked onchange="convert()"> <label for="display">Display style</label>
+</div>
+<div class="right">
+<input type="button" value="Convert TeX" id="render" onclick="convert()" />
+</div>
+<br clear="all" />
+<div id="output"></div>
+</div>
+
+</body>
+
+</html>

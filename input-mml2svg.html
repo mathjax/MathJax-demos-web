@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>MathJax v3 with interactive MathML input and SVG output</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script src="mathjax3/mml-svg.js" id="MathJax-script" async></script>
+  <script>
+    function convert() {
+      //
+      //  Get the MathML input string, and clear any previous output
+      //
+      var input = document.getElementById("input").value.trim();
+      output = document.getElementById('output');
+      output.innerHTML = '';
+      //
+      //  Convert the MathMl to an HTML node and append it to the output
+      //
+      output.appendChild(MathJax.mathml2svg(input));
+      //
+      //  Then update the document to include the adjusted CSS for the
+      //    content of the new equation.
+      //
+      MathJax.startup.document.clear();
+      MathJax.startup.document.updateDocument();
+    }
+  </script>
+  <style>
+  #frame {
+    max-width: 40em;
+    margin: auto;
+  }
+  #input {
+    border: 1px solid grey;
+    margin: 0 0 .25em;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  #output {
+    font-size: 120%;
+    margin-top: .75em;
+    border: 1px solid grey;
+    padding: .25em;
+    min-height: 2em;
+  }
+  .right {
+    float: right;
+  }
+  </style>
+</head>
+
+<body>
+<div id="frame">
+
+<h1>MathJax v3: MathML to SVG</h1>
+
+<textarea id="input"  rows="20" cols="10">
+<!-- Enter MathML below -->
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mi>x</mi> <mo>=</mo>
+  <mrow>
+    <mfrac>
+      <mrow>
+        <mo>&#x2212;</mo>
+        <mi>b</mi>
+        <mo>&#x00B1;</mo>
+        <msqrt>
+          <msup><mi>b</mi><mn>2</mn></msup>
+          <mo>&#x2212;</mo>
+          <mn>4</mn><mi>a</mi><mi>c</mi>
+        </msqrt>
+      </mrow>
+      <mrow> <mn>2</mn><mi>a</mi> </mrow>
+    </mfrac>
+  </mrow>
+  <mtext>.</mtext>
+</math></textarea>
+<br />
+<div class="right">
+<input type="button" value="Render MathML" id="render" onclick="convert()" />
+</div>
+<br clear="all" />
+<div id="output"></div>
+</div>
+
+</body>
+
+</html>
