@@ -9,7 +9,7 @@ $$
 \require{action}
 \def\longest{x(x+1) + 1(x+1)}
 \def\click{\rlap{\enclose{roundedbox}{\small\text{next step}}}\hphantom{\longest}}
-\def\={\phantom{{}={}}}
+\def\={\phantom{ {}={} }}
 (x+1)^2
 \toggle
   {\begin{aligned}[t]& = \click\end{aligned}}

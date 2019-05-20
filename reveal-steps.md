@@ -7,11 +7,11 @@ The expression is given in TeX as
 ```
 \begin{align}
   (x+1)^2
-    &= \cssId{Step1}{(x+1)(x+1)}            \\[3px]
-    &\cssId{Step2}{{} = x(x+1) + 1(x+1)}    \\[3px]
-    &\cssId{Step3}{{} = (x^2+x) + (x+1)}    \\[3px]
-    &\cssId{Step4}{{} = x^2 + (x + x) + 1}  \\[3px]
-    &\cssId{Step5}{{} = x^2 + 2x + 1}
+    &= \cssId{Step1}{(x+1)(x+1)}             \\[3px]
+    &\cssId{Step2}{ {} = x(x+1) + 1(x+1)}    \\[3px]
+    &\cssId{Step3}{ {} = (x^2+x) + (x+1)}    \\[3px]
+    &\cssId{Step4}{ {} = x^2 + (x + x) + 1}  \\[3px]
+    &\cssId{Step5}{ {} = x^2 + 2x + 1}
 \end{align}
 ```
 
