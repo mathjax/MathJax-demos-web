@@ -2,7 +2,7 @@
 
 This example shows how to create a custom TeX extension that defines new TeX commands implemented by javascript functions.
 
-The commands implements by this example provide the ability to generate MathML token elements from within TeX by hand.  This allows more control over the content and attributes of the elements produced.  The macros are `\mi`, `\mo`, `\mn`, `\ms`, and `\mtext`, and they each take an argument that is the text to be used as the content of the corresponding MathML element.  The text is not further processed by TeX, but the extension does convert sequences of the form `\uNNNN` (where the N's are hexadecimal digits) into the corresponding unicode character; e.g., `\mi{\u2460}` would produce U+2460, a circled digit 1.
+The commands implemented by this example provide the ability to generate MathML token elements from within TeX by hand.  This allows more control over the content and attributes of the elements produced.  The macros are `\mi`, `\mo`, `\mn`, `\ms`, and `\mtext`, and they each take an argument that is the text to be used as the content of the corresponding MathML element.  The text is not further processed by TeX, but the extension does convert sequences of the form `\uNNNN` (where the N's are hexadecimal digits) into the corresponding unicode character; e.g., `\mi{\u2460}` would produce U+2460, a circled digit 1.
 
 The main code for the extension is
 
