@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>MathJax v3 with v3 \color macro</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      autoload: {color: []}  // don't autoload the color extension
+    }
+  };
+  </script>
+  <script src="mathjax3/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<p>
+The MathJax c2 <code>\color</code> macro takes two arguments, the
+color and the math to be colored, where the v3 version follows the
+LaTeX approach, where it has one argument (the color) and switches
+the color for the rest of the expression.
+</p>
+<p>
+The expression <code>$\color{red}{Red}\ Black$</code> is rendered:
+</p>
+<table style="margin-left: 2em">
+<tr><td align="center">In v2</td><td style="width:2em"></td><td align="center">In v3</td></tr>
+<tr><td>$\color{red}{Red}\ Black$</td><td>$\require{color}$</td><td>$\color{red}{Red}\ Black$</td></tr>
+</table>
+<p>
+To get the same effect in v3, use <code>${\color{red} Red}\ Black$</code> instead:
+</p>
+<p>
+<div style="margin-left: 2em">
+ ${\color{red} Red}\ Black$</code>
+</div>
+</p>
+<p>
+Or you can use the configuration
+<pre style="margin-left:2em">
+&lt;script&gt;
+MathJax = {
+  tex: {
+    autoload: {color: []}  // don't autoload the color extension
+  }
+};
+&lt;/script&gt;
+</pre>
+<p>
+before the script that loads MathJax in order to retain the original
+v2 <code>\color</code> macro.
+</p>
+
+</body>
+</html>

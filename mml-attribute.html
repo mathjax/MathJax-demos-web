@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Add a data-mathml attribute to each math element</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>
+  MathJax = {
+    startup: {
+      ready: function () {
+        //
+        //  Do the usual startup ready actions (create document, input/output jax, etc).
+        //
+        MathJax.startup.defaultReady();
+        const toMML = MathJax.startup.toMML;
+        //
+        //  Add a post-filter to the output jax to add the extra attributes
+        //
+        MathJax.startup.output.postFilters.add((args) => {
+          const math = args.math, node = args.data;
+          const original = (math.math ? math.math :
+                            math.inputJax.processStrings ? '' : math.start.node.outerHTML);
+          node.setAttribute('data-original', original);
+          node.setAttribute('data-mathml', toMML(math.root).replace(/\n\s*/g, ''));
+        });
+      }
+    }
+  };
+  </script>
+  <script src="mathjax3/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<p>
+This math will have a <code>data-mathml</code> attribute containing
+the MathML representation of the expression, and a
+<code>data-original</code> attribute holding the original TeX format
+of the expression.  Inspect the document DOM to see these in place
+(on the `mjx-container` element).
+</p>
+
+$$\sqrt{\frac{1+x}{1-x}}$$
+
+</body>
+</html>

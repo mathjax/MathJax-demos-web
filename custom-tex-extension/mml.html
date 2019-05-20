@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>MathJax v3 with custom TeX extension</title>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script>
+  MathJax = {
+    loader: {
+      load: ['[custom]/mml.min.js'],
+      paths: {custom: '.'}
+    },
+    tex: {
+      packages: {'[+]': ['mml']}
+    }
+  };
+  </script>
+  <script src="../mathjax3/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+$$abc + \mi{abc} \mo{++} x ++ y$$
+
+$$\ms{Hello world!}$$
+
+$$\mn{\u2460\u2461\u2462}$$
+
+$$
+  \mi[mathcolor=red]{x}
+  \mi[mathvariant="bold"]{A}
+  \ms[lquote="\u00AB", rquote="\u00BB"]{x}
+  \mi[data-my-attribute="anything"]{x}
+$$
+
+$$\mi[bad="bad"]{x}$$
+
+
+</body>
+</html>
