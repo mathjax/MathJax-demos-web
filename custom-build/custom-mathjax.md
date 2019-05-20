@@ -36,7 +36,7 @@ The key code in the HTML page is
   <script>
     function convert() {
       var input = document.getElementById("input").value.trim();
-      var display = document.getElementById("display");
+      var display = document.getElementById("display").checked;
       output = document.getElementById('output').firstChild;
       output.innerHTML = '';
       const mml = MathJax.toSpeechMML(input, display);
