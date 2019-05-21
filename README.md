@@ -53,7 +53,7 @@ The examples below show how to use and configure MathJax components in your web 
 * [mml-attribute.html](mml-attribute.md) ([View Demo](https://mathjax.github.io/mj3-demos/mml-attribute.html))
 * [customized-load.html](customized-load.md) ([View Demo](https://mathjax.github.io/mj3-demos/customized-load.html))
 * [custom-tex-extension](custom-tex-extension/mml.md) ([View Demo](https://mathjax.github.io/mj3-demos/custom-tex-extension/mml.html))
-* [custom-component](custom-component/custom-component.md) ([View Demo](https://mathjax.github.io/mj3-demos/custom-build/custom-component/custom-component.html))
+* [custom-component](custom-component/custom-component.md) ([View Demo](https://mathjax.github.io/mj3-demos/custom-component/custom-component.html))
 * [custom-build](custom-build/custom-mathjax.md) ([View Demo](https://mathjax.github.io/mj3-demos/custom-build/custom-mathjax.html))
 
 ## Obtaining the Components
