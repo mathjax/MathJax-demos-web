@@ -5,7 +5,7 @@ module.exports = PACKAGE(
     '../node_modules/mathjax3/mathjax3',  // location of the mathjax3 library
     [                                     // packages to link to
         'components/src/core/lib',
-        'components/src/input/tex/lib'
+        'components/src/input/tex-base/lib'
     ],
     __dirname,                            // our directory
     '.'                                   // dist directory

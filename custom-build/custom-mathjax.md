@@ -15,7 +15,7 @@ which gives the name of the combined file along with some other data about direc
 To make the actual combined file, use the command
 
 ```
-node_modules/mathjax3/components/bin/pack custom-build
+npm run make-custom-build
 ```
 
 from the main directory of this repository.  That will create the `custom-mathjax.min.js` file in the `custom-build` directory.

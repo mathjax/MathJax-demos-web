@@ -14,10 +14,11 @@ which contains comments describing it in detail.  In order to use the extension 
 
 which gives the name of the component, the other components that this extension will draw on (so that only the needed files will be included in this component), along with some other data about directories.  The final directory being set to `'.'` means that the component will be placed in the directory with the source file, but with `.min.js` as the extension rather than '.js'.
 
-To make the final component, use the command
+To make the final component, use the commands
 
 ```
-node_modules/mathjax3/components/bin/pack custom-tex-extension
+npm run make-mj3-libs
+npm run make-custom-tex-extension
 ```
 
 from the main directory of this repository.  That will create the `mml.min.js` file in the `custom-tex-extension` directory.
