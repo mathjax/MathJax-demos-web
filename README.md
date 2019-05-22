@@ -184,7 +184,8 @@ The main options for some of the more important components are listed below.  Th
 In addition to these, TeX extensions may add more options.  For example, the `configMacros` extension adds a `macros: {...}` block to the `tex` block where you can pre-define macros for use on the page, and the `autoload` package adds an `autoload: {...}` block to the `tex` block where you can configure what extensions to autoload.  E.g.,
 
     <script>
-    MathJax = {       tex: {
+    MathJax = {
+        tex: {
         macros: {
           RR: ['\mathbf{R}']  // \RR is a bold R
         },
