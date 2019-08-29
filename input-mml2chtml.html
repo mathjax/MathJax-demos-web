@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>MathJax v3 with interactive MathML input and HTML output</title>
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="mathjax3/mml-chtml.js" id="MathJax-script" async></script>
   <script>
     function convert() {
@@ -16,7 +16,7 @@
       output = document.getElementById('output');
       output.innerHTML = '';
       //
-      //  Convert the MathMl to an HTML node and append it to the output
+      //  Convert the MathML to an HTML node and append it to the output
       //
       output.appendChild(MathJax.mathml2chtml(input));
       //

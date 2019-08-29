@@ -3,7 +3,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Testing MathJax v3 Equation Numbering</title>
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script>
   MathJax = {
     tex: {
@@ -29,9 +29,7 @@
 <h1>A test of Equation References</h1>
 
 <div style="padding:0 2em">
-<b>Note:</b> Forward references don't work yet.
 
-<hr>
 Here is a labeled equation:
 $$x+1\over\sqrt{1-x^2}\label{ref1}$$
 with a reference to ref1: \ref{ref1},

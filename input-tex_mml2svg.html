@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>MathJax v3 with interactive TeX and MathML input and SVG output</title>
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script>
   MathJax = {
     tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
@@ -42,8 +42,8 @@
       //  Typeset the page, using a promise to let us know when that is complete
       //
       MathJax.texReset();
-      MathJax.TypesetClear();
-      MathJax.TypesetPromise()
+      MathJax.typesetClear();
+      MathJax.typesetPromise()
         .catch(function (err) {
           //
           //  If there was an internal error, put the message into the output instead

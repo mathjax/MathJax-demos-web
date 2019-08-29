@@ -2,13 +2,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>MathJax v3 with v3 \color macro</title>
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <title>MathJax v3 with v2 \color macro</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script>
   MathJax = {
     tex: {
       inlineMath: [['$', '$'], ['\\(', '\\)']],
-      autoload: {color: []}  // don't autoload the color extension
+      autoload: {
+        color: [],            // don't autoload the color extension
+        colorV2: ['color']    // autoload v2 color extension
+      }
     }
   };
   </script>
@@ -43,7 +46,10 @@ Or you can use the configuration
 &lt;script&gt;
 MathJax = {
   tex: {
-    autoload: {color: []}  // don't autoload the color extension
+    autoload: {
+      color: [],            // don't autoload the color extension
+      colorV2: ['color']    // autoload v2 color insteady
+    }
   }
 };
 &lt;/script&gt;

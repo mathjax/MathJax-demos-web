@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>MathJax v3 with interactive TeX input and HTML output</title>
-  <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="mathjax3/tex-chtml.js" id="MathJax-script" async></script>
   <script>
     function convert() {
@@ -26,11 +26,14 @@
       output.innerHTML = '';
       //
       //  Reset the tex labels (and automatic equation numbers, though there aren't any here).
+      //  Get the conversion options (metrics and display settings)
       //  Convert the input to CommonHTML output and use a promise to wait for it to be ready
       //    (in case an extension needs to be loaded dynamically).
       //
       MathJax.texReset();
-      MathJax.tex2chtmlPromise(input, {display: display.checked}).then(function (node) {
+      var options = MathJax.getMetricsFor(output);
+      options.display = display.checked;
+      MathJax.tex2chtmlPromise(input, options).then(function (node) {
         //
         //  The promise returns the typeset node, which we add to the output
         //  Then update the document to include the adjusted CSS for the
