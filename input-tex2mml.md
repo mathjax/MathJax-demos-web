@@ -5,7 +5,8 @@ This example shows how to use the `MathJax.tex2mmlPromise()` function to process
 The key lines are
 
 ```
-   <script src="mathjax3/startup.js" id="MathJax-script" async></script>
+  <script id="MathJax-script" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?startup.js"></script>
   <script>
     function convert() {
       //

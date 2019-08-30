@@ -17,7 +17,8 @@ The key lines are
     }
   }
   </script>
-  <script src="mathjax3/tex-mml-svg.js" id="MathJax-script" async></script>
+  <script id="MathJax-script" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?tex-mml-svg.js"></script>
   <script>
     function convert() {
       //

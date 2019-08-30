@@ -55,7 +55,8 @@ The key lines are
     }
   };
   </script>
-  <script src="mathjax3/startup.js" id="MathJax-script" async></script>
+  <script id="MathJax-script" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?startup.js"></script>
 ```
 
 which sets up a new `renderAction` that replaces the usual typeset one (due to the priority of 150).  This new action uses the `MathJax.startup.toMML()` function to convert the internal math items into serialized MathML, and then inserts that into a `mjx-container` element that it sets as the `typesetRoot` of the math item.  This will be put into the page automatically by a later `renderAction` that updates the page.

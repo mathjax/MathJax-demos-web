@@ -5,7 +5,8 @@ This example shows how to use the `mml-chtml` component to process a complete HT
 The key line is
 
 ```
-  <script src="mathjax3/mml-chtml.js" id="MathJax-script" async></script>
+  <script id="MathJax-script" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?mml-chtml.js"></script>
 ```
 
 which loads the `mml-chtml` component.  The rest is handled by MathJax automatically.

@@ -20,7 +20,8 @@ The key lines are
     }
   };
   </script>
-  <script src="mathjax3/startup.js" id="MathJax-script" async></script>
+  <script id="MathJax-script" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?startup.js"></script>
 ```
 
 Here, we specify the 'tex-base' input jax (which is TeX with no extra packages included), and explicitly load the `newcommand` and `action` extensions.  We also load the `chtml` output jax, and the `explorer` assistive technology module.

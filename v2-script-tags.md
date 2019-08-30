@@ -26,7 +26,8 @@ The key lines are
     }
   };
   </script>
-  <script src="mathjax3/tex-chtml.js" id="MathJax-script" async></script>
+  <script id="MathJax-script" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?tex-chtml.js"></script>
 ```
 
 which set up a `renderAction` that replaces the usual page-search action (the `find` action at priority 10) with one that searches for `<script>` tags with `type="math/tex"` (or `type="math/tex; mode=display"`), and creates the needed `MathItem` instances for them.  The `<script>` tags are replaced by empty text nodes, and the math item refers to these for its starting and ending locations.

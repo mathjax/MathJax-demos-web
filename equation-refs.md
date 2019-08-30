@@ -14,7 +14,8 @@ The key lines are
     }
   };
   </script>
-  <script src="mathjax3/tex-chtml.js" id="MathJax-script" async></script>
+  <script id="MathJax-script" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?tex-chtml.js"></script>
 ```
 
 which configures the TeX input jax to include automatic tags for equations in AMS environments that call for them.  The math on the page includes examples of starred environments (that tells MathJax not to number those equations), and of the use of `\notag` to prevent a tag on an equation, and `\tag{}` to override the default tag number.
