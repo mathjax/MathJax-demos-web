@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>MathJax v3 with v2-compatibility</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script>
+  MathJax = {
+    startup: {
+      //
+      //  Mapping of old extension names to new ones
+      //
+      requireMap: {
+        AMSmath: 'ams',
+        AMSsymbols: 'ams',
+        AMScd: 'amsCd',
+        HTML: 'html',
+        noErrors: 'noerrors',
+        noUndefined: 'noundefined'
+      },
+      ready: function () {
+        //
+        //  Replace the require command map with a new one that checks for
+        //    renamed extensions and converts them to the new names.
+        //
+        var CommandMap = MathJax._.input.tex.SymbolMap.CommandMap;
+        var requireMap = MathJax.config.startup.requireMap;
+        var RequireLoad = MathJax._.input.tex.require.RequireConfiguration.RequireLoad;
+        var RequireMethods = {
+            Require: function (parser, name) {
+                var required = parser.GetArgument(name);
+                if (required.match(/[^_a-zA-Z0-9]/) || required === '') {
+                    throw new TexError('BadPackageName', 'Argument for %1 is not a valid package name', name);
+                }
+                if (requireMap.hasOwnProperty(required)) {
+                  required = requireMap[required];
+                }
+                RequireLoad(parser, required);
+            }
+        };
+        new CommandMap('require', {require: 'Require'}, RequireMethods);
+        //
+        // Add a replacement for MathJax.Callback command
+        //
+        MathJax.Callback = function (args) {
+          if (Array.isArray(args)) {
+            if (args.length === 1 && typeof(args[0]) === 'function') {
+              return args[0];
+            } else if (typeof(args[0]) === 'string' && args[1] instanceof Object &&
+                      typeof(args[1][args[0]]) === 'function') {
+              return Function.bind.apply(args[1][args[0]], args.slice(1));
+            } else if (typeof(args[0]) === 'function') {
+              return Function.bind.apply(args[0], [window].concat(args.slice(1)));
+            } else if (typeof(args[1]) === 'function') {
+              return Function.bind.apply(args[1], [args[0]].concat(args.slice(2)));
+            }
+          } else if (typeof(args) === 'function') {
+            return args;
+          }
+          throw Error("Can't make callback from given data");
+        };
+        //
+        // Add a replacement for MathJax.Hub commands
+        //
+        MathJax.Hub = {
+          Queue: function () {
+            for (var i = 0, m = arguments.length; i < m; i++) {
+               var fn = MathJax.Callback(arguments[i]);
+               MathJax.startup.promise = MathJax.startup.promise.then(fn);
+            }
+            return MathJax.startup.promise;
+          },
+          Typeset: function (elements, callback) {
+             var promise = MathJax.typesetPromise(elements);
+             if (callback) {
+               promise = promise.then(callback);
+             }
+             return promise;
+          },
+          Register: {
+             MessageHook: function () {console.log('MessageHooks are not supported in version 3')},
+             StartupHook: function () {console.log('StartupHooks are not supported in version 3')},
+             LoadHook: function () {console.log('LoadHooks are not supported in version 3')}
+          },
+          Config: function () {console.log('MathJax configurations should be converted for version 3')}
+        };
+        //
+        //  Warn about x-mathjax-config scripts
+        //
+        if (document.querySelector('script[type="text/x-mathjax-config"]')) {
+          throw Error('x-mathjax-config scripts should be converted to MathJax global variable');
+        }
+        //
+        //  Do the usual startup
+        //
+        return MathJax.startup.defaultReady();
+      }
+    },
+    tex: {
+      autoload: {
+        color: [],          // don't autoload the color extension
+        colorV2: ['color'], // do autoload the colorV2 extension
+      }
+    }
+  };
+  </script>
+  <script src="mathjax3/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<h1>Color</h1>
+
+Testing color: \(\color{red}{x} + y\)
+
+<h1>Require</h1>
+
+Testing AMScd \(\require{amsCd} \begin{CD} a @>>> b\end{CD}\)
+
+Testing HTML \(\require{HTML} \href{http://www.mathjax.org/}{x}\)
+
+</body>
+</html>

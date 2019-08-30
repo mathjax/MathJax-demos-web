@@ -15,8 +15,8 @@ which gives the name of the component along with some other data about directori
 To make the final component, use the commands
 
 ```
-npm run make-mj3-libs
-mpn run make-custom-tex-extension
+npm install
+mpn run make-custom-component
 ```
 
 from the main directory of this repository.  That will create the `custom-component.min.js` file in the `custom-component` directory.

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>MathJax v3 with TeX input and MathML output</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <style>
+  mjx-container[display="block"] {
+    display: block;
+    margin: 1em 0;
+  }
+  </style>
+  <script>
+  MathJax = {
+    //
+    //  Load only TeX input and the contextual menu
+    //
+    loader: {load: ['input/tex', 'ui/menu']},
+    //
+    //  When page is ready, render the document
+    //
+    startup: {pageReady: () => MathJax.startup.document.render()},
+    //
+    //  Use dollar signs for in-line delimiters in addition to the usual ones
+    //
+    tex: {inlineMath: {'[+]': [['$', '$']]}},
+    //
+    //  Override the usual typeset render action with one that generates MathML output
+    //
+    options: {
+      renderActions: {
+        typeset: [150,
+          //
+          //  The function for rendering a document's math elements
+          //
+          (doc) => {
+            const toMML = MathJax.startup.toMML;
+            for (math of doc.math) {
+              math.typesetRoot = document.createElement('mjx-container');
+              math.typesetRoot.innerHTML = toMML(math.root);
+              math.display && math.typesetRoot.setAttribute('display', 'block');
+            }
+          },
+          //
+          //  The function for rendering a single math expression
+          //
+          (math, doc) => {
+            math.typesetRoot = document.createElement('mjx-container');
+            math.typesetRoot.innerHTML = MathJax.startup.toMML(math.root);
+            math.display && math.typesetRoot.setAttribute('display', 'block');
+          }
+        ]
+      }
+    }
+  };
+  </script>
+  <script src="mathjax3/startup.js" id="MathJax-script" async></script>
+</head>
+<body>
+    <h1>MathJax MathML Output</h1>
+
+    <p>
+    When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
+    $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+    </p>
+
+</body>
+</html>

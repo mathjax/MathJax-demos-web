@@ -41,8 +41,8 @@ The key lines are
       //  Typeset the page, using a promise to let us know when that is complete
       //
       MathJax.texReset();
-      MathJax.TypesetClear();
-      MathJax.TypesetPromise()
+      MathJax.typesetClear();
+      MathJax.typesetPromise()
         .catch(function (err) {
           //
           //  If there was an internal error, put the message into the output instead

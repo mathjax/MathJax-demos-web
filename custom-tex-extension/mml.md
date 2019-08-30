@@ -17,7 +17,7 @@ which gives the name of the component, the other components that this extension 
 To make the final component, use the commands
 
 ```
-npm run make-mj3-libs
+npm install
 npm run make-custom-tex-extension
 ```
 

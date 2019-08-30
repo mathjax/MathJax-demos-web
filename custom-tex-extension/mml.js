@@ -23,9 +23,9 @@
  * @author dpvc@mathjax.org (Davide P. Cervone)
  */
 
-import {Configuration}  from '../node_modules/mathjax3/mathjax3/input/tex/Configuration.js';
-import {CommandMap} from '../node_modules/mathjax3/mathjax3/input/tex/SymbolMap.js';
-import TexError from '../node_modules/mathjax3/mathjax3/input/tex/TexError.js';
+import {Configuration}  from '../node_modules/mathjax-full/js/input/tex/Configuration.js';
+import {CommandMap} from '../node_modules/mathjax-full/js/input/tex/SymbolMap.js';
+import TexError from '../node_modules/mathjax-full/js/input/tex/TexError.js';
 
 /**
  * This function prevents multi-letter mi elements from being

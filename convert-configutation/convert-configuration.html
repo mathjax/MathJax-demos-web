@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Convert MathJax v2 configuration v3</title>
+<style>
+body {
+  font-family: sans-serif
+}
+h2 {
+  margin: 1.5em 0 1em;
+  font-size: 120%;
+}
+h2:first-child {
+  margin-top: .5em;
+}
+.fullwidth {
+  width: 100%;
+}
+table.fullwidth tr {
+  vertical-align: baseline;
+}
+table.fullwidth td {
+  white-space: nowrap;
+}
+td.fullwidth input {
+  width: 100%;
+  box-sizing: border-box;
+}
+.red {
+  color: #880000;
+  background-color: #FFEEEE;
+}
+.green {
+  color: #008800;
+  background-color: #EEFFEE;
+}
+#explanation {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 48%;
+  min-width: 25em;
+  vertical-align: top;
+  margin-bottom: 2em;
+  line-height: 1.5;
+  padding-right: .75em;
+}
+#converter {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 50%;
+  min-width: 25em;
+  vertical-align: top;
+  background-color: #F0F0F0;
+  border: 2px solid #CCC;
+  padding: .75em;
+}
+#configuration {
+  font-family: monospace;
+  font-size: 100%;
+  padding: .3em;
+  width: 100%;
+  box-sizing: border-box;
+}
+#configfile {
+  border: 1px solid #AAA;
+  padding: 2px;
+  font-family: monospace;
+  font-size: 100%
+}
+#v3-config {
+  border: 1px solid #AAA;
+  padding: .5em;
+  white-space: pre;
+  overflow: auto;
+  background-color: white;
+  min-height: 3em;
+}
+#errors {
+  min-height: 3em;
+  border: 1px solid #AAA;
+  background-color: #F8F8F8;
+  padding: .5em .5em .5em 1.5em;
+}
+#errors code, #explanation code {
+  background-color: #EEE;
+  display: inline-block;
+  padding: 1px 2px;
+  border: 1px solid #AAA;
+  margin: 1px;
+}
+#explanation code {
+  padding: 0 2px;
+}
+</style>
+<script src="convert-configuration.js"></script>
+</head>
+<body>
+
+<h1>MathJax Configuration Converter</h1>
+
+<div id="explanation">
+<p>
+
+This tool will convert a MathJax version 2 configuration to a
+corresponding MathJax version 3 configuration.  Copy and paste your
+<code>MathJax.Hub.Config()</code> or <code>window.MathJax = {};</code>
+configuration block into the text area at the right, enter the
+configuration file you are using (and any other parameters) in the
+input area below it, and press the <code>Convert</code> button.  The
+version 3 configuration will be displayed in the area indicated, and
+any comments about what could not be converted will be displayed
+below that.
+
+</p>
+<p>
+
+Not all version 2 features have been implemented yet in version 3
+(e.g., linebreaking, some TeX extensions, font selection for the
+various output formats, etc.), and some may not be available at all
+(e.g., v3 does not produce processing messages, so the options that
+control those are not available); these will be indicated in the
+comments section.
+
+</p>
+<p>
+
+Version 3 uses ES6 promises rather than version 2's signals and
+queues, so if your configuration includes
+<code>MathJax.Hub.Register.StartupHooks()</code> or similar calls,
+these will have to be replaced by promises; this converter does not
+convert those calls, so you should not include them here. See the <a
+href="http://docs.mathjax.org/en/latest/web/configuration.html#performing-actions-during-startup">documentation</a>
+for more details on how to deal with such calls.
+
+</p>
+<p>
+
+If this tool fails to produce a correct configuration, please report
+the issue in the <a
+href="https://github.com/mathjax/MathJax-v3/issues/">MathJax-v3 issue
+tracker</a>, and include your configuration and the combined
+configuration file that you included in the input areas at the right.
+
+</p>
+</div>
+
+<div id="converter">
+<H2>Version 2 configuration:</h2>
+<textarea rows="15" cols="80" id="configuration">
+MathJax.Hub.Config({
+
+  // paste your configuration here
+
+});
+</textarea>
+<table class="fullwidth">
+<tr>
+<td><code>MathJax.js?config=</code></td>
+<td class="fullwidth"><input type="text" id="configfile"></td>
+<td><input type="button" value="Convert"
+onclick="Convert.convertConfiguration()"/></td>
+</tr>
+</table>
+
+<h2>Version 3 configuration:</h2>
+<pre id="v3-config">
+</pre>
+
+<h2>Comments:</h2>
+<ul id="errors">
+</ul>
+
+</div>
+
+</body>
+</html>

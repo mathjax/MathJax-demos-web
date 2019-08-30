@@ -1,9 +1,9 @@
 {
-  "name": "mj3-demos",
-  "version": "3.0.0-beta.3",
-  "description": "Demos using MathJax v3 beta",
+  "name": "MathJax-demos-web",
+  "version": "3.0.0",
+  "description": "Demos for web pages using MathJax version 3",
   "dependencies": {
-    "mathjax3": "^3.0.0-beta.4"
+    "mathjax-full": "^3.0.0"
   },
   "devDependencies": {
     "ajv": "^6.4.0",
@@ -11,22 +11,23 @@
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
     "lodash": "^4.17.14",
-    "uglifyjs-webpack-plugin": "^1.2.4",
+    "uglifyjs-webpack-plugin": "^2.1.2",
     "webpack": "^4.19.0",
     "webpack-cli": "^3.3.2"
   },
   "scripts": {
-    "make-mj3-libs": "cd node_modules/mathjax3/components/src/startup && ../../bin/build && cd ../core && ../../bin/build && cd ../output/chtml && ../../../bin/build && cd fonts/tex && ../../../../../bin/build && cd ../../../../input/tex-base && ../../../bin/build && cd ../tex/extensions/newcommand && ../../../../../bin/build && cd ../action && ../../../../../bin/build",
-    "make-custom-tex-extension": "cd custom-tex-extension && ../node_modules/mathjax3/components/bin/pack",
-    "make-custom-component": "cd custom-component && ../node_modules/mathjax3/components/bin/pack",
-    "make-custom-build": "cd custom-build && ../node_modules/mathjax3/components/bin/pack"
+    "make-custom-tex-extension": "cd custom-tex-extension && ../node_modules/mathjax-full/components/bin/pack",
+    "make-custom-component": "cd custom-component && ../node_modules/mathjax-full/components/bin/pack",
+    "make-custom-build": "cd custom-build && ../node_modules/mathjax-full/components/bin/pack"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mathjax/mj3-demos/"
+    "url": "https://github.com/mathjax/MathJax-demos-web/"
   },
   "keywords": [
-    "MathJax"
+    "MathJax",
+    "examples",
+    "browser"
   ],
   "license": "Apache-2.0"
 }

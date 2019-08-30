@@ -2,11 +2,11 @@
  *
  *  custom-mathjax3.js
  *
- *  A custom build of MathJax3 for the browser
+ *  A custom build of MathJax version 3 for the browser
  *
  * ----------------------------------------------------------------------
  *
- *  Copyright (c) 2018 The MathJax Consortium
+ *  Copyright (c) 2019 The MathJax Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,17 +24,17 @@
 //
 //  Load the desired components
 //
-const MathJax     = require('mathjax3/mathjax3/mathjax.js').MathJax;      // MathJax core
-const TeX         = require('mathjax3/mathjax3/input/tex.js').TeX;        // TeX input
-const MathML      = require('mathjax3/mathjax3/input/mathml.js').MathML;  // MathML input
-const browser     = require('mathjax3/mathjax3/adaptors/browserAdaptor.js').browserAdaptor; // browser DOM
-const Enrich      = require('mathjax3/mathjax3/a11y/semantic-enrich.js').EnrichHandler;     // semantic enrichment
-const Register    = require('mathjax3/mathjax3/handlers/html.js').RegisterHTMLHandler;      // the HTML handler
-const AllPackages = require('mathjax3/mathjax3/input/tex/AllPackages').AllPackages;         // all TeX packages
-const Serialize   = require('mathjax3/mathjax3/core/MmlTree/SerializedMmlVisitor.js').SerializedMmlVisitor;  // toMML
-const STATE       = require('mathjax3/mathjax3/core/MathItem.js').STATE;
+const mathjax     = require('mathjax-full/js/mathjax.js').mathjax;      // MathJax core
+const TeX         = require('mathjax-full/js/input/tex.js').TeX;        // TeX input
+const MathML      = require('mathjax-full/js/input/mathml.js').MathML;  // MathML input
+const browser     = require('mathjax-full/js/adaptors/browserAdaptor.js').browserAdaptor; // browser DOM
+const Enrich      = require('mathjax-full/js/a11y/semantic-enrich.js').EnrichHandler;     // semantic enrichment
+const Register    = require('mathjax-full/js/handlers/html.js').RegisterHTMLHandler;      // the HTML handler
+const AllPackages = require('mathjax-full/js/input/tex/AllPackages').AllPackages;         // all TeX packages
+const Serialize   = require('mathjax-full/js/core/MmlTree/SerializedMmlVisitor.js').SerializedMmlVisitor;  // toMML
+const STATE       = require('mathjax-full/js/core/MathItem.js').STATE;
 
-const sreReady    = require('mathjax3/mathjax3/a11y/sre.js').sreReady;    // SRE promise;
+const sreReady    = require('mathjax-full/js/a11y/sre.js').sreReady;    // SRE promise;
 
 //
 //  Register the HTML handler with the browser adaptor and add the semantic enrichment
@@ -44,7 +44,7 @@ Enrich(Register(browser()), new MathML());
 //
 //  Initialize mathjax with the DOM document.
 //
-const html = MathJax.document(document, {
+const html = mathjax.document(document, {
     enrichSpeech: 'deep',                         // deep labels on the enriched MathML
     renderActions: {
         //
@@ -87,7 +87,7 @@ const CONFIG = window.MathJax || {};
 //  The global MathJax object
 //
 window.MathJax = {
-    version: MathJax.version,
+    version: mathjax.version,
     html: html,
 
     toSpeechMML(tex, display = true) {

@@ -25,11 +25,14 @@ The key lines are
       output.innerHTML = '';
       //
       //  Reset the tex labels (and automatic equation numbers, though there aren't any here).
+      //  Get the conversion options (metrics and display settings)
       //  Convert the input to SVG output and use a promise to wait for it to be ready
       //    (in case an extension needs to be loaded dynamically).
       //
       MathJax.texReset();
-      MathJax.tex2svgPromise(input, {display: display.checked}).then(function (node) {
+      var options = MathJax.getMetricsFor(output);
+      options.display = display.checked;
+      MathJax.tex2svgPromise(input, options).then(function (node) {
         //
         //  The promise returns the typeset node, which we add to the output
         //  Then update the document to include the adjusted CSS for the

@@ -12,9 +12,10 @@ which contains comments describing it in detail.  In order to use the component 
 
 which gives the name of the combined file along with some other data about directories.  The final directory being set to `'.'` means that the combined file will be placed in the directory with the source file, but with `.min.js` as the extension rather than '.js'.
 
-To make the actual combined file, use the command
+To make the actual combined file, use the commands
 
 ```
+npm install
 npm run make-custom-build
 ```
 
