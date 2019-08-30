@@ -1,4 +1,4 @@
-# [assistive-mml.html](https://mathjax.github.io/mj3-demos/tex-assistive.html)
+# [assistive-mml.html](https://mathjax.github.io/MathJax-demos-web/tex-assistive.html)
 
 This example shows how to add hidden MathML for use in screen readers.  This is similar to the AssistiveMML extension from version 2, which is not available in version 3.
 
@@ -77,4 +77,4 @@ which sets up some CSS to make the MathML not visible to the sited, but still av
 
 This function is used in a new `renderAction` that has priority 155 so that will be called soon after the typesetting action (priority 150), so that the assisitve MathML is inserted into the typeset output so that it will be included in the page when the typeset math is inserted there by a later render action.
 
-[Run the example](https://mathjax.github.io/mj3-demos/assistive-mml.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/assistive-mml.html)

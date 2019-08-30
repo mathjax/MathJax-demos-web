@@ -1,4 +1,4 @@
-# [input-tex2svg.html](https://mathjax.github.io/mj3-demos/input-tex2svg.html)
+# [input-tex2svg.html](https://mathjax.github.io/MathJax-demos-web/input-tex2svg.html)
 
 This example shows how to use the `MathJax.tex2svgPromise()` function to process user input, allowing for the possibility that they use `\require` to load extensions dynamically, or one is loaded automatically by the `autoload` extension.
 
@@ -58,4 +58,4 @@ The key lines are
 
 When the user presses the `Render TeX` button or switches the `display` checkbox, the `convert()` function above runs.  The comments in the code explain how the conversion process is handled.  Note that the user interface is disabled during the typesetting process, since the conversion is done asynchronously in this example.  This prevents the user from starting a new typeset operation while one is already in progress.
 
-[Run the example](https://mathjax.github.io/mj3-demos/input-tex2svg.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/input-tex2svg.html)

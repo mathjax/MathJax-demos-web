@@ -1,4 +1,4 @@
-# [input-tex2mml.html](https://mathjax.github.io/mj3-demos/input-tex2mml.html)
+# [input-tex2mml.html](https://mathjax.github.io/MathJax-demos-web/input-tex2mml.html)
 
 This example shows how to use the `MathJax.tex2mmlPromise()` function to process user input, allowing for the possibility that they use `\require` to load extensions dynamically, or one is loaded automatically by the `autoload` extension.
 
@@ -52,4 +52,4 @@ The key lines are
 
 When the user presses the `Convert TeX` button or switches the `display` checkbox, the `convert()` function above runs.  The comments in the code explain how the conversion process is handled.  Note that the user interface is disabled during the conversion process, since the conversion is done asynchronously in this example.  This prevents the user from starting a new conversion operation while one is already in progress.
 
-[Run the example](https://mathjax.github.io/mj3-demos/input-tex2mml.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/input-tex2mml.html)

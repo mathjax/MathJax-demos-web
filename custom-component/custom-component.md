@@ -1,4 +1,4 @@
-# [custom-component.html](https://mathjax.github.io/mj3-demos/custom-component/custom-component.html)
+# [custom-component.html](https://mathjax.github.io/MathJax-demos-web/custom-component/custom-component.html)
 
 This example shows how to create a component that combines several of the predefined components into one single custom component that includes exactly the pieces that you want.
 
@@ -37,4 +37,4 @@ global.MathJax = {
 
 before the first `require()` command in `custom-component.js` to include the configuration in the combined file itself.
 
-[Run the example](https://mathjax.github.io/mj3-demos/custom-component/custom-component.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/custom-component/custom-component.html)

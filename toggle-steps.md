@@ -1,4 +1,4 @@
-# [toggle-steps.html](https://mathjax.github.io/mj3-demos/toggle-steps.html)
+# [toggle-steps.html](https://mathjax.github.io/MathJax-demos-web/toggle-steps.html)
 
 This example shows how to use the `\toggle` macro (which produce MathML `<maction>` elements) to display an equation that reveals the steps in a computation one step at a time.  This is similar to the [reveal-steps.html](reveal-steps.html) example, but this one does not require any javascript.
 
@@ -24,4 +24,4 @@ $$
 
 which is a sequence of expressions that each has one more line of the expansion than the previous version, enclosed in a `\toggle` so that clicking on the math will cycle through the expressions one after the other.  It also defines a `\click` macro to introduce the button for moving to the next step (though the user can actually click anywhere on the expression to do that).  Some effort is made to ensure that the expressions all have the same width (using `\rlap` and `\hphantom`), so that the previously displayed expressions don't move around as new lines are revealed.
 
-[Run the example](https://mathjax.github.io/mj3-demos/toggle-steps.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/toggle-steps.html)

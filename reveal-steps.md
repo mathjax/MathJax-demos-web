@@ -1,4 +1,4 @@
-# [reveal-steps.html](https://mathjax.github.io/mj3-demos/reveal-steps.html)
+# [reveal-steps.html](https://mathjax.github.io/MathJax-demos-web/reveal-steps.html)
 
 This example shows how to use the Javascript and CSS ids to display an equation that reveals the steps in a computation one step at a time.  The expression uses the `\cssId` macro to mark the parts of the expression to be revealed, and sets the CSS for those ids to be hidden initially.  A javascript function tied to a button sets the styles for the individual elements to reveal them one at a time.
 
@@ -84,4 +84,4 @@ This example also shows how to prevent the page from being displayed until after
 
 which waits for MathJax to finish its initial typesetting, and then disables the stylesheet that is hiding the page body.
 
-[Run the example](https://mathjax.github.io/mj3-demos/reveal-steps.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/reveal-steps.html)

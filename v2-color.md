@@ -1,4 +1,4 @@
-# [v2-color.html](https://mathjax.github.io/mj3-demos/v2-color.html)
+# [v2-color.html](https://mathjax.github.io/MathJax-demos-web/v2-color.html)
 
 This example illustrates the difference between the behavior of `\color` in v2 and v3.  The default v3 behavior when using the MathJax `input/tex` or `input/tex-full` components (or any of the ones based on them, such as `tex-chtml` or `tex-svg`) is the LaTeX-compatible behavior, not the non-standard v2 behavior.
 
@@ -23,4 +23,4 @@ The key lines for doing that are:
 
 which tells the `autoload` extension not to autoload the `color` extension, but instead autoload the original `\color` behavior from the `colorV2` extension.
 
-[Run the example](https://mathjax.github.io/mj3-demos/v2-color.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/v2-color.html)

@@ -1,4 +1,4 @@
-# [tex-svg.html](https://mathjax.github.io/mj3-demos/tex-svg.html)
+# [tex-svg.html](https://mathjax.github.io/MathJax-demos-web/tex-svg.html)
 
 This example shows how to use the `tex-svg` component to process a complete HTML page containing TeX notation into math in SVG format.
 
@@ -16,4 +16,4 @@ The key lines are
 
 which configures the TeX input jax to include single dollar signs as in-line math delimiters and the SVG output jax to use a global font-path cache, and then loads the `tex-svg` component.  The rest is handled by MathJax automatically.
 
-[Run the example](https://mathjax.github.io/mj3-demos/tex-svg.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/tex-svg.html)

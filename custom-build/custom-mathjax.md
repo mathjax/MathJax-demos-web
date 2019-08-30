@@ -1,4 +1,4 @@
-# [custom-mathjax.html](https://mathjax.github.io/mj3-demos/custom-build/custom-mathjax.html)
+# [custom-mathjax.html](https://mathjax.github.io/MathJax-demos-web/custom-build/custom-mathjax.html)
 
 This example shows how to create a completely custom build of MathJax 3 that does not use the predefined MathJax components at all.  This example provides commands to convert a TeX string to a speech string for that expression (and does no other typesetting).  It also provides a command to set the speech level to use (`shallow`, `deep`, or `none`).
 
@@ -71,4 +71,4 @@ The custom MathJax build includes the ability to provide a `ready()` function th
 
 This enables the interface, and also converts the math that is in the user-entry area automatically when the page is ready.
 
-[Run the example](https://mathjax.github.io/mj3-demos/custom-build/custom-mathjax.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/custom-build/custom-mathjax.html)

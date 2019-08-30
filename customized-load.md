@@ -1,4 +1,4 @@
-# [customized-load.html](https://mathjax.github.io/mj3-demos/customized-load.html)
+# [customized-load.html](https://mathjax.github.io/MathJax-demos-web/customized-load.html)
 
 This example shows how to mix-and-match the components that are loaded (if there isn't a combined component that includes what you need).  This is done by setting the `load` array in the `loader` section of you MathJax configuration, as shown below.
 
@@ -29,4 +29,4 @@ The TeX configuration registers the loaded packages with the TeX input jax (it i
 
 The expression in the `\texttip` macro from the `action` module to add a tool-tip to part of the quadratic equation; hover the mouse over the discriminant to see.
 
-[Run the example](https://mathjax.github.io/mj3-demos/customized-load.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/customized-load.html)

@@ -1,4 +1,4 @@
-# [mml.html](https://mathjax.github.io/mj3-demos/custom-tex-extension/mml.html)
+# [mml.html](https://mathjax.github.io/MathJax-demos-web/custom-tex-extension/mml.html)
 
 This example shows how to create a custom TeX extension that defines new TeX commands implemented by javascript functions.
 
@@ -58,4 +58,4 @@ produces a bold A via `<mi mathvariant="bold">A</mi>`.
 
 There are additional example equations in the HTML file.
 
-[Run the example](https://mathjax.github.io/mj3-demos/custom-tex-extension/mml.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/custom-tex-extension/mml.html)

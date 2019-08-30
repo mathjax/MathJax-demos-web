@@ -1,4 +1,4 @@
-# [input-tex_mml2chtml.html](https://mathjax.github.io/mj3-demos/input-tex_mml2chtml.html)
+# [input-tex_mml2chtml.html](https://mathjax.github.io/MathJax-demos-web/input-tex_mml2chtml.html)
 
 This example shows how to use the `MathJax.TypesetPromise()` function to process user input that is HTML containing delimited TeX expressions and/or MathML tags, allowing for the possibility that the TeX expressions use `\require` to load extensions dynamically, or one is loaded automatically by the `autoload` extension.  The resulting page will have math in CommonHTML format.
 
@@ -63,4 +63,4 @@ When the user presses the `Render HTML` button, the `convert()` function above r
 
 The MathJax configuration shows how you can perform an action once MathJax is loaded and ready to run by setting the `ready()` function in the `startup` configuration block.  In this case, the function does the default ready actions and then enables the render button (which is disabled by default in the HTML that creates the button).  This gives you a user interface that can't be used until MathJax is actually ready to respond.
 
-[Run the example](https://mathjax.github.io/mj3-demos/input-tex_mml2chtml.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/input-tex_mml2chtml.html)

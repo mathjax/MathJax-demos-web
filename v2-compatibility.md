@@ -1,4 +1,4 @@
-# [v2-compatibility.html](https://mathjax.github.io/mj3-demos/v2-compatibility.html)
+# [v2-compatibility.html](https://mathjax.github.io/MathJax-demos-web/v2-compatibility.html)
 
 This example shows how to set up MathJax version 3 to act somewhat more like MathJax version 2.
 
@@ -25,6 +25,6 @@ to generate error messages and looks for
 
 blocks, which are no longer supported, in alert you to the need to convert these to version 3 by hand.
 
-You should use the [configuration converter](https://mathjax.github.io/mj3-demos/convert-configuration/convert-configuration.html) to help convert your version 2 configuration to a comparable version 3 configuration.
+You should use the [configuration converter](https://mathjax.github.io/MathJax-demos-web/convert-configuration/convert-configuration.html) to help convert your version 2 configuration to a comparable version 3 configuration.
 
-[Run the example](https://mathjax.github.io/mj3-demos/v2-compatibility.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/v2-compatibility.html)

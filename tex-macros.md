@@ -1,4 +1,4 @@
-# [tex-macros.html](https://mathjax.github.io/mj3-demos/tex-macros.html)
+# [tex-macros.html](https://mathjax.github.io/MathJax-demos-web/tex-macros.html)
 
 This example shows how to predefine TeX macros for use in a web page in two different ways:  either using the MathJax configuration to define them, or by embedding them in a hidden math expression.
 
@@ -33,4 +33,4 @@ for the first method, and
 
 for the second.  The comments in the first code block indicate how to interpret the arrays used to define the individual macros.  The definitions in the second code block are 
 
-[Run the example](https://mathjax.github.io/mj3-demos/tex-macros.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/tex-macros.html)

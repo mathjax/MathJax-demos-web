@@ -1,4 +1,4 @@
-# [tex-mml.html](https://mathjax.github.io/mj3-demos/tex-mml.html)
+# [tex-mml.html](https://mathjax.github.io/MathJax-demos-web/tex-mml.html)
 
 This example shows how to process a complete HTML page containing TeX notation into math in MathML format.  It should only be used with browsers that have native support for MathML, but illustrates one way to get a replacement for the version 2 NativeMML output, which has not been ported to version 3.
 
@@ -64,4 +64,4 @@ The `<style>` element sets up CSS so that the `mjx-container` will be set as a s
 
 Finally, the `pageReady()` function in the `startup` section is set so that the page will be rendered when it first becomes available.  This is needed because there is no `MathJax.typeset()` or `MathJax.typesetPromise()` in this case, since no output jax is loaded.
 
-[Run the example](https://mathjax.github.io/mj3-demos/tex-mml.html)
+[Run the example](https://mathjax.github.io/MathJax-demos-web/tex-mml.html)
