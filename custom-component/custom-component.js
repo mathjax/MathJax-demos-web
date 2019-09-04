@@ -20,12 +20,10 @@ Loader.preLoad(
 //
 // Because the root URL will be determined from the URL of the
 // combined file we load into the web pasge (this file), we
-// adjust the mathjax path to be the mathjax3 directory in
-// this repository rather than the custom-component directory
-// where this file lives.
+// adjust the mathjax path to be the CDN instead of this directory.
 //
 const paths = MathJax.config.loader.paths;
-paths.mathjax = paths.mathjax.replace(/\/custom-component$/,'/mathjax3');
+paths.mathjax = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5';
 
 //
 // Load the components that we want to combine into one component
