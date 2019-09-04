@@ -37,7 +37,7 @@ The examples below show how to use and configure MathJax components in your web 
 * [v2-color.html](v2-color.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/v2-color.html))
 * [v2-script-tags.html](v2-script-tags.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/v2-script-tags.html))
 * [v2-compatibility.html](v2-compatibility.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/v2-compatibility.html))  
-* [v2 to v3 Configuration Converter](convert-configuration/convert-configuration.html)
+* [v2 to v3 Configuration Converter](https://mathjax.github.io/MathJax-demos-web/convert-configuration/convert-configuration.html)
 
 ### MathML and Assistive Extensions
 
