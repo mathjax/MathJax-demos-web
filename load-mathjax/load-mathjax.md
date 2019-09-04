@@ -16,7 +16,7 @@ This uses a script file `load-mathjax.js` containing the following:
       };
     }
     var script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?tex-mml-chtml.js';
+    script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
     document.head.appendChild(script);
   }
 })();

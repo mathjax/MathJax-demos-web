@@ -28,8 +28,7 @@ The key lines are
     }
   };
   </script>
-  <script id="MathJax-script" async
-   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?tex-chtml.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 ```
 
 which uses the `startup.ready()` function to do the normal startup, then attaches a post-filter to the output jax that looks up the original format of the math, sets that `data-original` attribute to that, and uses the `startup.toMML()` function to set the `data-mathml` attribute to the serialized MathML for the expression using the internal.

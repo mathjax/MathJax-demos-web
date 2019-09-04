@@ -37,8 +37,7 @@ To use this in your own web page, the key lines are
     }
   };
   </script>
-  <script id="MathJax-script" async
-   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?tex-chtml.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 ```
 
 This asks the loader to load the custom extension file, and defines the `[custom]` path to be the directory relative to the `mml.html`  example file (`mml.min.js` is in the same directory).  The tex component is configured to add the `mml` package to the other packages already there by default.  Finally, the `tex-chtml` component is loaded, and MathJax does the rest.

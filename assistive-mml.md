@@ -70,8 +70,7 @@ The key lines are
     }
   };
   </script>
-  <script id="MathJax-script" async
-   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?tex-chtml.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 ```
 
 which sets up some CSS to make the MathML not visible to the sited, but still available to screen readers, then sets up a function `addAssistiveMML()` that gets the MathML for the math item as a string, and then parses it into HTML nodes.  It then puts the `<math>` node into a `mjx-assistive-mml` node (which uses the CSS above), and has the attributes needed to have it act properly fort the screen reader.  Finally, it sets the needed attributes for the original MathML container and hides the visual output from the screen reader, and inserts the assistive MathML into the container.

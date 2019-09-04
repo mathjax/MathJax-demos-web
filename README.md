@@ -107,11 +107,9 @@ Note that not all options from version 2 are available.  Some have not yet been 
 
 The component files for these demos are available from several [CDN servers](https://docs.mathjax.org/en/latest/web/start.html#using-mathjax-from-a-content-delivery-network-cdn), which you can access without having to install or download any files.  Just use a link such as
 
-    <script id="MathJax-script" async
-      src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/latest.js?tex-mml-chtml.js">
-    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-to load the latest version of the `tex-chtml` combined component file.  See the
+to load the latest version (3.x.x) of the `tex-chtml` combined component file from the ``jsdelivr`` CDN.  See the
 [documentation](https//docs.mathjax.org/en/latest/index.html#browser-components)
 for more details on how to use MathJax in web pages.
 

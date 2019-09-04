@@ -879,8 +879,7 @@ var Convert = {
         this.removeRedundancies();
       }
     }
-    return '<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest.js?'
-      + file + '.js" id="MathJax-script"></script>';
+    return '<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/' + file + '.js" id="MathJax-script"></script>';
   },
 
   removeRedundancies: function () {

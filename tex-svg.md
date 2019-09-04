@@ -11,8 +11,7 @@ The key lines are
     svg: {fontCache: 'global'}
   };
   </script>
-  <script id="MathJax-script" async
-   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?tex-svg.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 ```
 
 which configures the TeX input jax to include single dollar signs as in-line math delimiters and the SVG output jax to use a global font-path cache, and then loads the `tex-svg` component.  The rest is handled by MathJax automatically.

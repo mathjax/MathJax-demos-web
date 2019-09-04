@@ -10,8 +10,7 @@ The key lines are
     tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
   };
   </script>
-  <script id="MathJax-script" async
-   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?tex-chtml.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 ```
 
 which configures the TeX input jax to include single dollar signs as in-line math delimiters, and then loads the `tex-chtml` component.  The rest is handled by MathJax automatically.

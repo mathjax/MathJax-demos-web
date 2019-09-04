@@ -18,8 +18,7 @@ The key lines for doing that are:
     }
   };
   </script>
-  <script id="MathJax-script" async
-   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?tex-chtml.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 ```
 
 which tells the `autoload` extension not to autoload the `color` extension, but instead autoload the original `\color` behavior from the `colorV2` extension.

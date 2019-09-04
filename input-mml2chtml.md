@@ -5,8 +5,7 @@ This example shows how to use the `MathJax.mathml2chtml()` function to process u
 The key lines are
 
 ```
-  <script id="MathJax-script" async
-   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.0/es5/latest?mml-chtml.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/mml-chtml.js"></script>
   <script>
     function convert() {
       //
