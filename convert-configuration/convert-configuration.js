@@ -376,7 +376,7 @@ var Convert = {
       inlineMath: Translate.transfer('tex.inlineMath'),
       displayMath: Translate.transfer('tex.displayMath'),
       skipTags: Translate.transfer('options.skipHtmlTags'),
-      includeTags: Translate.transfer('optoins.includeHtmlTags'),
+      includeTags: Translate.transfer('options.includeHtmlTags'),
       ignoreClass: Translate.transfer('options.ignoreHtmlClass'),
       processClass: Translate.transfer('options.processHtmlClass'),
       processEscapes: Translate.transfer('tex.processEscapes'),
