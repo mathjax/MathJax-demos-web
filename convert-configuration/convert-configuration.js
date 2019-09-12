@@ -118,6 +118,15 @@ var Translate = {
     }
   },
 
+  transferLC: function (name) {
+    return function (prefix, key, value, config) {
+      if (value instanceof Array) {
+        value[0] = value[0].toLowerCase();
+      }
+      Translate.checkValue(prefix, key, value) && Translate.set(name, value, config);
+    }
+  },
+
   move: function (name) {
     return function (prefix, key, value, config) {
       Translate.set(name, value, config);
@@ -408,7 +417,7 @@ var Convert = {
       MAXMACROS: Translate.transfer('tex.maxMacros'),
       MAXBUFFER: Translate.transfer('tex.maxBuffer'),
       equationNumbers: {
-        autoNumber: Translate.transfer('tex.tags'),
+        autoNumber: Translate.transferLC('tex.tags'),
         useLabelIds: Translate.transfer('tex.useLabelIds'),
         formatNumber: Translate.transfer('tex.tagFormat.number'),
         formatTag: Translate.transfer('tex.tagFormat.tag'),
