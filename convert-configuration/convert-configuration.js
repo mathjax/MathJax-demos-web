@@ -112,18 +112,14 @@ var Translate = {
     return null;
   },
 
-  transfer: function (name) {
+  transfer: function (name, transform) {
     return function (prefix, key, value, config) {
-      Translate.checkValue(prefix, key, value) && Translate.set(name, value, config);
-    }
-  },
-
-  transferLC: function (name) {
-    return function (prefix, key, value, config) {
-      if (value instanceof Array) {
-        value[0] = value[0].toLowerCase();
+      if (Translate.checkValue(prefix, key, value)) {
+        if (transform && value instanceof Array) {
+          value[0] = transform(value[0]);
+        }
+        Translate.set(name, value, config);
       }
-      Translate.checkValue(prefix, key, value) && Translate.set(name, value, config);
     }
   },
 
@@ -350,7 +346,8 @@ var Convert = {
     displayAlign: Translate.outputOption,
     displayIndent: Translate.outputOption,
     delayStartupUntil: Translate.notAvailable,
-    skipStartupTypeset: Translate.transfer('startup.typeset'),
+    skipStartupTypeset: Translate.transfer('startup.typeset',
+                                           function (bool) {return (bool === 'true' ? 'false' : 'true')}),
     elements: Translate.transfer('options.elements'),
     positionToHash: Translate.notAvailable,
     showMathMenu: Translate.showMenu,
@@ -417,7 +414,7 @@ var Convert = {
       MAXMACROS: Translate.transfer('tex.maxMacros'),
       MAXBUFFER: Translate.transfer('tex.maxBuffer'),
       equationNumbers: {
-        autoNumber: Translate.transferLC('tex.tags'),
+        autoNumber: Translate.transfer('tex.tags', function (name) {return name.toLowerCase()}),
         useLabelIds: Translate.transfer('tex.useLabelIds'),
         formatNumber: Translate.transfer('tex.tagFormat.number'),
         formatTag: Translate.transfer('tex.tagFormat.tag'),
