@@ -63,7 +63,7 @@ The main goal of these components is to use them for the delivery of MathJax fro
 
 MathJax components can be used in the browser as well as on the server in `node` applications, so browser and server-side applications can use the same code base and configurations.  Components can be combined together into larger packages, either with other MathJax components, or with your own code, via `webpack`, for example.  
 
-Moreover, the tools for building components are available so that you can create your own custom components that you can serve from your own website if you have special needs not addressed by the CDN.  For example, authors writing TeX extensions for MathJa can create their own components that can be loaded into MathJax from a different server even if the core MathJax is loaded from a CDN.
+Moreover, the tools for building components are available so that you can create your own custom components that you can serve from your own website if you have special needs not addressed by the CDN.  For example, authors writing TeX extensions for MathJax can create their own components that can be loaded into MathJax from a different server even if the core MathJax is loaded from a CDN.
 
 Although components are a convenient way of working with MathJax, those writing `node` scripts that use MathJax need not use the components as we have packaged them at all; they can continue to import MathJax into their projects directly, as in previous beta versions.
 
