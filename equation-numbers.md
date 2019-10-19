@@ -8,7 +8,7 @@ The key lines are
   <script>
   MathJax = {
     tex: {
-      tags: 'AMS'  // should be 'AMS', 'none', or 'all'
+      tags: 'ams'  // should be 'ams', 'none', or 'all'
     }
   };
   </script>
