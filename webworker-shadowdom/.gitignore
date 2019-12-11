@@ -1,0 +1,4 @@
+*.min.worker.js
+*.min.js
+*.map
+package-lock.json

@@ -1,0 +1,20 @@
+{
+  "name": "webworker-shadowdom",
+  "version": "0.1.0",
+  "description": "Example project for MathJaX 3 with WebWorker and ShadowDOM",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "keywords": [
+    "mathjax"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "mathjax-full": "^3.0.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "worker-plugin": "^3.2.0"
+  }
+}
