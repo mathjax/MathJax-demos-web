@@ -1,5 +1,5 @@
 var TEXPACKAGES = ['ams', 'newcommand', 'autoload', 'require', 'noerrors', 'noundefined', 'colorV2', 'configMacros'];
-var MENUZOOM = [['options.menuOptions.zoom', 'DoubleClick']];
+var MENUZOOM = [['options.menuOptions.settings.zoom', 'DoubleClick']];
 
 var Translate = {
   configFiles: {
@@ -260,7 +260,7 @@ var Translate = {
     if (renderer !== 'CHTML' && renderer !== 'SVG') {
       Convert.convertError([], renderer, 'Renderer %s is not implemented in v3')
     } else {
-      Translate.set('options.menuOptions.renderer', "'" + renderer.toLowerCase() + "'", config);
+      Translate.set('options.menuOptions.settings.renderer', "'" + renderer.toLowerCase() + "'", config);
     }
   },
 
@@ -353,24 +353,24 @@ var Convert = {
     showMathMenu: Translate.showMenu,
     showMathMenuMSIE: Translate.notAvailable,
     menuSettings: {
-      zoom: Translate.transfer('options.menuOptions.zoom'),
-      CTRL: Translate.transfer('options.menuOptions.ctrl'),
-      ALT: Translate.transfer('options.menuOptions.alt'),
-      CMD: Translate.transfer('options.menuOptions.cmd'),
-      Shift: Translate.transfer('options.menuOptions.shift'),
+      zoom: Translate.transfer('options.menuOptions.settings.zoom'),
+      CTRL: Translate.transfer('options.menuOptions.settings.ctrl'),
+      ALT: Translate.transfer('options.menuOptions.settings.alt'),
+      CMD: Translate.transfer('options.menuOptions.settings.cmd'),
+      Shift: Translate.transfer('options.menuOptions.settings.shift'),
       discoverable: Translate.notAvailable,
-      zscale: Translate.transfer('options.menuOptions.zscale'),
+      zscale: Translate.transfer('options.menuOptions.settings.zscale'),
       renderer: Translate.renderer,
       font: Translate.font,
       context: Translate.notAvailable,
       locale: Translate.notImplemented,
       mpContext: Translate.notAvailable,
       mpMouse: Translate.notAvailable,
-      texHints: Translate.transfer('options.menuOptions.texHints'),
+      texHints: Translate.transfer('options.menuOptions.settings.texHints'),
       FastPreview: Translate.notAvailable,
       assistiveMML: Translate.notAvailable,
-      inTabOrder: Translate.transfer('options.menuOptions.inTabOrder'),
-      semantics: Translate.transfer('options.menuOptions.semantics')
+      inTabOrder: Translate.transfer('options.menuOptions.settings.inTabOrder'),
+      semantics: Translate.transfer('options.menuOptions.settings.semantics')
     },
     errorSettings: Translate.message(
       '%s are handled through the <code>compileError()</code> and <code>typesetError()</code> values'
