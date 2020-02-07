@@ -42,7 +42,6 @@ The examples below show how to use and configure MathJax components in your web 
 ### MathML and Assistive Extensions
 
 * [tex-mml.html](tex-mml.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/tex-mml.html)) 
-* [assisitve-mml.html](assistive-mml.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/assistive-mml.html))
 * [mml-attribute.html](mml-attribute.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/mml-attribute.html))
 * [speech-tex-chtml.html](speech-tex-chtml.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/speech-tex-chtml.html))
 
