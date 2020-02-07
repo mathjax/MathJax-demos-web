@@ -10,49 +10,49 @@ The examples below show how to use and configure MathJax components in your web 
 
 ### Processing the Whole Page
 
-* [tex-chtml.html](tex-chtml.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/tex-chtml.html))
-* [tex-svg.html](tex-svg.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/tex-svg.html))
-* [equation-numbers.html](equation-numbers.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/equation-numbers.html))
-* [equation-refs.html](equation-refs.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/equation-refs.html))
-* [mml-chtml.html](mml-chtml.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/mml-chtml.html))
-* [mml-svg.html](mml-svg.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/mml-svg.html))
+* [tex-chtml.html](tex-chtml.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/tex-chtml.html))
+* [tex-svg.html](tex-svg.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/tex-svg.html))
+* [equation-numbers.html](equation-numbers.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/equation-numbers.html))
+* [equation-refs.html](equation-refs.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/equation-refs.html))
+* [mml-chtml.html](mml-chtml.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/mml-chtml.html))
+* [mml-svg.html](mml-svg.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/mml-svg.html))
 
 ### Processing User Input
 
-* [input-tex2chtml.html](input-tex2chtml.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-tex2chtml.html))
-* [input-tex2svg.html](input-tex2svg.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-tex2svg.html))
-* [input-mml2chtml.html](input-mml2chtml.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-mml2chtml.html))
-* [input-mml2svg.html](input-mml2svg.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-mml2svg.html))
-* [input-tex_mml2chtml.html](input-tex_mml2chtml.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-tex_mml2chtml.html))
-* [input-tex_mml2svg.html](input-tex_mml2svg.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-tex_mml2svg.html))
-* [input-tex2mml.html](input-tex2mml.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-tex2mml.html))
+* [input-tex2chtml.html](input-tex2chtml.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-tex2chtml.html))
+* [input-tex2svg.html](input-tex2svg.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-tex2svg.html))
+* [input-mml2chtml.html](input-mml2chtml.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-mml2chtml.html))
+* [input-mml2svg.html](input-mml2svg.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-mml2svg.html))
+* [input-tex_mml2chtml.html](input-tex_mml2chtml.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-tex_mml2chtml.html))
+* [input-tex_mml2svg.html](input-tex_mml2svg.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-tex_mml2svg.html))
+* [input-tex2mml.html](input-tex2mml.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/input-tex2mml.html))
 
 ### Interaction
 
-* [reveal-steps.html](reveal-steps.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/reveal-steps.html))
-* [toggle-steps.html](toggle-steps.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/toggle-steps.html))
+* [reveal-steps.html](reveal-steps.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/reveal-steps.html))
+* [toggle-steps.html](toggle-steps.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/toggle-steps.html))
 
 ### Version 2 Compatibility
 
-* [v2-color.html](v2-color.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/v2-color.html))
-* [v2-script-tags.html](v2-script-tags.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/v2-script-tags.html))
-* [v2-compatibility.html](v2-compatibility.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/v2-compatibility.html))  
+* [v2-color.html](v2-color.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/v2-color.html))
+* [v2-script-tags.html](v2-script-tags.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/v2-script-tags.html))
+* [v2-compatibility.html](v2-compatibility.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/v2-compatibility.html))  
 * [v2 to v3 Configuration Converter](https://mathjax.github.io/MathJax-demos-web/convert-configuration/convert-configuration.html)
 
 ### MathML and Assistive Extensions
 
-* [tex-mml.html](tex-mml.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/tex-mml.html)) 
-* [mml-attribute.html](mml-attribute.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/mml-attribute.html))
-* [speech-tex-chtml.html](speech-tex-chtml.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/speech-tex-chtml.html))
+* [tex-mml.html](tex-mml.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/tex-mml.html)) 
+* [mml-attribute.html](mml-attribute.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/mml-attribute.html))
+* [speech-tex-chtml.html](speech-tex-chtml.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/speech-tex-chtml.html))
 
 ### Customization
 
-* [load-mathjax.html](load-mathjax/load-mathjax.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/load-mathjax/load-mathjax.html))
-* [tex-macros.html](tex-macros.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/tex-macros.html))
-* [customized-load.html](customized-load.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/customized-load.html))
-* [custom-tex-extension](custom-tex-extension/mml.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/custom-tex-extension/mml.html))
-* [custom-component](custom-component/custom-component.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/custom-component/custom-component.html))
-* [custom-build](custom-build/custom-mathjax.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/custom-build/custom-mathjax.html))
+* [load-mathjax.html](load-mathjax/load-mathjax.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/load-mathjax/load-mathjax.html))
+* [tex-macros.html](tex-macros.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/tex-macros.html))
+* [customized-load.html](customized-load.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/customized-load.html))
+* [custom-tex-extension](custom-tex-extension/mml.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/custom-tex-extension/mml.html))
+* [custom-component](custom-component/custom-component.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/custom-component/custom-component.html))
+* [custom-build](custom-build/custom-mathjax.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/custom-build/custom-mathjax.html))
 
 ## MathJax Component Files
 
