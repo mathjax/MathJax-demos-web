@@ -16,9 +16,9 @@
     "webpack-cli": "^3.3.10"
   },
   "scripts": {
-    "make-custom-tex-extension": "cd custom-tex-extension && ../node_modules/mathjax-full/components/bin/pack",
-    "make-custom-component": "cd custom-component && ../node_modules/mathjax-full/components/bin/pack",
-    "make-custom-build": "cd custom-build && ../node_modules/mathjax-full/components/bin/pack"
+    "make-custom-tex-extension": "cd custom-tex-extension && node ../node_modules/mathjax-full/components/bin/pack",
+    "make-custom-component": "cd custom-component && node ../node_modules/mathjax-full/components/bin/pack",
+    "make-custom-build": "cd custom-build && node ../node_modules/mathjax-full/components/bin/pack"
   },
   "repository": {
     "type": "git",
