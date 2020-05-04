@@ -4,7 +4,7 @@ This example shows how to predefine TeX macros for use in a web page in two diff
 
 The key lines are
 
-```
+``` html
   <script>
   MathJax = {
     tex: {

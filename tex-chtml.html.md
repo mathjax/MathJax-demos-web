@@ -4,7 +4,7 @@ This example shows how to use the `tex-chtml` component to process a complete HT
 
 The key lines are
 
-```
+``` html
   <script>
   MathJax = {
     tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}

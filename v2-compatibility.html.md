@@ -19,9 +19,11 @@ that you may be able to use to keep custom code that uses these version 2 featur
 
 to generate error messages and looks for 
 
-    <script type="text/x-mathjax-config">
-    ...
-    </script>
+``` html
+<script type="text/x-mathjax-config">
+...
+</script>
+```
 
 blocks, which are no longer supported, in alert you to the need to convert these to version 3 by hand.
 

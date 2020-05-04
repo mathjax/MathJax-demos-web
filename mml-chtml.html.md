@@ -4,7 +4,7 @@ This example shows how to use the `mml-chtml` component to process a complete HT
 
 The key line is
 
-```
+``` html
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/mml-chtml.js"></script>
 ```
 

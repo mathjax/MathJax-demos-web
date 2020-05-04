@@ -4,7 +4,7 @@ This example shows how to load MathJax only when there is actual math in the pag
 
 This uses a script file `load-mathjax.js` containing the following:
 
-```
+``` javascript
 (function () {
   if (document.body.querySelector('math') ||
       document.body.textContent.match(/(?:\$|\\\(|\\\[|\\begin\{.*?})/)) {
@@ -28,7 +28,7 @@ If you want only MathML or only TeX, you can modify the script accordingly.  If 
 
 In your web page, you need only include
 
-```
+``` html
   <script src="load-mathjax.js" id="MathJax-script" async></script>
 ```
 

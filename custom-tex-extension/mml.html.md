@@ -25,7 +25,7 @@ from the main directory of this repository.  That will create the `mml.min.js` f
 
 To use this in your own web page, the key lines are
 
-```
+``` html
   <script>
   MathJax = {
     loader: {
@@ -44,7 +44,9 @@ This asks the loader to load the custom extension file, and defines the `[custom
 
 The expressions in the example file illustrate the use of the custom macros.  For example
 
-    $$abc + \mi{abc} \mo{++} x ++ y$$
+``` latex
+$$abc + \mi{abc} \mo{++} x ++ y$$
+```
     
 shows the difference between `abc`, which produces three separate `mi` elements internally, each containing one letter, and `\mi{abc}`, which produces one `mi` element containing three letters.  The latter will be in upwrite letters (as the default variant for `mi` elements depends on the number of characters in the content).  View the MathML source to see the difference.
 
@@ -52,7 +54,9 @@ Similarly the difference between `\mo{++}` and `++` is the number of `mo` elemen
 
 The expression
 
-    \mi[mathvariant="bold"]{A}
+``` latex
+\mi[mathvariant="bold"]{A}
+```
 
 produces a bold A via `<mi mathvariant="bold">A</mi>`.
 

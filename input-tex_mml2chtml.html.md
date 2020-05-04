@@ -4,7 +4,7 @@ This example shows how to use the `MathJax.TypesetPromise()` function to process
 
 The key lines are
 
-```
+``` html
   <script>
   MathJax = {
     tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},

@@ -4,7 +4,7 @@ This example shows how to automatically generate a `data-mathml` attribute on th
 
 The key lines are
 
-```
+``` html
  <script>
   MathJax = {
     startup: {

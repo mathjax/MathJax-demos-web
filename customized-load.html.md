@@ -4,7 +4,7 @@ This example shows how to mix-and-match the components that are loaded (if there
 
 The key lines are
 
-```
+``` html
   <script>
   MathJax = {
     loader: {

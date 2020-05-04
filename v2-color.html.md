@@ -6,7 +6,7 @@ In addition to illustrating the difference between the two, this example also ex
 
 The key lines for doing that are:
 
-```
+``` html
   <script>
   MathJax = {
     tex: {

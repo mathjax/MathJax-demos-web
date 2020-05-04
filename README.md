@@ -73,25 +73,29 @@ The component system described above can be configured using a global variable `
 
 To configure MathJax, use
 
-    <script>
-    MathJax = {
-      [options]
-    };
-    </script>
+``` html
+<script>
+MathJax = {
+  [options]
+};
+</script>
+```
 
 before the `script` tag that loads the MathJax component file you plan to use, where `options` are a list of options that control various parts of MathJax.  The options are grouped into blocks based on the component of MathJax that they affect.  For example, the TeX input jax options are in a blocks called 'tex', and the SVG output jax options are in a block called 'svg'.  An example configuration could be
 
-    <script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        packages: ['base', 'newcommand', 'configMacros']
-      },
-      svg: {
-        fontCache: 'global'
-      }
-    };
-    </script>
+``` html
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    packages: ['base', 'newcommand', 'configMacros']
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+```
 
 The options are listed in detail in the [Configuring MathJax](https://docs.mathjax.org/en/latest/options/index.html) section of the [MathJax Documentation](https://docs.mathjax.org/en/latest).
 
@@ -107,7 +111,9 @@ Note that not all options from version 2 are available.  Some have not yet been 
 
 The component files for these demos are available from several [CDN servers](https://docs.mathjax.org/en/latest/web/start.html#using-mathjax-from-a-content-delivery-network-cdn), which you can access without having to install or download any files.  Just use a link such as
 
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+``` html
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+```
 
 to load the latest version (3.x.x) of the `tex-chtml` combined component file from the ``jsdelivr`` CDN.  See the
 [documentation](https//docs.mathjax.org/en/latest/index.html#browser-components)

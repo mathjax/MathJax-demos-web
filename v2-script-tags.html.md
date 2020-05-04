@@ -6,7 +6,7 @@ MathJax version 3 does not look for such `<script>` tags itself, but you can imp
 
 The key lines are
 
-```
+``` html
   <script>
   MathJax = {
     options: {

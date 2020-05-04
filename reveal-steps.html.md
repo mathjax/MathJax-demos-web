@@ -4,7 +4,7 @@ This example shows how to use the Javascript and CSS ids to display an equation 
 
 The expression is given in TeX as
 
-```
+``` latex
 \begin{align}
   (x+1)^2
     &= \cssId{Step1}{(x+1)(x+1)}             \\[3px]
@@ -17,7 +17,7 @@ The expression is given in TeX as
 
 The key lines of code are
 
-```
+``` html
   <script type="text/javascript">
   //
   //  Use a closure to hide the local variable
@@ -57,7 +57,7 @@ The key lines of code are
 
 This example also shows how to prevent the page from being displayed until after MathJax has completed its processing.  That means that there will be no flashing of the unprocessed math before the typeset math is displayed.  This is accomplished with the configuration
 
-```
+``` html
   <script>
   MathJax = {
     tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},

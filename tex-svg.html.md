@@ -4,7 +4,7 @@ This example shows how to use the `tex-svg` component to process a complete HTML
 
 The key lines are
 
-```
+``` html
   <script>
   MathJax = {
     tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},

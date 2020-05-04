@@ -14,7 +14,7 @@ which gives the name of the component along with some other data about directori
 
 To make the final component, use the commands
 
-```
+``` bash
 npm install
 mpn run make-custom-component
 ```
@@ -23,13 +23,13 @@ from the main directory of this repository.  That will create the `custom-compon
 
 To use this in your own web page, you only need one line:
 
-```
+``` html
   <script src="custom-component.min.js" id="MathJax-script" async></script>
 ```
 
 (include the path to the `custom-component.min.js` file if needed).  You can still use a MathJax configuration in your web page, or you could put
 
-```
+``` javascript
 global.MathJax = {
   ...
 };

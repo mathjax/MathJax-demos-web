@@ -4,7 +4,7 @@ This example shows how to use the `MathJax.mathml2chtml()` function to process u
 
 The key lines are
 
-```
+``` html
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/mml-chtml.js"></script>
   <script>
     function convert() {

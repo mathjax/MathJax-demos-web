@@ -4,7 +4,7 @@ This example shows how to process a complete HTML page containing TeX notation i
 
 The key lines are
 
-```
+``` html
   <style>
   mjx-container[display="block"] {
     display: block;

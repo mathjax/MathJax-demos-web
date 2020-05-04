@@ -14,7 +14,7 @@ which gives the name of the combined file along with some other data about direc
 
 To make the actual combined file, use the commands
 
-```
+``` bash
 npm install
 npm run make-custom-build
 ```
@@ -23,7 +23,7 @@ from the main directory of this repository.  That will create the `custom-mathja
 
 To include this in your own web page, you only need one line:
 
-```
+``` html
   <script src="custom-mathjax.min.js" async></script>
 ```
 
@@ -33,7 +33,7 @@ Our custom MathJax build creates a `MathJax` global variable that includes the c
 
 The key code in the HTML page is
 
-```
+``` html
   <script>
     function convert() {
       var input = document.getElementById("input").value.trim();
@@ -56,7 +56,7 @@ The `changeLevel()` function sets the speech level and reconverts the input.  Th
 
 The custom MathJax build includes the ability to provide a `ready()` function that is called when MathJax has initialized itself and is ready to process math.  The example HTML file takes advantage of that to enable the user interface elements (which are initially disabled so that the user can't press them until MathJax is ready).  The code for that is
 
-```
+``` html
   <script>
     MathJax = {
       ready: function () {

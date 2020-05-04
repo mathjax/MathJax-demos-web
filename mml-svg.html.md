@@ -4,7 +4,7 @@ This example shows how to use the `mml-svg` component to process a complete HTML
 
 The key line is
 
-```
+``` html
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/mml-svg.js"></script>
 
 ```

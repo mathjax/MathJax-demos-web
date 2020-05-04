@@ -4,7 +4,7 @@ This example shows how to cause speech strings to be attached to the typeset mat
 
 The key lines are
 
-```
+``` html
   <script>
   MathJax = {
     loader: {load: ['a11y/semantic-enrich']},

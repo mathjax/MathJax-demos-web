@@ -4,7 +4,7 @@ This example shows how to use the `MathJax.tex2mmlPromise()` function to process
 
 The key lines are
 
-```
+``` html
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
   <script>
     function convert() {

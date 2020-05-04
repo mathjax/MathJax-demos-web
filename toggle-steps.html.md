@@ -4,7 +4,7 @@ This example shows how to use the `\toggle` macro (which produce MathML `<mactio
 
 The expression is given in TeX as
 
-```
+``` latex
 $$
 \require{action}
 \def\longest{x(x+1) + 1(x+1)}
