@@ -429,7 +429,11 @@ var Convert = {
       },
       noUndefined: {
         disabled: Translate.disablePackage('noundefined'),
-        attributes: Translate.notImplemented
+        attributes: {
+          mathsize: Translate.transfer('tex.noundefined.size'),
+          mathcolor: Translate.transfer('tex.noundefined.color'),
+          mathbackground: Translate.transfer('tex.noundefined.background'),
+        }
       },
       unicode: {
         font: Translate.notAvailable
