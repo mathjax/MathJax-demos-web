@@ -77,6 +77,7 @@ var Translate = {
     'TeX/newcommand': '[tex]/newcommand',
     'TeX/noErrors': '[tex]/noerrors',
     'TeX/noUndefined': '[tex]/noundefined',
+    'TeX/text-macros': '[tex]/textmacros',
     'TeX/unicode': '[tex]/unicode',
     'TeX/verb': '[tex]/verb',
     'tex2jax': {ignore: true},
