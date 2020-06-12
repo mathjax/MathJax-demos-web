@@ -20,7 +20,17 @@ The key lines are
     //
     //  When page is ready, render the document
     //
-    startup: {pageReady: () => MathJax.startup.document.render()},
+    startup: {
+      ready() {
+        MathJax.startup.defaultReady();
+        MathJax.startup.document.menu.menu.findID('Accessibility', 'AssistiveMml').disable();
+      },
+      pageReady() {
+        MathJax._.mathjax.mathjax.handleRetriesFor(() => {
+          MathJax.startup.document.render();
+        });
+      }
+    },
     //
     //  Use dollar signs for in-line delimiters in addition to the usual ones
     //
@@ -29,6 +39,11 @@ The key lines are
     //  Override the usual typeset render action with one that generates MathML output
     //
     options: {
+      menuOptions: {
+        settings: {
+          assistiveMml: false
+        }
+      },
       renderActions: {
         typeset: [150,
           //
@@ -59,6 +74,8 @@ The key lines are
 ```
 
 which sets up a new `renderAction` that replaces the usual typeset one (due to the priority of 150).  This new action uses the `MathJax.startup.toMML()` function to convert the internal math items into serialized MathML, and then inserts that into a `mjx-container` element that it sets as the `typesetRoot` of the math item.  This will be put into the page automatically by a later `renderAction` that updates the page.
+
+The menu item for the assistive MathML extension is turned off by default (to prevent it from loading), and the `ready()` function is used to disable the menu item so it can't be turned on.  Since we are producing MathML directly, there is no need for it.
 
 The `<style>` element sets up CSS so that the `mjx-container` will be set as a separate line with space above and below it when the math is a displayed equation.
 

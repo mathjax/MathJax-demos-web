@@ -18,9 +18,17 @@
     //
     loader: {load: ['input/tex', 'ui/menu']},
     //
-    //  When page is ready, render the document
-    //
-    startup: {pageReady: () => MathJax.startup.document.render()},
+    startup: {
+      ready() {
+        MathJax.startup.defaultReady();
+        MathJax.startup.document.menu.menu.findID('Accessibility', 'AssistiveMml').disable();
+      },
+      pageReady() {
+        MathJax._.mathjax.mathjax.handleRetriesFor(() => {
+          MathJax.startup.document.render();
+        });
+      }
+    },
     //
     //  Use dollar signs for in-line delimiters in addition to the usual ones
     //
@@ -29,6 +37,11 @@
     //  Override the usual typeset render action with one that generates MathML output
     //
     options: {
+      menuOptions: {
+        settings: {
+          assistiveMml: false
+        }
+      },
       renderActions: {
         typeset: [150,
           //
