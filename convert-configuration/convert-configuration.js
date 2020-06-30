@@ -197,13 +197,6 @@ var Translate = {
     }
   },
 
-  showMenu: function (prefix, key, value, config) {
-    if (Translate.checkValue(prefix, key, value) && value[0] === 'false') {
-      Translate.set('options.renderActions.addMenu', '[]', config);
-      Translate.set('options.renderActions.checkLoading', '[]', config);
-    }
-  },
-
   processing: function (prefix, key, value, config) {
     var messageStyle = Translate.checkEval(prefix, key, value);
     if (!messageStyle || messageStyle === 'none') return;
@@ -351,7 +344,7 @@ var Convert = {
                                            function (bool) {return (bool === 'true' ? 'false' : 'true')}),
     elements: Translate.transfer('options.elements'),
     positionToHash: Translate.notAvailable,
-    showMathMenu: Translate.showMenu,
+    showMathMenu: Translate.transfer('options.enableMenu'),
     showMathMenuMSIE: Translate.notAvailable,
     menuSettings: {
       zoom: Translate.transfer('options.menuOptions.settings.zoom'),

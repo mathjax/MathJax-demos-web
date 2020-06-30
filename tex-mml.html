@@ -18,15 +18,14 @@
     //
     loader: {load: ['input/tex', 'ui/menu']},
     //
+    //  When page is ready:
+    //    disable the assistive-mathml menu item
+    //    render the document
+    //
     startup: {
-      ready() {
-        MathJax.startup.defaultReady();
-        MathJax.startup.document.menu.menu.findID('Accessibility', 'AssistiveMml').disable();
-      },
       pageReady() {
-        MathJax._.mathjax.mathjax.handleRetriesFor(() => {
-          MathJax.startup.document.render();
-        });
+        MathJax.startup.document.menu.menu.findID('Accessibility', 'AssistiveMml').disable();
+        MathJax._.mathjax.mathjax.handleRetriesFor(() => MathJax.startup.document.render());
       }
     },
     //
@@ -43,28 +42,25 @@
         }
       },
       renderActions: {
+        assistiveMml: [],  // disable assistive mathml
         typeset: [150,
-          //
-          //  The function for rendering a document's math elements
-          //
-          (doc) => {
-            const toMML = MathJax.startup.toMML;
-            for (math of doc.math) {
-              math.typesetRoot = document.createElement('mjx-container');
-              math.typesetRoot.innerHTML = toMML(math.root);
-              math.display && math.typesetRoot.setAttribute('display', 'block');
-            }
-          },
-          //
-          //  The function for rendering a single math expression
-          //
-          (math, doc) => {
-            math.typesetRoot = document.createElement('mjx-container');
-            math.typesetRoot.innerHTML = MathJax.startup.toMML(math.root);
-            math.display && math.typesetRoot.setAttribute('display', 'block');
-          }
+          (doc) => {for (math of doc.math) {MathJax.config.renderMathML(math, doc)}},
+          (math, doc) => MathJax.config.renderMathML(math, doc)
         ]
+      },
+      menuOptions: {
+        settings: {
+          assistiveMml: false
+        }
       }
+    },
+    //
+    // The action to use for rendering MathML
+    //
+    renderMathML(math, doc) {
+      math.typesetRoot = document.createElement('mjx-container');
+      math.typesetRoot.innerHTML = MathJax.startup.toMML(math.root);
+      math.display && math.typesetRoot.setAttribute('display', 'block');
     }
   };
   </script>
