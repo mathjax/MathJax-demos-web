@@ -56,7 +56,7 @@ var Translate = {
     'MathML/mml3': {NI: true},
     'MathZoom': {ignore: true},
     'mml2jax': {ignore: true},
-    'Safe': {NI: true},
+    'Safe': 'ui/safe',
     'TeX/action': '[tex]/action',
     'TeX/AMScd': '[tex]/amscd',
     'TeX/AMSmath': '[tex]/ams',
