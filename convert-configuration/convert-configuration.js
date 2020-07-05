@@ -1,4 +1,4 @@
-var TEXPACKAGES = ['ams', 'newcommand', 'autoload', 'require', 'noerrors', 'noundefined', 'colorV2', 'configMacros'];
+var TEXPACKAGES = ['ams', 'newcommand', 'autoload', 'require', 'noerrors', 'noundefined', 'colorv2', 'configMacros'];
 var MENUZOOM = [['options.menuOptions.settings.zoom', 'DoubleClick']];
 
 var Translate = {
@@ -58,7 +58,7 @@ var Translate = {
     'mml2jax': {ignore: true},
     'Safe': {NI: true},
     'TeX/action': '[tex]/action',
-    'TeX/AMScd': '[tex]/amsCd',
+    'TeX/AMScd': '[tex]/amscd',
     'TeX/AMSmath': '[tex]/ams',
     'TeX/AMSsymbols': '[tex]/ams',
     'TeX/autobold': {NI: true},
@@ -817,14 +817,14 @@ var Convert = {
           Translate.set('options.processHtmlClass', "'" + jax + "2jax_process'", config);
       }
     }
-    if (this.extensions['[tex]/color']) delete this.extensions['[tex]/colorV2'];
-    if (this.extensions['[tex]/autoload'] && this.extensions['[tex]/colorV2']) {
+    if (this.extensions['[tex]/color']) delete this.extensions['[tex]/colorv2'];
+    if (this.extensions['[tex]/autoload'] && this.extensions['[tex]/colorv2']) {
       Translate.set('tex.autoload.color', '[]', config);
-      Translate.set('tex.autoload.colorV2', '[\'color\']', config);
-      delete this.extensions['[tex]/colorV2'];
+      Translate.set('tex.autoload.colorv2', '[\'color\']', config);
+      delete this.extensions['[tex]/colorv2'];
     }
     if (config.tex) {
-      if (config.tex[0].amsCd) this.extensions['[tex]/amsCd'] = true;
+      if (config.tex[0].amscd) this.extensions['[tex]/amscd'] = true;
       if (config.tex[0].tagFormat) this.extensions['[tex]/tagFormat'] = true;
     }
     this.convertPackages(config);
