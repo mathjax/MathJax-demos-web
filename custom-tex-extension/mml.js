@@ -32,86 +32,73 @@ import TexError from '../node_modules/mathjax-full/js/input/tex/TexError.js';
  *   interpretted as TEXCLASS.OP
  */
 function classORD(node) {
-    this.getPrevClass(node);
-    return this;
+  this.getPrevClass(node);
+  return this;
 }
 
 /**
  *  Convert \uXXXX to corresponding unicode characters within a string
  */
 function convertEscapes(text) {
-    return text.replace(/\\u([0-9A-F]{4})/gi, (match, hex) => String.fromCharCode(parseInt(hex,16)));
+  return text.replace(/\\u([0-9A-F]{4})/gi, (match, hex) => String.fromCharCode(parseInt(hex,16)));
 }
 
 /**
  * Allowed attributes on any token element other than the ones with default values
  */
 const ALLOWED = {
-    style: true,
-    href: true,
-    id: true,
-    class: true
+  style: true,
+  href: true,
+  id: true,
+  class: true
 };
 
 /**
  * Parse a string as a set of attribute="value" pairs.
  */
 function parseAttributes(text, type) {
-    const attr = {};
-    if (text) {
-        let match;
-        while ((match = text.match(/^\s*((?:data-)?[a-z][-a-z]*)\s*=\s*(?:"([^"]*)"|(.*?))(?:\s+|,\s*|$)/i))) {
-            const name = match[1], value = match[2] || match[3]
-            if (type.defaults.hasOwnProperty(name) || ALLOWED.hasOwnProperty(name) || name.substr(0,5) === 'data-') {
-                attr[name] = convertEscapes(value);
-            } else {
-                throw new TexError('BadAttribute', 'Unknown attribute "%1"', name);
-            }
-            text = text.substr(match[0].length);
-        }
-        if (text.length) {
-            throw new TexError('BadAttributeList', 'Can\'t parse as attributes: %1', text);
-        }
+  const attr = {};
+  if (text) {
+    let match;
+    while ((match = text.match(/^\s*((?:data-)?[a-z][-a-z]*)\s*=\s*(?:"([^"]*)"|(.*?))(?:\s+|,\s*|$)/i))) {
+      const name = match[1], value = match[2] || match[3]
+      if (type.defaults.hasOwnProperty(name) || ALLOWED.hasOwnProperty(name) || name.substr(0,5) === 'data-') {
+        attr[name] = convertEscapes(value);
+      } else {
+        throw new TexError('BadAttribute', 'Unknown attribute "%1"', name);
+      }
+      text = text.substr(match[0].length);
     }
-    return attr;
+    if (text.length) {
+      throw new TexError('BadAttributeList', 'Can\'t parse as attributes: %1', text);
+    }
+  }
+  return attr;
 }
 
 /**
- *  The methods needed for the MathML token commands
+ *  The mapping of control sequence to function calls
  */
-const MmlMethods = {
-
-    /**
-     * @param {TeXParser} parser   The TeX parser object
-     * @param {string} name        The control sequence that is calling thi sfunction
-     * @param {string} type        The MathML element type to be created
-     */
-    mml(parser, name, type) {
-        const typeClass = parser.configuration.nodeFactory.mmlFactory.getNodeClass(type);
-        const def = parseAttributes(parser.GetBrackets(name), typeClass);
-        const text = convertEscapes(parser.GetArgument(name));
-        const mml = parser.create('node', type, [parser.create('text', text)], def);
-        if (type === 'mi') mml.setTeXclass = classORD;
-        parser.Push(mml);
-    }
-
-};
-
-/**
- *  The macro mapping of control sequence to function calls
- */
-const MmlMap = new CommandMap('mml', {
-    mi: ['mml', 'mi'],
-    mo: ['mml', 'mo'],
-    mn: ['mml', 'mn'],
-    ms: ['mml', 'ms'],
-    mtext: ['mml', 'mtext']
-}, MmlMethods);
-
+const MmlMap = new CommandMap('mmlMap', {
+  mi: ['mmlToken', 'mi'],
+  mo: ['mmlToken', 'mo'],
+  mn: ['mmlToken', 'mn'],
+  ms: ['mmlToken', 'ms'],
+  mtext: ['mmlToken', 'mtext']
+}, {
+  mmlToken(parser, name, type) {
+    const typeClass = parser.configuration.nodeFactory.mmlFactory.getNodeClass(type);
+    const def = parseAttributes(parser.GetBrackets(name), typeClass);
+    const text = convertEscapes(parser.GetArgument(name));
+    const mml = parser.create('node', type, [parser.create('text', text)], def);
+    if (type === 'mi') mml.setTeXclass = classORD;
+    parser.Push(mml);
+  }
+});
 
 /**
  * The configuration used to enable the MathML macros
  */
 const MmlConfiguration = Configuration.create(
-  'mml', {handler: {macro: ['mml']}}
+  'mml', {handler: {macro: ['mmlMap']}}
 );
