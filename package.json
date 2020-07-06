@@ -1,9 +1,9 @@
 {
   "name": "MathJax-demos-web",
-  "version": "3.0.5",
+  "version": "3.1.0",
   "description": "Demos using MathJax version 3 in web pages",
   "dependencies": {
-    "mathjax-full": "^3.0.5"
+    "mathjax-full": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.4",
