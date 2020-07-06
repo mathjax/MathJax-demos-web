@@ -2,7 +2,7 @@
 
 This example shows how to set up MathJax version 3 to act somewhat more like MathJax version 2.
 
-The main actions are to return the `\color` macro to the non-standard version-2 behavior, and to modify the `\require` macro to convert the veresion-2 TeX extension names into the corresponding version-3 names.
+The main actions are to return the `\color` macro to the non-standard version-2 behavior, and to modify the `\require` macro to convert the version-2 TeX extension names into the corresponding version-3 names.
 
 In addition, this example also defines versions of
 
@@ -25,7 +25,7 @@ to generate error messages and looks for
 </script>
 ```
 
-blocks, which are no longer supported, in alert you to the need to convert these to version 3 by hand.
+blocks, which are no longer supported, in order to alert you to the need to convert these to version 3 by hand.
 
 You should use the [configuration converter](https://mathjax.github.io/MathJax-demos-web/convert-configuration/convert-configuration.html) to help convert your version 2 configuration to a comparable version 3 configuration.
 

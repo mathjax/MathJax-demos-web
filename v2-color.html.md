@@ -13,7 +13,7 @@ The key lines for doing that are:
       inlineMath: [['$', '$'], ['\\(', '\\)']],
       autoload: {
         color: [],            // don't autoload the color extension
-        colorV2: ['color']    // autoload v2 color extension
+        colorv2: ['color']    // autoload v2 color extension
       }
     }
   };
