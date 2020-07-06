@@ -34,7 +34,7 @@ const AllPackages = require('mathjax-full/js/input/tex/AllPackages').AllPackages
 const Serialize   = require('mathjax-full/js/core/MmlTree/SerializedMmlVisitor.js').SerializedMmlVisitor;  // toMML
 const STATE       = require('mathjax-full/js/core/MathItem.js').STATE;
 
-const sreReady    = require('mathjax-full/js/a11y/sre.js').sreReady;    // SRE promise;
+const sreReady    = require('mathjax-full/js/a11y/sre.js').sreReady();    // SRE promise;
 
 //
 //  Register the HTML handler with the browser adaptor and add the semantic enrichment
@@ -45,32 +45,32 @@ Enrich(Register(browser()), new MathML());
 //  Initialize mathjax with the DOM document.
 //
 const html = mathjax.document(document, {
-    enrichSpeech: 'deep',                         // deep labels on the enriched MathML
-    renderActions: {
-        //
-        //  Remove the data-semantic-* attributes (and move speech to data-speech)
-        //
-        simplfy: [STATE.ENRICHED + 1, null, (math, doc) => {
-            math.root.walkTree(node => {
-                const attributes = node.attributes.getAllAttributes();
-                if (attributes['data-semantic-speech']) {
-                    node.attributes.set('data-speech', attributes['data-semantic-speech']);
-                }
-                delete attributes.xmlns;
-                for (const name of Object.keys(attributes)) {
-                    if (name.substr(0, 14) === 'data-semantic-') {
-                        delete attributes[name];
-                    }
-                }
-            });
-        }]
-    },
-    InputJax: new TeX({
-        packages: AllPackages,
-        macros: {
-            require: ['', 1]      // Make \require a no-op since all packages are loaded
+  enrichSpeech: 'deep',                         // deep labels on the enriched MathML
+  renderActions: {
+    //
+    //  Remove the data-semantic-* attributes (and move speech to data-speech)
+    //
+    simplfy: [STATE.ENRICHED + 1, null, (math, doc) => {
+      math.root.walkTree(node => {
+        const attributes = node.attributes.getAllAttributes();
+        if (attributes['data-semantic-speech']) {
+          node.attributes.set('data-speech', attributes['data-semantic-speech']);
         }
-    })
+        delete attributes.xmlns;
+        for (const name of Object.keys(attributes)) {
+          if (name.substr(0, 14) === 'data-semantic-') {
+            delete attributes[name];
+          }
+        }
+      });
+    }]
+  },
+  InputJax: new TeX({
+    packages: AllPackages.filter((name) => name !== 'bussproofs'),
+    macros: {
+      require: ['', 1]      // Make \require a no-op since all packages are loaded
+    }
+  })
 });
 
 //
@@ -87,23 +87,23 @@ const CONFIG = window.MathJax || {};
 //  The global MathJax object
 //
 window.MathJax = {
-    version: mathjax.version,
-    html: html,
+  version: mathjax.version,
+  html: html,
 
-    toSpeechMML(tex, display = true) {
-        const math = new html.options.MathItem(tex, html.inputJax[0], display);
-        math.convert(html, STATE.CONVERT);
-        return visitor.visitTree(math.root);
-    },
+  toSpeechMML(tex, display = true) {
+    const math = new html.options.MathItem(tex, html.inputJax[0], display);
+    math.convert(html, STATE.CONVERT);
+    return visitor.visitTree(math.root);
+  },
 
-    speechLevel(level) {
-        html.options.enrichSpeech = level;
-    }
+  speechLevel(level) {
+    html.options.enrichSpeech = level;
+  }
 }
 
 //
 // Perform ready function, if there is one
 //
 if (CONFIG.ready) {
-    sreReady.then(CONFIG.ready);
+  sreReady.then(CONFIG.ready);
 }
