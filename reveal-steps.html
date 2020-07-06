@@ -12,15 +12,12 @@
       displayAlign: 'left'
     },
     startup: {
-      ready: function () {
+      pageReady: function () {
         //
-        //  Do the usual startup (which does a typeset)
+        //  Do the usual startup (which does a typeset).
+        //  When that is all done, un-hide the page.
         //
-        MathJax.startup.defaultReady();
-        //
-        //  When that is all done, un-hide the page
-        //
-        MathJax.startup.promise.then(function () {
+        return MathJax.startup.defaultPageReady().then(function () {
           document.getElementById("hidden").disabled = true;
         });
       }
@@ -111,8 +108,7 @@ Expand the following:
 
 <p>
 <input type="button" onclick="ShowStep()" value="Show Next Step" id="step" />
-<input type="button" onclick="ResetSteps()" value="Reset" id="reset"
-disabled="true" />
+<input type="button" onclick="ResetSteps()" value="Reset" id="reset" disabled="true" />
 </p>
 
 </div>
