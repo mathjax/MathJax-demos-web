@@ -50,7 +50,7 @@ const html = mathjax.document(document, {
     //
     //  Remove the data-semantic-* attributes (and move speech to data-speech)
     //
-    simplfy: [STATE.ENRICHED + 1, null, (math, doc) => {
+    simplify: [STATE.ENRICHED + 1, null, (math, doc) => {
       math.root.walkTree(node => {
         const attributes = node.attributes.getAllAttributes();
         if (attributes['data-semantic-speech']) {
