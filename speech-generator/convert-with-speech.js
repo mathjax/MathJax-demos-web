@@ -61,7 +61,6 @@ Convert.init = function() {
 
 
 Convert.setPreferences = function(locale) {
-  console.log(locale);
   Convert.divs.preferences.innerHTML = '';
   Convert.state.preferences = [];
   let prefs = sre.ClearspeakPreferences.getLocalePreferences()[locale];
@@ -130,16 +129,16 @@ Convert.setPreferences = function(locale) {
 
 Convert.updatePreferences = async function(locale) {
   sre.System.getInstance().setupEngine({locale: locale});
-  return new Promise((resolve) => {
-    setTimeout(() => {
+  let promise = new Promise((resolve) => {
+    const checkSre = function() {
       if (sre.Engine.isReady()) {
-        Convert.setPreferences(locale);
         resolve();
-        return;
-      }
-      return Convert.updatePreferences(locale);
-    }, 100);
+      } else {
+        setTimeout(checkSre, 100);
+      }};
+    checkSre();
   });
+  return promise.then(() => {Convert.setPreferences(locale);});
 };
 
 
@@ -166,7 +165,6 @@ Convert.computeSpeech = function(domain, style) {
 
 Convert.input2Mathml = function() {
   let input = Convert.textAreas.input.value;
-  console.log(input);
   if (!input) {
     return '';
   }
@@ -217,11 +215,5 @@ Convert.render = function() {
 };
 
 Convert.updateLocale = function(value) {
-  let promise = Convert.updatePreferences(value);
-  console.log(promise);
-  promise.then(
-    () => {
-      Convert.convertExpression();
-    }
-  );
+  Convert.updatePreferences(value).then(Convert.convertExpression);
 };
