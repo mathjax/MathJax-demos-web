@@ -45,7 +45,9 @@ Enrich(Register(browser()), new MathML());
 //  Initialize mathjax with the DOM document.
 //
 const html = mathjax.document(document, {
-  enrichSpeech: 'deep',                         // deep labels on the enriched MathML
+  sre: {
+    speech: 'deep',                         // deep labels on the enriched MathML
+  },
   renderActions: {
     //
     //  Remove the data-semantic-* attributes (and move speech to data-speech)
@@ -97,7 +99,7 @@ window.MathJax = {
   },
 
   speechLevel(level) {
-    html.options.enrichSpeech = level;
+    html.options.sre.speech = level;
   }
 }
 
