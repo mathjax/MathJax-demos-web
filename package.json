@@ -1,17 +1,17 @@
 {
   "name": "MathJax-demos-web",
-  "version": "3.1.0",
+  "version": "3.1.4",
   "description": "Demos using MathJax version 3 in web pages",
   "dependencies": {
-    "mathjax-full": "^3.1.0"
+    "mathjax-full": "^3.1.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.1",
-    "@babel/preset-env": "^7.11.0",
-    "babel-loader": "^8.1.0",
-    "terser-webpack-plugin": "^4.1.0",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+    "@babel/core": "^7.13.16",
+    "@babel/preset-env": "^7.13.15",
+    "babel-loader": "^8.2.2",
+    "terser-webpack-plugin": "^5.1.1",
+    "webpack": "^5.36.1",
+    "webpack-cli": "^4.6.0"
   },
   "scripts": {
     "make-custom-tex-extension": "cd custom-tex-extension && node ../node_modules/mathjax-full/components/bin/pack",

@@ -10,13 +10,13 @@
     loader: {load: ['input/asciimath', 'input/mml', 'input/tex', 'output/svg', 'sre/sre_browser']},
     tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
     startup: {
-    ready: function() {
+      ready: function() {
         MathJax.startup.defaultReady();
         // Initialise convert when MathJax/SRE is fully loaded.
         MathJax.startup.promise.then(function () {
            Convert.init();
         });
-    }
+      }
     }
   };
   </script>

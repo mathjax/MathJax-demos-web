@@ -28,6 +28,6 @@ The key lines are
   </script>
 ```
 
-When the user presses the `Render MathML` button, the `convert()` function above runs.  The comments in the code explain how the conversion process is handled.  Unlike the similar TeX examples, this example uses synchronous processing, rather than a promise-based one, since there is no equivalent to the `\require` macro in MathML input to cause an extension to be dynamically loaded.  That also means it is unnecessary to disable the render button, since the `convert()` function will complete before any other user interaction can table place.
+When the user presses the `Render MathML` button, the `convert()` function above runs.  The comments in the code explain how the conversion process is handled.  Unlike the similar TeX examples, this example uses synchronous processing, rather than a promise-based one, since there is no equivalent to the `\require` macro in MathML input to cause an extension to be dynamically loaded.  That also means it is unnecessary to disable the render button, since the `convert()` function will complete before any other user interaction can take place.
 
 [Run the example](https://mathjax.github.io/MathJax-demos-web/input-mml2svg.html)

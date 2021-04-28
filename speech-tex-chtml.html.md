@@ -9,7 +9,9 @@ The key lines are
   MathJax = {
     loader: {load: ['a11y/semantic-enrich']},
     options: {
-      enrichSpeech: 'shallow',  // one of: 'deep', 'shallow', or 'none'
+      sre: {
+        speech: 'shallow'  // one of: 'deep', 'shallow', or 'none'
+      },
       renderActions: {
         //
         // Force speech enrichment regardless of the menu settings
