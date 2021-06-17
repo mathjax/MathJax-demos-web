@@ -342,7 +342,7 @@ var Convert = {
     delayStartupUntil: Translate.notAvailable,
     skipStartupTypeset: Translate.transfer('startup.typeset',
                                            function (bool) {return (bool === 'true' ? 'false' : 'true')}),
-    elements: Translate.transfer('options.elements'),
+    elements: Translate.transfer('startup.elements'),
     positionToHash: Translate.notAvailable,
     showMathMenu: Translate.transfer('options.enableMenu'),
     showMathMenuMSIE: Translate.notAvailable,
