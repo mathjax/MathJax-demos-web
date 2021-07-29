@@ -155,8 +155,10 @@ Convert.computeMathspeak = function() {
 
 
 Convert.computeSpeech = function(domain, style) {
+  let locale = Convert.selectors.locale.value;
+  let modality = locale === 'nemeth' ? 'braille' : 'speech';
   sre.System.getInstance().setupEngine(
-    {locale: Convert.selectors.locale.value, domain: domain,
+    {locale: locale, domain: domain, modality: modality,
      style: style, markup: Convert.selectors.markup.value, pprint: true
     });
   return sre.System.getInstance().toSpeech(Convert.input2Mathml());
