@@ -8,7 +8,7 @@
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script>
   MathJax = {
-    loader: {load: ['input/asciimath', 'input/mml', 'input/tex', 'output/svg', 'sre/sre_browser']},
+    loader: {load: ['input/asciimath', 'input/mml', 'input/tex', 'output/svg', 'a11y/sre']},
     tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
     startup: {
       ready: function() {
@@ -21,7 +21,8 @@
     }
   };
   </script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
+  <!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script> -->
+  <script id="MathJax-script" async src="http://localhost/MathJax/MathJax-src/es5/startup.js"></script>
 <style>
 body {
   font-family: sans-serif

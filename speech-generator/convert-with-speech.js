@@ -1,4 +1,5 @@
 let Convert = {};
+let SRE = null;
 
 Convert.textAreas = {
   input: null,
@@ -42,9 +43,9 @@ Convert.getElements = function() {
 };
 
 Convert.setupSre = function() {
-  for (let loc of sre.Variables.LOCALES) {
+  for (let [loc, lang] of SRE.locales.entries()) {
     let option = document.createElement('option');
-    option.innerHTML = loc.toUpperCase();
+    option.innerHTML = lang;
     option.setAttribute('value', loc);
     if (loc === 'en') {
       option.setAttribute('selected', true);
@@ -55,6 +56,7 @@ Convert.setupSre = function() {
 };
 
 Convert.init = function() {
+  SRE = MathJax._.a11y.sre.Sre;
   Convert.getElements();
   Convert.setupSre();
 };
@@ -63,7 +65,7 @@ Convert.init = function() {
 Convert.setPreferences = function(locale) {
   Convert.divs.preferences.innerHTML = '';
   Convert.state.preferences = [];
-  let prefs = sre.ClearspeakPreferences.getLocalePreferences()[locale];
+  let prefs = SRE.clearspeakPreferences.getLocalePreferences()[locale];
   if (!prefs) {
     Convert.state.clearspeak = false;
     Convert.textAreas.clearspeak.innerHTML = '';
@@ -128,40 +130,31 @@ Convert.setPreferences = function(locale) {
 
 
 Convert.updatePreferences = async function(locale) {
-  sre.System.getInstance().setupEngine({locale: locale});
-  let promise = new Promise((resolve) => {
-    const checkSre = function() {
-      if (sre.Engine.isReady()) {
-        resolve();
-      } else {
-        setTimeout(checkSre, 100);
-      }};
-    checkSre();
-  });
-  return promise.then(() => {Convert.setPreferences(locale);});
+  return SRE.setupEngine({locale: locale}).
+    then(() => {Convert.setPreferences(locale);});
 };
 
 
-Convert.computeClearspeak = function() {
-  Convert.textAreas.clearspeak.innerHTML =
-    Convert.computeSpeech('clearspeak', Convert.state.preferences.map((x) => x.value).join(':'));
+Convert.computeClearspeak = async function() {
+  return Convert.computeSpeech(
+    Convert.textAreas.clearspeak, 'clearspeak',
+    Convert.state.preferences.map((x) => x.value).join(':'));
 };
 
 
-Convert.computeMathspeak = function() {
-  Convert.textAreas.mathspeak.innerHTML =
-    Convert.computeSpeech('mathspeak', Convert.selectors.style.value);
+Convert.computeMathspeak = async function() {
+  return Convert.computeSpeech(
+    Convert.textAreas.mathspeak, 'mathspeak', Convert.selectors.style.value);
 };
 
 
-Convert.computeSpeech = function(domain, style) {
+Convert.computeSpeech = async function(node, domain, style) {
   let locale = Convert.selectors.locale.value;
   let modality = locale === 'nemeth' ? 'braille' : 'speech';
-  sre.System.getInstance().setupEngine(
+  return SRE.setupEngine(
     {locale: locale, domain: domain, modality: modality,
      style: style, markup: Convert.selectors.markup.value, pprint: true
-    });
-  return sre.System.getInstance().toSpeech(Convert.input2Mathml());
+    }).then(() => node.innerHTML = SRE.toSpeech(Convert.input2Mathml()));
 };
 
 
@@ -191,9 +184,9 @@ Convert.radioValue = function(radios) {
 };
 
 
-Convert.convertExpression = function() {
+Convert.convertExpression = async function() {
   Convert.render();
-  Convert.computeMathspeak();
+  await Convert.computeMathspeak();
   if (Convert.state.clearspeak) {
     Convert.computeClearspeak();
   }

@@ -55,6 +55,11 @@ The examples below show how to use and configure MathJax components in your web 
 * [custom-component](custom-component/custom-component.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/custom-component/custom-component.html))
 * [custom-build](custom-build/custom-mathjax.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/custom-build/custom-mathjax.html))
 
+### Speech Output Demo
+
+* [convert-with-speech](speech-generator/convert-with-speech.html) A lab to explore all possible speech options in MathJax.
+
+
 ## MathJax Component Files
 
 MathJax version 3 has the ability to create MathJax "components" that can be dynamically loaded by MathJax as needed (much as could be done in version 2).  This allows portions of MathJax to be bundled together into components that include most or all of what you need to run MathJax, but still allows less-used pieces to be loaded on demand later when needed.  This is similar to v2's combined configuration files and TeX extensions.  
