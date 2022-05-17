@@ -47,11 +47,6 @@ The key lines are
           (doc) => {for (math of doc.math) {MathJax.config.renderMathML(math, doc)}},
           (math, doc) => MathJax.config.renderMathML(math, doc)
         ]
-      },
-      menuOptions: {
-        settings: {
-          assistiveMml: false
-        }
       }
     },
     //
