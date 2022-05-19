@@ -45,6 +45,7 @@ The examples below show how to use and configure MathJax components in your web 
 * [tex-mml.html](tex-mml.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/tex-mml.html)) 
 * [mml-attribute.html](mml-attribute.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/mml-attribute.html))
 * [speech-tex-chtml.html](speech-tex-chtml.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/speech-tex-chtml.html))
+* [speech-explorer-tex.html](speech-explorer-tex.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/speech-explorer-tex.html))
 
 ### Customization
 
@@ -54,6 +55,11 @@ The examples below show how to use and configure MathJax components in your web 
 * [custom-tex-extension](custom-tex-extension/mml.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/custom-tex-extension/mml.html))
 * [custom-component](custom-component/custom-component.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/custom-component/custom-component.html))
 * [custom-build](custom-build/custom-mathjax.html.md) ([View Demo](https://mathjax.github.io/MathJax-demos-web/custom-build/custom-mathjax.html))
+
+### Speech Output Demo
+
+* [convert-with-speech](speech-generator/convert-with-speech.html) A lab to explore all possible speech options in MathJax.
+
 
 ## MathJax Component Files
 
