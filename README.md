@@ -58,7 +58,7 @@ The examples below show how to use and configure MathJax components in your web 
 
 ### Speech Output Demo
 
-* [convert-with-speech](speech-generator/convert-with-speech.html) A lab to explore all possible speech options in MathJax.
+* [convert-with-speech](speech-generator/convert-with-speech.html)  ([View Demo](https://mathjax.github.io/MathJax-demos-web/speech-generator/convert-with-speech.html)) A lab to explore all possible speech options in MathJax.
 
 
 ## MathJax Component Files
