@@ -1,4 +1,4 @@
-# [speech-expolrer-tex.html](https://mathjax.github.io/MathJax-demos-web/speech-explorer-tex.html)
+# [speech-explorer-tex.html](https://mathjax.github.io/MathJax-demos-web/speech-explorer-tex.html)
 
 This example shows how to enable MathJax's accessibility extension to attach speech to typeset math and enable interactive exploration of expressions.
 
