@@ -111,6 +111,24 @@
 
   <h2>Interactive Demo</h2>
 
+  <div>
+    <textarea id="input" rows="15" cols="10">
+      %
+      % Enter TeX commands below
+      %
+      x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
+    </textarea>
+    <br />
+    <div class="left">
+      <input type="checkbox" id="display" checked onchange="convert()"> <label for="display">Display style</label>
+    </div>
+    <div class="right">
+      <input type="button" value="Render TeX" id="render" onclick="convert()" />
+    </div>
+    <br clear="all" />
+    <div id="output"></div>
+  </div>
+
 
 
   <h2>Some Standard Examples</h2>
@@ -141,4 +159,4 @@
   X^i \left( \frac{\partial Y^k}{\partial x^i} + \Gamma_{im}^k Y^m \right)\]
 
 </body>
- </html>
+</html>
