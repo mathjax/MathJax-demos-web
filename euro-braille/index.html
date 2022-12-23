@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <title>MathJax Demo for Euro Braille Integration</title>
+  <script>
+  MathJax = {
+  output: {
+    fontPath: './%%FONT%%'
+},
+tex: {
+      macros: {
+        RR: '{\\bf R}',                    // a simple string replacement
+        bold: ['\\boldsymbol{#1}',1] ,     // this macro has one parameter
+        ddx: ['\\frac{d#2}{d#1}', 2, 'x'], // this macro has an optional parameter that defaults to 'x'
+        abc: ['(#1)', 1, [null, '\\cba']]  // equivalent to \def\abc#1\cba{(#1)}
+      }
+    }
+  };
+  </script>
+
+<script id="MathJax-script" async src="./tex-mml-chtml.js"></script>
+<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-alpha.1/es5/tex-mml-chtml.js"></script> -->
+</head>
+
+<body>
+  <h1>MathJax Demo for Euro Braille Integration</h1>
+
+  <h3>Some Standard Examples</h3>
+
+  <h4>The Quadratic Formula</h4>
+  \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}\]
+
+  <h4>Cauchy's Integral Formula</h4>
+  \[f(a) = \frac{1}{2\pi i} \oint\frac{f(z)}{z-a}dz\]
+
+  <h4>Angle Sum Formula for Cosines</h4>
+  \[ \cos(\theta+\phi)=\cos(\theta)\cos(\phi)−\sin(\theta)\sin(\phi) \]
+
+  <h4>Gauss' Divergence Theorem</h4>
+  \[ \int_D ({\nabla\cdot} F)dV=\int_{\partial D} F\cdot ndS \]
+
+  <h4>Curl of a Vector Field</h4>
+  \[ \vec{\nabla} \times \vec{F} =
+  \left( \frac{\partial F_z}{\partial y} - \frac{\partial F_y}{\partial z} \right) \mathbf{i}
+  + \left( \frac{\partial F_x}{\partial z} - \frac{\partial F_z}{\partial x} \right) \mathbf{j}
+  + \left( \frac{\partial F_y}{\partial x} - \frac{\partial F_x}{\partial y} \right) \mathbf{k} \]
+
+  <h4>Standard Deviation</h4>
+  \[\sigma = \sqrt{ \frac{1}{N} \sum_{i=1}^N (x_i -\mu)^2} \]
+
+  <h4>Definition of Christoffel Symbols</h4>
+  \[(\nabla_X Y)^k = X^i (\nabla_i Y)^k =
+  X^i \left( \frac{\partial Y^k}{\partial x^i} + \Gamma_{im}^k Y^m \right)\]
+
+  <hr>
+<address></address>
+<!-- hhmts start -->
+Last modified: Fri Dec 23 14:22:48 CET 2022
+<!-- hhmts end -->
+</body>
+ </html>

@@ -5,6 +5,7 @@
   "dependencies": {
     "esm": "^3.2.25",
     "mathjax-full": "^3.2.0",
+    "mathjax-modern-font": "^1.0.0-alpha.1",
     "yargs": "^17.0.1"
   },
   "devDependencies": {
