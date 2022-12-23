@@ -18,7 +18,8 @@
         viewBraille: true
       },
       sre: {
-        locale: 'de'
+        locale: 'de',
+        domain: 'clearspeak'
       }
     },
   output: {
@@ -114,10 +115,7 @@
 
   <div>
     <textarea id="input" rows="15" cols="10">
-      %
-      % Enter TeX commands below
-      %
-      x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
+  x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}
     </textarea>
     <br />
     <div class="left">
@@ -135,7 +133,7 @@
   <h2>Some Standard Examples</h2>
 
   <h3>The Quadratic Formula</h3>
-  \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}\]
+  \[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}\]
 
   <h3>Cauchy's Integral Formula</h3>
   \[f(a) = \frac{1}{2\pi i} \oint\frac{f(z)}{z-a}dz\]
