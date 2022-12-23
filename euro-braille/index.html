@@ -5,58 +5,140 @@
   <title>MathJax Demo for Euro Braille Integration</title>
   <script>
   MathJax = {
+    options: {
+      menuOptions: {
+        settings: {
+          explorer: true,
+          assistiveMml: false
+        },
+        a11y: {
+          braille: true,
+          viewBraille: true
+        },
+        sre: {
+          locale: 'de'
+        }
+      }
+    },
   output: {
     fontPath: './%%FONT%%'
-},
-tex: {
-      macros: {
-        RR: '{\\bf R}',                    // a simple string replacement
-        bold: ['\\boldsymbol{#1}',1] ,     // this macro has one parameter
-        ddx: ['\\frac{d#2}{d#1}', 2, 'x'], // this macro has an optional parameter that defaults to 'x'
-        abc: ['(#1)', 1, [null, '\\cba']]  // equivalent to \def\abc#1\cba{(#1)}
-      }
-    }
+    } 
   };
   </script>
+  <script>
+    function convert() {
+      //
+      //  Get the TeX input
+      //
+      var input = document.getElementById("input").value.trim();
+      //
+      //  Disable the display and render buttons until MathJax is done
+      //
+      var display = document.getElementById("display");
+      var button = document.getElementById("render");
+      button.disabled = display.disabled = true;
+      //
+      //  Clear the old output
+      //
+      output = document.getElementById('output');
+      output.innerHTML = '';
+      //
+      //  Reset the tex labels (and automatic equation numbers, though there aren't any here).
+      //  Get the conversion options (metrics and display settings)
+      //  Convert the input to CommonHTML output and use a promise to wait for it to be ready
+      //    (in case an extension needs to be loaded dynamically).
+      //
+      MathJax.texReset();
+      var options = MathJax.getMetricsFor(output);
+      options.display = display.checked;
+      MathJax.tex2chtmlPromise(input, options).then(function (node) {
+        //
+        //  The promise returns the typeset node, which we add to the output
+        //  Then update the document to include the adjusted CSS for the
+        //    content of the new equation.
+        //
+        output.appendChild(node);
+        MathJax.startup.document.clear();
+        MathJax.startup.document.updateDocument();
+      }).catch(function (err) {
+        //
+        //  If there was an error, put the message into the output instead
+        //
+        output.appendChild(document.createElement('pre')).appendChild(document.createTextNode(err.message));
+      }).then(function () {
+        //
+        //  Error or not, re-enable the display and render buttons
+        //
+        button.disabled = display.disabled = false;
+      });
+    }
+  </script>
+  <style>
+  #frame {
+    max-width: 40em;
+    margin: auto;
+  }
+  #input {
+    border: 1px solid grey;
+    margin: 0 0 .25em;
+    width: 100%;
+    font-size: 120%;
+    box-sizing: border-box;
+  }
+  #output {
+    font-size: 120%;
+    margin-top: .75em;
+    border: 1px solid grey;
+    padding: .25em;
+    min-height: 2em;
+  }
+  #output > pre {
+    margin-left: 5px;
+  }
+  .left {
+    float: left;
+  }
+  .right {
+    float: right;
+  }
+  </style>
 
-<script id="MathJax-script" async src="./tex-mml-chtml.js"></script>
-<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-alpha.1/es5/tex-mml-chtml.js"></script> -->
+<script id="MathJax-script" async src="./tex-chtml.js"></script>
 </head>
 
 <body>
   <h1>MathJax Demo for Euro Braille Integration</h1>
 
-  <h3>Some Standard Examples</h3>
+  <h2>Interactive Demo</h2>
 
-  <h4>The Quadratic Formula</h4>
+
+
+  <h2>Some Standard Examples</h2>
+
+  <h3>The Quadratic Formula</h3>
   \[x = {-b \pm \sqrt{b^2-4ac} \over 2a}\]
 
-  <h4>Cauchy's Integral Formula</h4>
+  <h3>Cauchy's Integral Formula</h3>
   \[f(a) = \frac{1}{2\pi i} \oint\frac{f(z)}{z-a}dz\]
 
-  <h4>Angle Sum Formula for Cosines</h4>
+  <h3>Angle Sum Formula for Cosines</h3>
   \[ \cos(\theta+\phi)=\cos(\theta)\cos(\phi)−\sin(\theta)\sin(\phi) \]
 
-  <h4>Gauss' Divergence Theorem</h4>
+  <h3>Gauss' Divergence Theorem</h3>
   \[ \int_D ({\nabla\cdot} F)dV=\int_{\partial D} F\cdot ndS \]
 
-  <h4>Curl of a Vector Field</h4>
+  <h3>Curl of a Vector Field</h3>
   \[ \vec{\nabla} \times \vec{F} =
   \left( \frac{\partial F_z}{\partial y} - \frac{\partial F_y}{\partial z} \right) \mathbf{i}
   + \left( \frac{\partial F_x}{\partial z} - \frac{\partial F_z}{\partial x} \right) \mathbf{j}
   + \left( \frac{\partial F_y}{\partial x} - \frac{\partial F_x}{\partial y} \right) \mathbf{k} \]
 
-  <h4>Standard Deviation</h4>
+  <h3>Standard Deviation</h3>
   \[\sigma = \sqrt{ \frac{1}{N} \sum_{i=1}^N (x_i -\mu)^2} \]
 
-  <h4>Definition of Christoffel Symbols</h4>
+  <h3>Definition of Christoffel Symbols</h3>
   \[(\nabla_X Y)^k = X^i (\nabla_i Y)^k =
   X^i \left( \frac{\partial Y^k}{\partial x^i} + \Gamma_{im}^k Y^m \right)\]
 
-  <hr>
-<address></address>
-<!-- hhmts start -->
-Last modified: Fri Dec 23 14:22:48 CET 2022
-<!-- hhmts end -->
 </body>
  </html>
