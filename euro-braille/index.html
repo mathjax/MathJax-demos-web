@@ -6,11 +6,19 @@
   <script>
   MathJax = {
     options: {
+      enableExplorer: true,
       menuOptions: {
         settings: {
           explorer: true,
           assistiveMml: false
-          }
+        }
+      },
+      a11y: {
+        braille: true,
+        viewBraille: true
+      },
+      sre: {
+        locale: 'de'
       }
     },
   output: {
