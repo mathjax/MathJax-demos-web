@@ -1,34 +1,62 @@
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
-<head>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <title>MathJax Demo for Euro Braille Integration</title>
-  <script>
-  MathJax = {
-    options: {
+  <head>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <title>MathJax Demo for Euro Braille Integration</title>
+    <script>
+      MathJax = {
+      options: {
+      enableMenu: false,
       enableExplorer: true,
       menuOptions: {
-        settings: {
-          explorer: true,
-          assistiveMml: false
-        }
+      settings: {
+      explorer: true,
+      assistiveMml: false
+      }
       },
       a11y: {
-        braille: true,
-        viewBraille: true
+      braille: true,
+      viewBraille: true
       },
       sre: {
-        locale: 'de',
-        domain: 'clearspeak'
+      locale: 'de',
+      domain: 'clearspeak'
       }
-    },
-   output: {
-    fontPath: './%%FONT%%'
-    } 
-  };
-  </script>
-  <script>
-    function convert() {
+      },
+      output: {
+      fontPath: './%%FONT%%'
+      } 
+      };
+    </script>
+    <script>
+      let saved = null;
+      let converted = false;
+      function convertAll() {
+      if (!MathJax.typesetPromise) return;
+      MathJax.typesetPromise().then(() => {
+      if (!saved) {
+      saved = MathJax.startup.document.getMathItemsWithin(document.body);
+      }
+      if (!converted) {
+      converted = true;
+      let augenbit = document.getElementsByClassName('augenbit');
+      let euroBraille = document.getElementsByClassName('euroBraille');
+      MathJax._.a11y.sre.Sre.setupEngine({modality: "braille", locale: "euro"});
+      MathJax._.a11y.sre.Sre.sreReady().then(() => {
+      for (let i = 0, item, output; item = saved[i], output = euroBraille[i]; i++) {
+        let node = document.createTextNode(item.explorers.explorers.braille.walker.speech());
+        output.innerHtml = '';
+        output.appendChild(node);
+      }
+      MathJax._.a11y.sre.Sre.setupEngine({modality: "speech", locale: "de"});
+      });
+      }
+      }).catch((e) => {});
+      }
+      function convert() {
+      if (!saved) {
+      saved = MathJax.startup.document.getMathItemsWithin(document.body);
+      }
       //
       //  Get the TeX input
       //
@@ -54,223 +82,257 @@
       var options = MathJax.getMetricsFor(output);
       options.display = display.checked;
       MathJax.tex2chtmlPromise(input, options).then(function (node) {
-        //
-        //  The promise returns the typeset node, which we add to the output
-        //  Then update the document to include the adjusted CSS for the
-        //    content of the new equation.
-        //
-        output.appendChild(node);
-        MathJax.startup.document.clear();
-        MathJax.startup.document.updateDocument();
-      }).catch(function (err) {
-        //
-        //  If there was an error, put the message into the output instead
-        //
-        output.appendChild(document.createElement('pre')).appendChild(document.createTextNode(err.message));
-      }).then(function () {
-        //
-        //  Error or not, re-enable the display and render buttons
-        //
-        button.disabled = display.disabled = false;
+      //
+      //  The promise returns the typeset node, which we add to the output
+      //  Then update the document to include the adjusted CSS for the
+      //    content of the new equation.
+      //
+      output.appendChild(node);
+      MathJax.startup.document.clear();
+      MathJax.startup.document.updateDocument();
+      // We could do something clever here, but for now we simply run SRE twice. 
+      MathJax._.a11y.sre.Sre.setupEngine({modality: "braille", locale: "euro"});
+      MathJax._.a11y.sre.Sre.sreReady().then(() => {
+      console.log(0);
+      let mml = MathJax.startup.toMML(MathJax.startup.input[0].mathNode);
+          output = document.getElementById('braille');
+          output.innerHTML = '';
+          output.innerHTML = MathJax._.a11y.sre.Sre.toSpeech(mml);
+        MathJax._.a11y.sre.Sre.setupEngine({modality: "speech", locale: "de"});
       });
-    }
-  </script>
-  <style>
-  #frame {
-    max-width: 40em;
-    margin: auto;
-  }
-  #input {
-    border: 1px solid grey;
-    margin: 0 0 .25em;
-    width: 100%;
-    font-size: 120%;
-    box-sizing: border-box;
-  }
-  #output {
-    font-size: 120%;
-    margin-top: .75em;
-    border: 1px solid grey;
-    padding: .25em;
-    min-height: 2em;
-  }
-  #output > pre {
-    margin-left: 5px;
-  }
-  .left {
-    float: left;
-  }
-  .right {
-    float: right;
-  }
-  </style>
+      }).catch(function (err) {
+      //
+      //  If there was an error, put the message into the output instead
+      //
+      output.appendChild(document.createElement('pre')).appendChild(document.createTextNode(err.message));
+      }).then(function () {
+      //
+      //  Error or not, re-enable the display and render buttons
+      //
+      button.disabled = display.disabled = false;
+      });
+      }
+      setTimeout(() => {
+      
+      document.getElementById('showBraille').disabled = false}, 2000);
+    </script>
+    <style>
+      #frame {
+      max-width: 40em;
+      margin: auto;
+      }
+      #input {
+      border: 1px solid grey;
+      margin: 0 0 .25em;
+      width: 100%;
+      font-size: 120%;
+      box-sizing: border-box;
+      }
+      .output {
+      font-size: 120%;
+      margin-top: .75em;
+      border: 1px solid grey;
+      padding: .25em;
+      min-height: 2em;
+      }
+      #braille {
+      text-align: center;
+      }
+      #output > pre {
+      margin-left: 5px;
+      }
+      .left {
+      float: left;
+      }
+      .right {
+      float: right;
+      }
+      table {
+      margin-left: auto;
+      margin-right: auto;
+      }
+      td {
+      border: 1px solid grey;
+      }
+    </style>
 
-<script id="MathJax-script" async src="./tex-chtml.js"></script>
-</head>
+    <script id="MathJax-script" async src="./tex-chtml.js"></script>
+  </head>
 
-<body>
-  <h1>MathJax Demo for Euro Braille Integration</h1>
+  <body>
+    <h1>MathJax Demo for Euro Braille Integration</h1>
 
-  <h2>Interactive Demo</h2>
+    <p>Explore math expressions by focusing and hitting return. This should
+    bring up the explorer with subtitles: Euro Braille and speech in
+    German. Note that the context menu is disabled on this page.</p>
+    
+    <h2>Interactive Demo</h2>
 
-  <div>
-    <textarea id="input" rows="15" cols="10">
-  x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}
-    </textarea>
-    <br />
-    <div class="left">
-      <input type="checkbox" id="display" checked onchange="convert()"> <label for="display">Display style</label>
+    <div>
+      <textarea id="input" rows="15" cols="10">
+        x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}
+      </textarea>
+      <br />
+      <div class="left">
+        <input type="checkbox" id="display" checked onchange="convert()"> <label for="display">Display style</label>
+      </div>
+      <div class="right">
+        <input type="button" value="Render TeX" id="render" onclick="convert()" />
+      </div>
+      <br clear="all" />
+      <div class="output" id="output"></div>
+      <div class="output" id="braille"></div>
     </div>
+
+
+    <h2>Some Simple Examples from Augenbit.de</h2>
     <div class="right">
-      <input type="button" value="Render TeX" id="render" onclick="convert()" />
+      <input disabled=true type="button" value="Show Braille" id="showBraille" onclick="convertAll()" />
     </div>
-    <br clear="all" />
-    <div id="output"></div>
-  </div>
 
+    <h3>Grundregeln</h3>
 
-<h2>Some Simple Examples from Augenbit.de</h2>
+    <table>
+      <tr><td class="augenbit">\[ 2 +x =5   \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ |x - 1| = |1 - x| \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  n! = n*(n-1)! \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x^2  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x^{10}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a_1 +a_n  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x^{n +m}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a_{n -1}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a_{12}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  n \to \infty  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x \notin \{ 3; 4 \} \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \frac{a + b}{a - b}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sqrt{a + b}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sum_{n=1}^\infty \frac{1}{2^n} = 1  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \overline{A \cup B}  \]</td><td class="euroBraille"></td></tr>
+    </table>
 
-<h3>Grundregeln</h3>
+    <h3>Sekundarstufe 1</h3>
 
-\[ 2 +x =5   \]
-\[ |x - 1| = |1 - x| \]
-\[  n! = n*(n-1)! \]
-\[  x^2  \]
-\[  x^{10}  \]
-\[  a_1 +a_n  \]
-\[  x^{n +m}  \]
-\[  a_{n -1}  \]
-\[  a_{12}  \]
-\[  n \to \infty  \]
-\[  x \notin \{ 3; 4 \} \]
-\[ \frac{a + b}{a - b}  \]
-\[ \sqrt{a + b}  \]
-\[ \sum_{n=1}^\infty \frac{1}{2^n} = 1  \]
-\[  \overline{A \cup B}  \]
+    <table>
+      <tr><td class="augenbit">\[ \{ 1, 2, 3, 4 \} \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 3 \in P \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 4 \notin P \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  A \subset B \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  A \subseteq B \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  A \cup B  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  A \cap B \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  A \backslash B \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \{ \}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \emptyset  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \overline{A}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \mathbb{N}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \mathbb{Z}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \mathbb{Z}_0^-  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \mathbb{Q} \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \mathbb{R} \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \mathcal P \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 2 +4 = 7  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 9 -3 \not= 5  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x \pm 3  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 2*8 \gt  15  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 8 : 4 \lt  5  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x \le 10  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a \ge b  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \pi \approx 3,14 \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ (a +b)^2  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ [x -y]^3  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  s \sim t  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a \hat{=} b  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 7|28  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x \in \mathbb{N} \wedge x \lt  3  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  A \Rightarrow B \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ x \to \infty \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x =1 \vee x =2  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 3x =12 \Leftrightarrow x =4  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \frac{2}{3}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  4\frac{3}{5}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \frac{1}{x}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \frac{1}{x +2} \not= \frac{1}{x} +2  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \frac{ \frac{a+b}{2}}{\frac{x}{a-b}} =1  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 0,1\overline{6} = 1/6  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 75\% = 3/4  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a^2  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a^{12}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 2^{-3} =1/8  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a^{n+1} \not= a^n +1  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sqrt{25} = 5  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sqrt{x^2 +y^2} \not= x +y  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sqrt[3]{8} = 2  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sqrt[3]{a^2}  =a^{2/3}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a_1 + a_n  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a_{n -1}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ {}_{95}^{238}\mathrm{U} \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  f(x) =2x +1  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  f(3) =7  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  f \;: \; y = 2x +1  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  f: x \mapsto 2x +1  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ P(3,5 | 8)  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ |a| \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \log_a x  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \ln x  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sin \alpha  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \cos^2 \beta  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \tan \gamma  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \cot 45° \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sin (\pi /6)  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \overline{AB}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \triangle ABC  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \angle BAC  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \alpha, \beta, \gamma, \delta, \epsilon  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ g \parallel h \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ g \nparallel h \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  g \perp h  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  F \cong F'  \]</td><td class="euroBraille"></td></tr>
+    </table>
 
+    <h3>Sekundarstufe 2</h3>
 
-<h3>Sekundarstufe 1</h3>
+    <table>
+      <tr><td class="augenbit">\[  n \to \infty  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \lim_{h \to 0}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \lim_{x \to x_0}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  f\ ' (x), f\ ''(x)  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sum_{i=0}^n A_n  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \int_a^b f(x) dx  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  n!  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ {n \choose k}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sigma \qquad  \Omega  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \vec{p} = \begin{pmatrix} x; & y; & z-3 \end{pmatrix} \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \vec{q} = \begin{pmatrix} -5 \\ 0,5 \\ k+4 \end{pmatrix}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \vec{p} \times \vec{q}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \begin{pmatrix} a&b&c \\ d&e&f \end{pmatrix}  \]</td><td class="euroBraille"></td></tr>
+    </table>
 
-\[ \{ 1, 2, 3, 4 \} \]
-\[ 3 \in P \]
-\[ 4 \notin P \]
-\[  A \subset B \]
-\[  A \subseteq B \]
-\[  A \cup B  \]
-\[  A \cap B \]
-\[  A \backslash B \]
-\[  \{ \}  \]
-\[  \emptyset  \]
-\[  \overline{A}  \]
-\[ \mathbb{N}  \]
-\[ \mathbb{Z}  \]
-\[ \mathbb{Z}_0^-  \]
-\[ \mathbb{Q} \]
-\[ \mathbb{R} \]
-\[ \mathcal P \]
-\[ 2 +4 = 7  \]
-\[ 9 -3 \not= 5  \]
-\[  x \pm 3  \]
-\[ 2*8 \gt  15  \]
-\[ 8 : 4 \lt  5  \]
-\[  x \le 10  \]
-\[  a \ge b  \]
-\[ \pi \approx 3,14 \]
-\[ (a +b)^2  \]
-\[ [x -y]^3  \]
-\[  s \sim t  \]
-\[  a \hat{=} b  \]
-\[ 7|28  \]
-\[  x \in \mathbb{N} \wedge x \lt  3  \]
-\[  A \Rightarrow B \]
-\[ x \to \infty \]
-\[  x =1 \vee x =2  \]
-\[ 3x =12 \Leftrightarrow x =4  \]
-\[  \frac{2}{3}  \]
-\[  4\frac{3}{5}  \]
-\[ \frac{1}{x}  \]
-\[ \frac{1}{x +2} \not= \frac{1}{x} +2  \]
-\[ \frac{ \frac{a+b}{2}}{\frac{x}{a-b}} =1  \]
-\[ 0,1\overline{6} = 1/6  \]
-\[ 75\% = 3/4  \]
-\[  a^2  \]
-\[  a^{12}  \]
-\[ 2^{-3} =1/8  \]
-\[  a^{n+1} \not= a^n +1  \]
-\[ \sqrt{25} = 5  \]
-\[ \sqrt{x^2 +y^2} \not= x +y  \]
-\[ \sqrt[3]{8} = 2  \]
-\[ \sqrt[3]{a^2}  =a^{2/3}  \]
-\[  a_1 + a_n  \]
-\[  a_{n -1}  \]
-\[ {}_{95}^{238}\mathrm{U} \]
-\[  f(x) =2x +1  \]
-\[  f(3) =7  \]
-\[  f \;: \; y = 2x +1  \]
-\[  f: x \mapsto 2x +1  \]
-\[ P(3,5 | 8)  \]
-\[ |a| \]
-\[ \log_a x  \]
-\[ \ln x  \]
-\[ \sin \alpha  \]
-\[ \cos^2 \beta  \]
-\[ \tan \gamma  \]
-\[ \cot 45° \]
-\[ \sin (\pi /6)  \]
-\[ \overline{AB}  \]
-\[ \triangle ABC  \]
-\[ \angle BAC  \]
-\[ \alpha, \beta, \gamma, \delta, \epsilon  \]
-\[ g \parallel h \]
-\[ g \nparallel h \]
-\[  g \perp h  \]
-\[  F \cong F'  \]
+    <h2>Some Standard Examples</h2>
 
+    <h3>The Quadratic Formula</h3>
+    <div class="augenbit">  \[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}\]</div><div class="euroBraille"></div>
 
-<h3>Sekundarstufe 2</h3>
+    <h3>Cauchy's Integral Formula</h3>
+    <div class="augenbit">  \[f(a) = \frac{1}{2\pi i} \oint\frac{f(z)}{z-a}dz\]</div><div class="euroBraille"></div>
 
-\[  n \to \infty  \]
-\[  \lim_{h \to 0}  \]
-\[  \lim_{x \to x_0}  \]
-\[  f\ ' (x), f\ ''(x)  \]
-\[ \sum_{i=0}^n A_n  \]
-\[ \int_a^b f(x) dx  \]
-\[  n!  \]
-\[ {n \choose k}  \]
-\[ \sigma \qquad  \Omega  \]
-\[ \vec{p} = \begin{pmatrix} x; & y; & z-3 \end{pmatrix} \]
-\[ \vec{q} = \begin{pmatrix} -5 \\ 0,5 \\ k+4 \end{pmatrix}  \]
-\[ \vec{p} \times \vec{q}  \]
-\[  \begin{pmatrix} a&b&c \\ d&e&f \end{pmatrix}  \]
+    <h3>Angle Sum Formula for Cosines</h3>
+    <div class="augenbit">  \[ \cos(\theta+\phi)=\cos(\theta)\cos(\phi)-\sin(\theta)\sin(\phi) \]</div><div class="euroBraille"></div>
 
+    <h3>Gauss' Divergence Theorem</h3>
+    <div class="augenbit">  \[ \int_D ({\nabla\cdot} F)dV=\int_{\partial D} F\cdot ndS \]</div><div class="euroBraille"></div>
 
-<h2>Some Standard Examples</h2>
+    <h3>Curl of a Vector Field</h3>
+    <div class="augenbit">  \[ \vec{\nabla} \times \vec{F} =
+    \left( \frac{\partial F_z}{\partial y} - \frac{\partial F_y}{\partial z} \right) \mathbf{i}
+    + \left( \frac{\partial F_x}{\partial z} - \frac{\partial F_z}{\partial x} \right) \mathbf{j}
+    + \left( \frac{\partial F_y}{\partial x} - \frac{\partial F_x}{\partial y} \right) \mathbf{k} \]</div><div class="euroBraille"></div>
 
-  <h3>The Quadratic Formula</h3>
-  \[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}\]
+    <h3>Standard Deviation</h3>
+    <div class="augenbit">  \[\sigma = \sqrt{ \frac{1}{N} \sum_{i=1}^N (x_i -\mu)^2} \]</div><div class="euroBraille"></div>
 
-  <h3>Cauchy's Integral Formula</h3>
-  \[f(a) = \frac{1}{2\pi i} \oint\frac{f(z)}{z-a}dz\]
+    <h3>Definition of Christoffel Symbols</h3>
+    <div class="augenbit">  \[(\nabla_X Y)^k = X^i (\nabla_i Y)^k =
+    X^i \left( \frac{\partial Y^k}{\partial x^i} + \Gamma_{im}^k Y^m \right)\]</div><div class="euroBraille"></div>
 
-  <h3>Angle Sum Formula for Cosines</h3>
-  \[ \cos(\theta+\phi)=\cos(\theta)\cos(\phi)−\sin(\theta)\sin(\phi) \]
-
-  <h3>Gauss' Divergence Theorem</h3>
-  \[ \int_D ({\nabla\cdot} F)dV=\int_{\partial D} F\cdot ndS \]
-
-  <h3>Curl of a Vector Field</h3>
-  \[ \vec{\nabla} \times \vec{F} =
-  \left( \frac{\partial F_z}{\partial y} - \frac{\partial F_y}{\partial z} \right) \mathbf{i}
-  + \left( \frac{\partial F_x}{\partial z} - \frac{\partial F_z}{\partial x} \right) \mathbf{j}
-  + \left( \frac{\partial F_y}{\partial x} - \frac{\partial F_x}{\partial y} \right) \mathbf{k} \]
-
-  <h3>Standard Deviation</h3>
-  \[\sigma = \sqrt{ \frac{1}{N} \sum_{i=1}^N (x_i -\mu)^2} \]
-
-  <h3>Definition of Christoffel Symbols</h3>
-  \[(\nabla_X Y)^k = X^i (\nabla_i Y)^k =
-  X^i \left( \frac{\partial Y^k}{\partial x^i} + \Gamma_{im}^k Y^m \right)\]
-
-</body>
+  </body>
 </html>
