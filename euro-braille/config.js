@@ -134,7 +134,6 @@ function convert() {
     // We could do something clever here, but for now we simply run SRE twice. 
     MathJax._.a11y.sre.Sre.setupEngine({modality: "braille", locale: "euro"});
     MathJax._.a11y.sre.Sre.sreReady().then(() => {
-      console.log(0);
       let mml = MathJax.startup.toMML(MathJax.startup.input[0].mathNode);
       output = document.getElementById('braille');
       output.innerHTML = '';
