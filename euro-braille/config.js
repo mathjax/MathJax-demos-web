@@ -10,6 +10,7 @@ MathJax = {
     },
     a11y: {
       braille: true,
+      speech: false,
       viewBraille: true
     },
     sre: {
