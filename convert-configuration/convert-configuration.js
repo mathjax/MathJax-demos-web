@@ -203,11 +203,11 @@ var Translate = {
     Translate.notAvailable(prefix, key, value, config);
   },
 
-  scale: function (jax) {
+  scale: function (jax, id) {
     return function (prefix, key, value, config) {
       if (Translate.checkValue(prefix, key, value)) {
         var scale = [(value[0] / 100).toFixed(8).replace(/\.?0*$/, ''), value[1]];
-        Translate.set(jax + '.scale', scale, config);
+        Translate.set(jax + '.' + id, scale, config);
       }
     }
   },
@@ -459,8 +459,8 @@ var Convert = {
     },
     CommonHTML: {
       Augment: Translate.augment,
-      scale: Translate.scale('chtml'),
-      minScaleAdjust: Translate.transfer('chtml.minScale'),
+      scale: Translate.scale('chtml', 'scale'),
+      minScaleAdjust: Translate.scale('chtml', 'minScale'),
       font: Translate.font,
       undefinedFamily: Translate.message('%s is now handled through direct CSS'),
       mtextFontInherit: Translate.transfer('chtml.mtextInheritFont'),
@@ -475,8 +475,8 @@ var Convert = {
     "HTML-CSS": {
       Augment: Translate.augment,
       extensions: Translate.extensions,
-      scale: Translate.scale('chtml'),
-      minScaleAdjust: Translate.transfer('chtml.minScale'),
+      scale: Translate.scale('chtml', 'scale'),
+      minScaleAdjust: Translate.scale('chtml', 'minScale'),
       availableFonts: Translate.font,
       preferredFont: Translate.font,
       webFont: Translate.font,
@@ -497,8 +497,8 @@ var Convert = {
     NativeMML: Translate.message('Native MathML output currently is not implemented'),
     SVG: {
       Augment: Translate.augment,
-      scale: Translate.scale('svg'),
-      minScaleAdjust: Translate.transfer('svg.minScale'),
+      scale: Translate.scale('svg', 'scale'),
+      minScaleAdjust: Translate.scale('svg', 'minScale'),
       font: Translate.font,
       blacker: Translate.notImplemented,
       undefinedFamily: Translate.transfer('%s is now handled through direct CSS'),
