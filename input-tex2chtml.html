@@ -9,17 +9,19 @@
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
   <script>
+    var converting = false;
     function convert() {
       //
-      //  Get the TeX input
+      //  Lock to prevent called while converting
       //
+      if (converting) return;
       var input = document.getElementById("input").value.trim();
       //
       //  Disable the display and render buttons until MathJax is done
       //
       var display = document.getElementById("display");
       var button = document.getElementById("render");
-      button.disabled = display.disabled = true;
+      button.disabled = display.disabled = converting = true;
       //
       //  Clear the old output
       //
@@ -52,9 +54,12 @@
         //
         //  Error or not, re-enable the display and render buttons
         //
-        button.disabled = display.disabled = false;
+        button.disabled = display.disabled = converting = false;
       });
     }
+    window.onload = (event) => {
+      convert();
+    };
   </script>
   <style>
   #frame {
@@ -92,7 +97,7 @@
 
 <h1>MathJax v3: TeX to HTML</h1>
 
-<textarea id="input" rows="15" cols="10">
+<textarea id="input" rows="15" cols="10" oninput="convert()">
 %
 % Enter TeX commands below
 %
