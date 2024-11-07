@@ -1,10 +1,9 @@
 MathJax = {
   options: {
-    enableMenu: false,
+    enableMenu: true,
     enableExplorer: true,
     menuOptions: {
       settings: {
-        explorer: true,
         assistiveMml: false
       }
     },
@@ -14,7 +13,8 @@ MathJax = {
     },
     sre: {
       locale: 'de',
-      domain: 'clearspeak'
+      domain: 'clearspeak',
+      braille: 'euro'
     },
     renderActions: {
       addCopyText: [156,
@@ -30,6 +30,7 @@ MathJax = {
                         doc.processed.set('addtext');
                       }
                     },
+                    // (math, doc) => {}
                     (math, doc) => MathJax.config.addCopyText(math, doc)
                    ]
     }
@@ -73,6 +74,7 @@ MathJax = {
 let saved = null;
 let converted = false;
 function convertAll() {
+  const SRE = MathJax._.a11y?.sre?.Sre || MathJax._.a11y?.sre;
   if (!MathJax.typesetPromise) return;
   MathJax.typesetPromise().then(() => {
     if (!saved) {
@@ -82,19 +84,21 @@ function convertAll() {
       converted = true;
       let augenbit = document.getElementsByClassName('augenbit');
       let euroBraille = document.getElementsByClassName('euroBraille');
-      MathJax._.a11y.sre.Sre.setupEngine({modality: "braille", locale: "euro"});
-      MathJax._.a11y.sre.Sre.sreReady().then(() => {
+      
+      let promise = SRE.setupEngine({modality: "braille", locale: "euro"});
+      SRE.sreReady().then(() => {
         for (let i = 0, item, output; item = saved[i], output = euroBraille[i]; i++) {
-          let node = document.createTextNode(item.explorers.explorers.braille.walker.speech());
-          output.innerHtml = '';
+          let node = document.createTextNode(item.typesetRoot.getAttribute('aria-braillelabel'));
+          output.innerHtml = node;
           output.appendChild(node);
         }
-        MathJax._.a11y.sre.Sre.setupEngine({modality: "speech", locale: "de"});
+        SRE.setupEngine({modality: "speech", locale: "de"});
       });
     }
   }).catch((e) => {});
 }
 function convert() {
+  const SRE = MathJax._.a11y?.sre?.Sre || MathJax._.a11y?.sre;
   if (!saved) {
     saved = MathJax.startup.document.getMathItemsWithin(document.body);
   }
@@ -132,13 +136,13 @@ function convert() {
     MathJax.startup.document.clear();
     MathJax.startup.document.updateDocument();
     // We could do something clever here, but for now we simply run SRE twice. 
-    MathJax._.a11y.sre.Sre.setupEngine({modality: "braille", locale: "euro"});
-    MathJax._.a11y.sre.Sre.sreReady().then(() => {
+    SRE.setupEngine({modality: "braille", locale: "euro"});
+    SRE.sreReady().then(() => {
       let mml = MathJax.startup.toMML(MathJax.startup.input[0].mathNode);
       output = document.getElementById('braille');
       output.innerHTML = '';
-      output.innerHTML = MathJax._.a11y.sre.Sre.toSpeech(mml);
-      MathJax._.a11y.sre.Sre.setupEngine({modality: "speech", locale: "de"});
+      output.innerHTML = SRE.toSpeech(mml);
+      SRE.setupEngine({modality: "speech", locale: "de"});
     });
   }).catch(function (err) {
     //
