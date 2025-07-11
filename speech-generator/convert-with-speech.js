@@ -61,6 +61,24 @@ Convert.init = function() {
   Convert.setupSre();
 };
 
+Convert.createSelect = function(name, values) {
+  let label = document.createElement('label');
+  label.innerHTML = name;
+  label.setAttribute('for', name);
+  let select = document.createElement('select');
+  select.id = name;
+  values.forEach(x => select.appendChild(x));
+  return [label, select];
+};
+
+Convert.preferenceSelection = function(pref, values) {
+  return values.map(value => {
+    let option = document.createElement('option');
+    option.setAttribute('value', value);
+    option.innerHTML = value.replace(RegExp(`^${pref}_`), '');
+    return option;
+  });
+};
 
 Convert.setPreferences = function(locale) {
   Convert.divs.preferences.innerHTML = '';
@@ -85,44 +103,38 @@ Convert.setPreferences = function(locale) {
       row = document.createElement('tr');
       table.appendChild(row);
     }
+    let [label, select] = Convert.createSelect(
+      pref, Convert.preferenceSelection(pref, values));
     let cell1 = document.createElement('td');
     row.appendChild(cell1);
-    let label = document.createElement('label');
-    label.innerHTML = pref;
-    label.setAttribute('for', pref);
     cell1.appendChild(label);
     let cell2 = document.createElement('td');
     row.appendChild(cell2);
-    let select = document.createElement('select');
     Convert.state.preferences.push(select);
     select.setAttribute('onchange', 'Convert.computeClearspeak()');
-    select.id = pref;
-    for (let value of values) {
-      let option = document.createElement('option');
-      option.setAttribute('value', value);
-      option.innerHTML = value.replace(RegExp(`^${pref}_`), '');
-      select.appendChild(option);
-    }
     cell2.appendChild(select);
     count++;
   }
   Convert.divs.preferences.appendChild(table);
-  let label = document.createElement('label');
+  let label = document.createElement('span');
   label.innerHTML = 'Multiline:';
   Convert.divs.preferences.appendChild(label);
   for (let [pref, values] of Object.entries(multiline)) {
-    let mlabel = document.createElement('label');
-    mlabel.innerHTML = pref.replace('MultiLine', '');
-    let select = document.createElement('select');
+    let [mlabel, select] = Convert.createSelect(
+      pref.replace('MultiLine', ''),
+      Convert.preferenceSelection(pref, values));
+    // let mlabel = document.createElement('label');
+    // mlabel.innerHTML = pref.replace('MultiLine', '');
+    // let select = document.createElement('select');
     Convert.state.preferences.push(select);
     select.setAttribute('onchange', 'Convert.computeClearspeak()');
-    select.id = pref;
-    for (let value of values) {
-      let option = document.createElement('option');
-      option.setAttribute('value', value);
-      option.innerHTML = value.replace(RegExp(`^${pref}_`), '');
-      select.appendChild(option);
-    }
+    // select.id = pref;
+    // for (let value of values) {
+    //   let option = document.createElement('option');
+    //   option.setAttribute('value', value);
+    //   option.innerHTML = value.replace(RegExp(`^${pref}_`), '');
+    //   select.appendChild(option);
+    // }
     mlabel.appendChild(select);
     label.appendChild(mlabel);
   }

@@ -1,0 +1,86 @@
+body {
+  font-family: sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+select {
+  background-color: var(--select-background);
+  color: var(--select-text);
+}
+
+input {
+  background-color: var(--select-background);
+  color: var(--select-text);
+}
+
+h2 {
+  margin: 1.5em 0 1em;
+  font-size: 120%;
+}
+h2:first-child {
+  margin-top: .5em;
+}
+.fullwidth {
+  width: 100%;
+}
+table.fullwidth tr {
+  vertical-align: baseline;
+}
+table.fullwidth td {
+  white-space: nowrap;
+}
+td.fullwidth input {
+  width: 100%;
+  box-sizing: border-box;
+  }
+  td.spacing {
+  width: 20%
+  }
+#explanation {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 25em;
+  vertical-align: top;
+  margin-bottom: 2em;
+  line-height: 1.5;
+  padding-right: .75em;
+}
+.converter {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 48%;
+  min-width: 25em;
+  vertical-align: top;
+  background-color: var(--box-background);
+  border: 2px solid #CCC;
+  padding: .75em;
+}
+#input {
+  font-family: monospace;
+  font-size: 100%;
+  padding: .3em;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+.speech {
+  min-height: 8em;
+  border: 1px solid  var(--border-color);
+  background-color: var(--text-background);
+  padding: .5em .5em .5em 1.5em;
+  overflow: auto;
+  white-space: pre;
+}
+#errors code, #explanation code {
+  background-color: #EEE;
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid  var(--border-color);
+  margin: 1px;
+}
+#explanation code {
+  padding: 0 2px;
+}

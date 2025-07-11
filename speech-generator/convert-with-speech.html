@@ -21,99 +21,9 @@
   };
   </script>
   <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
-<style>
-body {
-  font-family: sans-serif
-}
-h2 {
-  margin: 1.5em 0 1em;
-  font-size: 120%;
-}
-h2:first-child {
-  margin-top: .5em;
-}
-.fullwidth {
-  width: 100%;
-}
-table.fullwidth tr {
-  vertical-align: baseline;
-}
-table.fullwidth td {
-  white-space: nowrap;
-}
-td.fullwidth input {
-  width: 100%;
-  box-sizing: border-box;
-  }
-  td.spacing {
-  width: 20%
-  }
-.red {
-  color: #880000;
-  background-color: #FFEEEE;
-}
-.green {
-  color: #008800;
-  background-color: #EEFFEE;
-}
-#explanation {
-  display: inline-block;
-  box-sizing: border-box;
-  width: 100%;
-  min-width: 25em;
-  vertical-align: top;
-  margin-bottom: 2em;
-  line-height: 1.5;
-  padding-right: .75em;
-}
-.converter {
-  display: inline-block;
-  box-sizing: border-box;
-  width: 48%;
-  min-width: 25em;
-  vertical-align: top;
-  background-color: #F0F0F0;
-  border: 2px solid #CCC;
-  padding: .75em;
-}
-#input {
-  font-family: monospace;
-  font-size: 100%;
-  padding: .3em;
-  width: 100%;
-  box-sizing: border-box;
-}
-#configfile {
-  border: 1px solid #AAA;
-  padding: 2px;
-  font-family: monospace;
-  font-size: 100%
-}
-.speech {
-  border: 1px solid #AAA;
-  padding: .5em;
-  background-color: white;
-}
-.speech {
-  min-height: 8em;
-  border: 1px solid #AAA;
-  background-color: #F8F8F8;
-  padding: .5em .5em .5em 1.5em;
-  overflow: auto;
-  white-space: pre;
-}
-#errors code, #explanation code {
-  background-color: #EEE;
-  display: inline-block;
-  padding: 1px 2px;
-  border: 1px solid #AAA;
-  margin: 1px;
-}
-#explanation code {
-  padding: 0 2px;
-}
-</style>
-<script src="./convert-with-speech.js"></script>
+  <link rel="stylesheet" href="colors-new.css"></link>
+  <link rel="stylesheet" href="convert.css"></link>
+  <script src="./convert-with-speech.js"></script>
 </head>
 <body>
 
@@ -130,7 +40,7 @@ text output.
 
 <div class="converter" id="inputpanel">
   <H2>Input:</h2>
-  <textarea rows="15" cols="80" id="input">
+  <textarea rows="15" cols="80" id="input" aria-label="Text input area for LaTeX, MathML and AsciiMath expression.">
   </textarea>
   <table class="fullwidth">
     <tr>
@@ -142,7 +52,7 @@ text output.
         <select id="locale" onchange="Convert.updateLocale(value)">
         </select>
       </td>
-      <td><label for="locale">Markup</label>
+      <td><label for="markup">Markup</label>
         <select id="markup" onchange="Convert.convertExpression()">
           <option value="none">None</option>
           <option value="punctuation">Punctuation</option>
@@ -151,7 +61,8 @@ text output.
         </select>
       </td>
       <td class="fullwidth"></td>
-      <td><input type="button" value="Convert"
+      <td>
+      <input type="button" id="convert" value="Convert"
       onclick="Convert.convertExpression()"/></td>
     </tr>
   </table>
@@ -163,7 +74,7 @@ text output.
 <div class="converter" id="outputpanel">
   
   <h2>Mathspeak Output:</h2>
-  <span><label for="locale">Style</label>
+  <span><label for="style">Style</label>
         <select id="style" onchange="Convert.computeMathspeak()">
           <option value="default">Verbose</option>
           <option value="brief">Brief</option>
@@ -177,7 +88,7 @@ text output.
   <pre class="speech"  id="clearspeak">
   </pre>
   <div>
-  <label for="preferences">Preferences:</label>
+  <h2>Preferences:</h2>
   <div id="preferences"></div>
   </div>
 
