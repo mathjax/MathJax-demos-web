@@ -144,3 +144,40 @@ input[type="radio"] {
   box-shadow: 0 2px #1E40AF;
   transform: translateY(2px); /* simulate press-down effect */
 }
+
+.preferences-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em 2em; /* vertical and horizontal gaps */
+  margin-top: 1em;
+}
+
+.preference-item {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 140px; /* grow, shrink, base width */
+  min-width: 140px;
+  max-width: 350px;
+
+  background-color: var(--text-background);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.6em 1em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.preference-item label {
+  font-weight: bold;
+  margin-bottom: 0.3em;
+  user-select: none;
+}
+
+.preference-item select {
+  width: 100%;
+  background-color: var(--select-background);
+  color: var(--select-text);
+  padding: 0.4em;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-sizing: border-box;
+}

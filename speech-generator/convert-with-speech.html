@@ -75,26 +75,25 @@ text output.
   <div id="rendered"></div>
 </div>
 
-<div class="converter" id="outputpanel">
-  
+<div class="output-panel converter" id="outputpanel">
+
   <h2>Mathspeak Output:</h2>
-  <span><label for="style">Style</label>
-        <select id="style" onchange="Convert.computeMathspeak()">
-          <option value="default">Verbose</option>
-          <option value="brief">Brief</option>
-          <option value="sbrief">Superbrief</option>
-        </select>
-  </span>
-  <pre class="speech" id="mathspeak">
-  </pre>
+  <div class="style-selector">
+    <label for="style">Style</label>
+    <select id="style" onchange="Convert.computeMathspeak()">
+      <option value="default">Verbose</option>
+      <option value="brief">Brief</option>
+      <option value="sbrief">Superbrief</option>
+    </select>
+  </div>
+
+  <pre class="speech" id="mathspeak"></pre>
 
   <h2>Clearspeak Output:</h2>
-  <pre class="speech"  id="clearspeak">
-  </pre>
-  <div>
+  <pre class="speech" id="clearspeak"></pre>
+
   <h2>Preferences:</h2>
   <div id="preferences"></div>
-  </div>
 
 </div>
 

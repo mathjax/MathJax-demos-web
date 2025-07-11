@@ -81,55 +81,84 @@ Convert.preferenceSelection = function(pref, values) {
 };
 
 Convert.setPreferences = function(locale) {
-  Convert.divs.preferences.innerHTML = '';
+  const container = Convert.divs.preferences;
+  container.innerHTML = '';
   Convert.state.preferences = [];
-  let prefs = SRE.clearspeakPreferences.getLocalePreferences()[locale];
+
+  const prefs = SRE.clearspeakPreferences.getLocalePreferences()[locale];
   if (!prefs) {
     Convert.state.clearspeak = false;
     Convert.textAreas.clearspeak.innerHTML = '';
     return;
   }
   Convert.state.clearspeak = true;
-  let table = document.createElement('table');
-  let count = 0;
-  let row = null;
-  let multiline = {};
+
+  const multiline = {};
+
+  // Create flex container for preferences grid
+  const grid = document.createElement('div');
+  grid.className = 'preferences-grid';
+
   for (let [pref, values] of Object.entries(prefs)) {
     if (pref.match(/^MultiLine/)) {
       multiline[pref] = values;
       continue;
     }
-    if (count % 3 === 0) {
-      row = document.createElement('tr');
-      table.appendChild(row);
-    }
+
     let [label, select] = Convert.createSelect(
-      pref, Convert.preferenceSelection(pref, values));
-    let cell1 = document.createElement('td');
-    row.appendChild(cell1);
-    cell1.appendChild(label);
-    let cell2 = document.createElement('td');
-    row.appendChild(cell2);
-    Convert.state.preferences.push(select);
+      pref,
+      Convert.preferenceSelection(pref, values)
+    );
+
     select.setAttribute('onchange', 'Convert.computeClearspeak()');
-    cell2.appendChild(select);
-    count++;
+    Convert.state.preferences.push(select);
+
+    label.setAttribute('for', select.id);
+
+    const item = document.createElement('div');
+    item.className = 'preference-item';
+
+    item.appendChild(label);
+    item.appendChild(select);
+
+    grid.appendChild(item);
   }
-  Convert.divs.preferences.appendChild(table);
-  let label = document.createElement('span');
-  label.innerHTML = 'Multiline:';
-  Convert.divs.preferences.appendChild(label);
-  for (let [pref, values] of Object.entries(multiline)) {
-    let [mlabel, select] = Convert.createSelect(
-      pref.replace('MultiLine', ''),
-      Convert.preferenceSelection(pref, values));
-    Convert.state.preferences.push(select);
-    select.setAttribute('onchange', 'Convert.computeClearspeak()');
-    mlabel.appendChild(select);
-    label.appendChild(mlabel);
+
+  container.appendChild(grid);
+
+  // Multiline preferences section
+  if (Object.keys(multiline).length > 0) {
+    const multiLabel = document.createElement('div');
+    multiLabel.style.fontWeight = 'bold';
+    multiLabel.style.marginTop = '1em';
+    multiLabel.textContent = 'Multiline:';
+    container.appendChild(multiLabel);
+
+    const multiGrid = document.createElement('div');
+    multiGrid.className = 'preferences-grid';
+
+    for (let [pref, values] of Object.entries(multiline)) {
+      let [label, select] = Convert.createSelect(
+        pref.replace('MultiLine', ''),
+        Convert.preferenceSelection(pref, values)
+      );
+      select.setAttribute('onchange', 'Convert.computeClearspeak()');
+      Convert.state.preferences.push(select);
+
+      label.setAttribute('for', select.id);
+
+      const item = document.createElement('div');
+      item.className = 'preference-item';
+
+      item.appendChild(label);
+      item.appendChild(select);
+
+      multiGrid.appendChild(item);
+    }
+
+    container.appendChild(multiGrid);
   }
 };
-
 
 Convert.updatePreferences = async function(locale) {
   return SRE.setupEngine({locale: locale}).
