@@ -39,38 +39,42 @@ text output.
 </div>
 
 <div class="converter" id="inputpanel">
-  <H2>Input:</h2>
-  <textarea rows="15" cols="80" id="input" aria-label="Text input area for LaTeX, MathML and AsciiMath expression.">
-  </textarea>
-  <table class="fullwidth">
-    <tr>
-      <td><input type="radio" checked name="format" value="latex"><label for="latex">LaTeX</label></input></td>
-      <td><input type="radio" name="format" value="asciimath"><label for="asciimath">AsciiMath</label></input></td>
-      <td><input type="radio" name="format" value="mathml"><label for="mathml">MathML</label></input></td>
-      <td class="spacing"></td>
-      <td><label for="locale">Locale</label>
-        <select id="locale" onchange="Convert.updateLocale(value)">
-        </select>
-      </td>
-      <td><label for="markup">Markup</label>
-        <select id="markup" onchange="Convert.convertExpression()">
-          <option value="none">None</option>
-          <option value="punctuation">Punctuation</option>
-          <option value="ssml">SSML</option>
-          <option value="sable">Sable</option>
-        </select>
-      </td>
-      <td class="fullwidth"></td>
-      <td>
-      <input type="button" id="convert" value="Convert"
-      onclick="Convert.convertExpression()"/></td>
-    </tr>
-  </table>
+  <h2>Input:</h2>
+  <textarea rows="15" cols="80" id="input" aria-label="Text input area for LaTeX, MathML and AsciiMath expression."></textarea>
+
+  <div class="controls">
+    <div class="radio-group">
+      <label><input type="radio" checked name="format" value="latex"> LaTeX</label>
+      <label><input type="radio" name="format" value="asciimath"> AsciiMath</label>
+      <label><input type="radio" name="format" value="mathml"> MathML</label>
+    </div>
+
+    <div class="select-group">
+      <label for="locale">Locale</label>
+      <select id="locale" onchange="Convert.updateLocale(value)">
+        <!-- options go here -->
+      </select>
+    </div>
+
+    <div class="select-group">
+      <label for="markup">Markup</label>
+      <select id="markup" onchange="Convert.convertExpression()">
+        <option value="none">None</option>
+        <option value="punctuation">Punctuation</option>
+        <option value="ssml">SSML</option>
+        <option value="sable">Sable</option>
+      </select>
+    </div>
+
+    <div class="convert-button">
+      <input type="button" id="convert" value="Convert" onclick="Convert.convertExpression()" />
+    </div>
+  </div>
 
   <h2>Expression:</h2>
   <div id="rendered"></div>
-
 </div>
+
 <div class="converter" id="outputpanel">
   
   <h2>Mathspeak Output:</h2>

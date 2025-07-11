@@ -123,18 +123,8 @@ Convert.setPreferences = function(locale) {
     let [mlabel, select] = Convert.createSelect(
       pref.replace('MultiLine', ''),
       Convert.preferenceSelection(pref, values));
-    // let mlabel = document.createElement('label');
-    // mlabel.innerHTML = pref.replace('MultiLine', '');
-    // let select = document.createElement('select');
     Convert.state.preferences.push(select);
     select.setAttribute('onchange', 'Convert.computeClearspeak()');
-    // select.id = pref;
-    // for (let value of values) {
-    //   let option = document.createElement('option');
-    //   option.setAttribute('value', value);
-    //   option.innerHTML = value.replace(RegExp(`^${pref}_`), '');
-    //   select.appendChild(option);
-    // }
     mlabel.appendChild(select);
     label.appendChild(mlabel);
   }
