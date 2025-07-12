@@ -7,6 +7,10 @@
     --box-border: #E5E7EB;                /* light gray */
     --select-background: #E0F2FE;         /* light sky blue */
     --select-text: #0F172A;               /* navy-like blue */
+    --btn-bg-start: var(--select-background);
+    --btn-bg-end: #60A5FA;
+    --btn-text-color: var(--text-color);
+    --btn-shadow: #93C5FD;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,5 +23,10 @@
         --box-border: #444456;              /* subtle border */
         --select-background: #3B82F6;       /* vibrant blue */
         --select-text: #FFFFFF;             /* white text on blue */
+        --btn-bg-start: var(--select-background);
+        --btn-bg-end: #1E40AF;
+        --btn-text-color: var(--text-color);
+        --btn-shadow: #3B82F6;
     }
 }
+

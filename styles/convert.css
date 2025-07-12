@@ -1,46 +1,8 @@
-/* Global Styles */
+@import url("globals.css");
+
+/* Use reader friendly font */
 body {
   font-family: sans-serif;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  margin: 0;
-  padding: 0;
-}
-
-/* Headings */
-h2 {
-  margin: 1.5em 0 1em;
-  font-size: 120%;
-}
-h2:first-child {
-  margin-top: .5em;
-}
-
-/* Form Elements */
-select,
-input {
-  background-color: var(--select-background);
-  color: var(--select-text);
-  border: 1px solid var(--border-color);
-  padding: 0.4em;
-  font-size: 1em;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-input[type="radio"] {
-  margin-right: 0.25em;
-}
-
-/* Textarea */
-#input {
-  font-family: monospace;
-  font-size: 100%;
-  padding: .3em;
-  width: 100%;
-  box-sizing: border-box;
-  background-color: var(--background-color);
-  color: var(--text-color);
 }
 
 /* Converter Box */
@@ -125,24 +87,6 @@ input[type="radio"] {
 /* Utility */
 .fullwidth {
   width: 100%;
-}
-
-#convert {
-  background: linear-gradient(to bottom, #3B82F6, #2563EB); /* vibrant blue */
-  color: white;
-  padding: 0.5em 1.2em;
-  border: none;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 1em;
-  box-shadow: 0 4px #1E40AF; /* deep blue shadow for 3D depth */
-  cursor: pointer;
-  transition: all 0.15s ease-in-out;
-}
-
-#convert:active {
-  box-shadow: 0 2px #1E40AF;
-  transform: translateY(2px); /* simulate press-down effect */
 }
 
 .preferences-grid {
