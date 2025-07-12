@@ -1,0 +1,23 @@
+:root {
+    --background-color: #F9FAFB;          /* very light gray with slight blue */
+    --text-color: #1F2937;                /* dark slate gray */
+    --text-background: #FFFFFF;           /* pure white */
+    --border-color: #D1D5DB;              /* soft gray */
+    --box-background: #FFFFFF;            /* pure white */
+    --box-border: #E5E7EB;                /* light gray */
+    --select-background: #E0F2FE;         /* light sky blue */
+    --select-text: #0F172A;               /* navy-like blue */
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #1E1E2F;        /* deep navy purple */
+        --text-color: #E0E0E0;              /* light gray */
+        --text-background: #2C2C3C;         /* dark slate */
+        --border-color: #3F3F4F;            /* soft border gray-blue */
+        --box-background: #2A2A3B;          /* muted purple-gray */
+        --box-border: #444456;              /* subtle border */
+        --select-background: #3B82F6;       /* vibrant blue */
+        --select-text: #FFFFFF;             /* white text on blue */
+    }
+}
