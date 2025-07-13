@@ -1,0 +1,102 @@
+@import url("colors.css");
+
+/* Headings */
+h1 {
+  text-align: center;
+  background: linear-gradient(to bottom, var(--h1-bg-start), var(--h1-bg-end));
+  padding: 0.4em 1.2em;
+  border-top: 3px solid var(--h1-border-top);
+  border-bottom: 3px solid var(--h1-border-bottom);
+  border-radius: 8px;
+  color: var(--h1-text-color);
+  text-shadow: 1px 1px 2px var(--h1-text-shadow);
+  font-weight: 700;
+  font-size: 2.2em;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  user-select: none;
+}
+
+h2 {
+  margin: 1.5em 0 1em;
+  font-size: 120%;
+}
+h2:first-child {
+  margin-top: .5em;
+}
+
+/* Widgets */
+/* Form Elements */
+select,
+input {
+  background-color: var(--select-background);
+  color: var(--select-text);
+  border: 1px solid var(--border-color);
+  padding: 0.4em;
+  font-size: 1em;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="radio"] {
+  margin-right: 0.25em;
+}
+
+input[type="button"] {
+  background: linear-gradient(to bottom, var(--btn-bg-start), var(--btn-bg-end));
+  color: var(--btn-text-color);
+  padding: 0.5em 1.2em;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1em;
+  box-shadow: 0 4px var(--btn-shadow);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+input[type="button"]:active {
+  box-shadow: 0 2px var(--btn-shadow);
+  transform: translateY(2px); /* simulate press-down effect */
+}
+
+/* Textarea */
+#input {
+  font-family: monospace;
+  font-size: 100%;
+  margin: 0 0 .25em;
+  padding: .3em;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+/* Output Display */
+#output {
+  font-size: 120%;
+  margin-top: .75em;
+  padding: .25em;
+  min-height: 2em;
+  border: 1px solid var(--border-color);
+  background-color: var(--text-background);
+}
+
+#output > pre {
+    margin-left: 5px;
+}
+
+#frame {
+  max-width: 40em;
+  margin: auto;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+

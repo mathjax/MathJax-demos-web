@@ -61,73 +61,104 @@ Convert.init = function() {
   Convert.setupSre();
 };
 
+Convert.createSelect = function(name, values) {
+  let label = document.createElement('label');
+  label.innerHTML = name;
+  label.setAttribute('for', name);
+  let select = document.createElement('select');
+  select.id = name;
+  values.forEach(x => select.appendChild(x));
+  return [label, select];
+};
+
+Convert.preferenceSelection = function(pref, values) {
+  return values.map(value => {
+    let option = document.createElement('option');
+    option.setAttribute('value', value);
+    option.innerHTML = value.replace(RegExp(`^${pref}_`), '');
+    return option;
+  });
+};
 
 Convert.setPreferences = function(locale) {
-  Convert.divs.preferences.innerHTML = '';
+  const container = Convert.divs.preferences;
+  container.innerHTML = '';
   Convert.state.preferences = [];
-  let prefs = SRE.clearspeakPreferences.getLocalePreferences()[locale];
+
+  const prefs = SRE.clearspeakPreferences.getLocalePreferences()[locale];
   if (!prefs) {
     Convert.state.clearspeak = false;
     Convert.textAreas.clearspeak.innerHTML = '';
     return;
   }
   Convert.state.clearspeak = true;
-  let table = document.createElement('table');
-  let count = 0;
-  let row = null;
-  let multiline = {};
+
+  const multiline = {};
+
+  // Create flex container for preferences grid
+  const grid = document.createElement('div');
+  grid.className = 'preferences-grid';
+
   for (let [pref, values] of Object.entries(prefs)) {
     if (pref.match(/^MultiLine/)) {
       multiline[pref] = values;
       continue;
     }
-    if (count % 3 === 0) {
-      row = document.createElement('tr');
-      table.appendChild(row);
-    }
-    let cell1 = document.createElement('td');
-    row.appendChild(cell1);
-    let label = document.createElement('label');
-    label.innerHTML = pref;
-    label.setAttribute('for', pref);
-    cell1.appendChild(label);
-    let cell2 = document.createElement('td');
-    row.appendChild(cell2);
-    let select = document.createElement('select');
-    Convert.state.preferences.push(select);
+
+    let [label, select] = Convert.createSelect(
+      pref,
+      Convert.preferenceSelection(pref, values)
+    );
+
     select.setAttribute('onchange', 'Convert.computeClearspeak()');
-    select.id = pref;
-    for (let value of values) {
-      let option = document.createElement('option');
-      option.setAttribute('value', value);
-      option.innerHTML = value.replace(RegExp(`^${pref}_`), '');
-      select.appendChild(option);
-    }
-    cell2.appendChild(select);
-    count++;
+    Convert.state.preferences.push(select);
+
+    label.setAttribute('for', select.id);
+
+    const item = document.createElement('div');
+    item.className = 'preference-item';
+
+    item.appendChild(label);
+    item.appendChild(select);
+
+    grid.appendChild(item);
   }
-  Convert.divs.preferences.appendChild(table);
-  let label = document.createElement('label');
-  label.innerHTML = 'Multiline:';
-  Convert.divs.preferences.appendChild(label);
-  for (let [pref, values] of Object.entries(multiline)) {
-    let mlabel = document.createElement('label');
-    mlabel.innerHTML = pref.replace('MultiLine', '');
-    let select = document.createElement('select');
-    Convert.state.preferences.push(select);
-    select.setAttribute('onchange', 'Convert.computeClearspeak()');
-    select.id = pref;
-    for (let value of values) {
-      let option = document.createElement('option');
-      option.setAttribute('value', value);
-      option.innerHTML = value.replace(RegExp(`^${pref}_`), '');
-      select.appendChild(option);
+
+  container.appendChild(grid);
+
+  // Multiline preferences section
+  if (Object.keys(multiline).length > 0) {
+    const multiLabel = document.createElement('div');
+    multiLabel.style.fontWeight = 'bold';
+    multiLabel.style.marginTop = '1em';
+    multiLabel.textContent = 'Multiline:';
+    container.appendChild(multiLabel);
+
+    const multiGrid = document.createElement('div');
+    multiGrid.className = 'preferences-grid';
+
+    for (let [pref, values] of Object.entries(multiline)) {
+      let [label, select] = Convert.createSelect(
+        pref.replace('MultiLine', ''),
+        Convert.preferenceSelection(pref, values)
+      );
+      select.setAttribute('onchange', 'Convert.computeClearspeak()');
+      Convert.state.preferences.push(select);
+
+      label.setAttribute('for', select.id);
+
+      const item = document.createElement('div');
+      item.className = 'preference-item';
+
+      item.appendChild(label);
+      item.appendChild(select);
+
+      multiGrid.appendChild(item);
     }
-    mlabel.appendChild(select);
-    label.appendChild(mlabel);
+
+    container.appendChild(multiGrid);
   }
 };
-
 
 Convert.updatePreferences = async function(locale) {
   return SRE.setupEngine({locale: locale}).
