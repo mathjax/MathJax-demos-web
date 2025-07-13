@@ -32,6 +32,7 @@ body {
 
 /* Code Display */
 .speech {
+  font-size: 120%;
   min-height: 8em;
   border: 1px solid var(--border-color);
   background-color: var(--text-background);
@@ -42,7 +43,7 @@ body {
 
 #errors code,
 #explanation code {
-  background-color: #EEE;
+  background-color: var(--text-background);
   display: inline-block;
   padding: 10px 20px;
   border: 1px solid var(--border-color);
