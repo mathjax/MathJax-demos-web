@@ -8,9 +8,9 @@
     --select-background: #E0F2FE;         /* light sky blue */
     --select-text: #0F172A;               /* navy-like blue */
     --btn-bg-start: var(--select-background);
-    --btn-bg-end: #60A5FA;
+    --btn-bg-end: #78B0FD;
     --btn-text-color: var(--text-color);
-    --btn-shadow: #93C5FD;
+    --btn-shadow: #539CD8;
 }
 
 @media (prefers-color-scheme: dark) {
