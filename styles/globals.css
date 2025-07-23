@@ -1,0 +1,104 @@
+@import url("colors.css");
+
+/* Headings */
+h1 {
+  text-align: center;
+  background: linear-gradient(to bottom, var(--h1-bg-start), var(--h1-bg-end));
+  padding: 0.4em 1.2em;
+  border: 2px solid var(--h1-border-top);
+  border-bottom: 2.5px solid var(--h1-border-bottom);
+  border-radius: 8px;
+  color: var(--h1-text-color);
+  text-shadow: 1px 1px 2px var(--h1-text-shadow);
+  font-weight: 700;
+  font-size: 2.2em;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  user-select: none;
+}
+
+h2 {
+  margin: 1.5em 0 1em;
+  font-size: 120%;
+}
+h2:first-child {
+  margin-top: .5em;
+}
+
+/* Widgets */
+/* Form Elements */
+select,
+input {
+  background-color: var(--select-background);
+  color: var(--select-text);
+  border: 1px solid var(--border-color);
+  padding: 0.1em 0.4em 0.2em;
+  font-size: 1em;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="radio"] {
+  margin-right: 0.25em;
+}
+
+input[type="button"] {
+  background: radial-gradient(ellipse 250% 120% at 50% 30%, var(--btn-bg-start), var(--btn-bg-end));
+  color: var(--btn-text-color);
+  padding: 0.3em 1em;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1em;
+  box-shadow: 1px 2.5px var(--btn-shadow);
+  cursor: pointer;
+  transition: all 0.075s ease-in-out;
+}
+
+input[type="button"]:active {
+  box-shadow: 0.75px 1px var(--btn-shadow);
+  transform: translateY(1.5px); /* simulate press-down effect */
+}
+
+/* Textarea */
+#input {
+  font-family: monospace;
+  font-size: 100%;
+  margin: 0 0 .25em;
+  padding: .3em;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--box-background);
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
+}
+
+/* Output Display */
+#output {
+  font-size: 120%;
+  margin-top: .75em;
+  padding: .25em;
+  min-height: 2em;
+  border: 1px solid var(--border-color);
+  background-color: var(--text-background);
+}
+
+#output > pre {
+    margin-left: 5px;
+}
+
+#frame {
+  max-width: 40em;
+  margin: auto;
+}
+
+.left {
+  float: left;
+  margin-top: 5px;
+}
+
+.right {
+  float: right;
+  margin-top: 3px;
+}
+
+

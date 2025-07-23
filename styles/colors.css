@@ -1,0 +1,60 @@
+:root {
+    --background-color: #F9FAFB;          /* very light gray with slight blue */
+    --text-color: #1F2937;                /* dark slate gray */
+    --text-background: #FFFFFF;           /* pure white */
+    --border-color: #D1D5DB;              /* soft gray */
+    --box-background: #FFFFFF;            /* pure white */
+    --box-border: #E5E7EB;                /* light gray */
+    --select-background: #E0F2FE;         /* light sky blue */
+    --select-text: #0F172A;               /* navy-like blue */
+    --btn-bg-start: var(--select-background);
+    --btn-bg-end: #78B0FD;
+    --btn-text-color: var(--text-color);
+    --btn-shadow: #539CD8;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #1E1E2F;        /* deep navy purple */
+        --text-color: #E0E0E0;              /* light gray */
+        --text-background: #2C2C3C;         /* dark slate */
+        --border-color: #3F3F4F;            /* soft border gray-blue */
+        --box-background: #2A2A3B;          /* muted purple-gray */
+        --box-border: #444456;              /* subtle border */
+        --select-background: #3B82F6;       /* vibrant blue */
+        --select-text: #FFFFFF;             /* white text on blue */
+        --btn-bg-start: var(--select-background);
+        --btn-bg-end: #1E40AF;
+        --btn-text-color: var(--text-color);
+        --btn-shadow: #3B82F6;
+    }
+}
+
+/* Headings */
+:root {
+  --h1-bg-start: #ebf0ff;  /* very light blue */
+  --h1-bg-end: #c3d0ff;    /* light pastel blue */
+  --h1-border-top: #a3b8ff; /* lighter blue-gray */
+  --h1-border-bottom: #8ba3ff;
+  --h1-text-color: #1e293b; /* keep dark for readability */
+  --h1-text-shadow: rgba(255, 255, 255, 0.7);
+  --h1-box-shadow: 0 4px 6px rgba(139, 163, 255, 0.2); /* softer blue glow */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --h1-bg-start: #2a2a2a;
+    --h1-bg-end: #1f1f1f;
+    --h1-border-top: #444444;
+    --h1-border-bottom: #555555;
+    --h1-text-color: #eee;
+    --h1-text-shadow: rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* Global Body Style */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
