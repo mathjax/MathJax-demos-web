@@ -36,7 +36,7 @@ body {
   min-height: 8em;
   border: 1px solid var(--border-color);
   background-color: var(--text-background);
-  padding: .5em .5em .5em 1.5em;
+  padding: .5em .5em .5em 1em;
   overflow: auto;
   white-space: pre;
 }
@@ -81,6 +81,10 @@ body {
   min-width: 120px;
 }
 
+.select-group select {
+  margin-top: .2em;
+}
+
 .convert-button {
   margin-left: auto;
 }
@@ -121,7 +125,7 @@ body {
   width: 100%;
   background-color: var(--select-background);
   color: var(--select-text);
-  padding: 0.4em;
+  padding: 0.1em 0.4em 0.2em;
   border: 1px solid var(--border-color);
   border-radius: 4px;
   box-sizing: border-box;
