@@ -11,6 +11,9 @@
     --btn-bg-end: #78B0FD;
     --btn-text-color: var(--text-color);
     --btn-shadow: #539CD8;
+    --code-color: #081880;
+    --code-background: #F4F8FF;
+    --code-border: #B8C8FF;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,13 +30,16 @@
         --btn-bg-end: #1E40AF;
         --btn-text-color: var(--text-color);
         --btn-shadow: #3B82F6;
+        --code-color: #98D0FF;
+        --code-background: #1E1E34;
+        --code-border: #305486;
     }
 }
 
 /* Headings */
 :root {
-  --h1-bg-start: #ebf0ff;  /* very light blue */
-  --h1-bg-end: #c3d0ff;    /* light pastel blue */
+  --h1-bg-start: #ebf0ff;   /* very light blue */
+  --h1-bg-end: #c3d0ff;     /* light pastel blue */
   --h1-border-top: #a3b8ff; /* lighter blue-gray */
   --h1-border-bottom: #8ba3ff;
   --h1-text-color: #1e293b; /* keep dark for readability */
