@@ -2,82 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width">
-  <title>MathJax v3 dynamic equations using CSS and javascript</title>
-  <script>
+  <link rel="stylesheet" href="./styles/globals.css"></link>
+  <title>MathJax v4 dynamic equations using CSS and javascript</title>
+  <script class="show">
   MathJax = {
-    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+    tex: {inlineMath: {'[+]': [['$', '$']]}},
     chtml: {
       displayAlign: 'left'
     },
     startup: {
-      pageReady: function () {
+      async pageReady() {
         //
         //  Do the usual startup (which does a typeset).
         //  When that is all done, un-hide the page.
         //
-        return MathJax.startup.defaultPageReady().then(function () {
-          document.getElementById("hidden").disabled = true;
-        });
+        Reveal.Init();
+        await MathJax.startup.defaultPageReady();
+        document.querySelector('#hidden').disabled = true;
       }
     }
   };
   </script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <script class="show" defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-rc.4/tex-chtml.js"></script>
 
-  <script type="text/javascript">
-  //
-  //  Use a closure to hide the local variable
-  //
-  (function () {
-    var n = 1;
+  <script class="show">
+  Reveal = {
+    n: 1,          // the next step to reveal
+    steps: null,   // the "Show next step" button, once it is available
+    reset: null,   // the "Reset" button, once it is available
+
+    //
+    // Loop up the button objects, for convenience
+    //
+    Init(){
+      this.steps = document.querySelector('#steps');
+      this.reset = document.querySelector('#reset');
+    },
+
+    //
+    // Get the DOM node for the step with the given number
+    //
+    Step(n) {
+      return document.querySelector(`#Step${n}`);
+    },
 
     //
     //  Make the current step be visible, and increment the step.
     //  If it is the last step, disable the step button.
     //  Once a step is taken, the reset button is made available.
     //
-    window.ShowStep = function () {
-      document.getElementById("Step" + n++).style.visibility = "visible";
-      if (!document.getElementById("Step" + n)) {
-        document.getElementById("step").disabled = true;
+    Show() {
+      this.Step(this.n++).style.visibility = 'visible';
+      if (!this.Step(this.n)) {
+        this.steps.disabled = true;
       }
-      document.getElementById("reset").disabled = false;
-    }
+      this.reset.disabled = false;
+    },
 
     //
     //  Enable the step button and disable the reset button.
-    //  Hide the steps.
+    //  Hide all the steps, and move back to the first step.
     //
-    window.ResetSteps = function () {
-      document.getElementById("step").disabled = false;
-      document.getElementById("reset").disabled = true;
-      var i = 1, step; n = 1;
-      while (step = document.getElementById("Step" + i)) {
-        step.style.visibility = "hidden";
-        i++
+    Reset() {
+      this.steps.disabled = false;
+      this.reset.disabled = true;
+      let i = 1, step;
+      while ((step = this.Step(i++))) {
+        step.style.visibility = 'hidden';
       }
-    }
-  })();
+      this.n = 1;
+    },
+  };
   </script>
 
-  <link rel="stylesheet" href="./styles/globals.css"></link>
-  <style>
+  <style class="show">
     /*
      *  Start with the steps being hidden
      */
     #Step1, #Step2, #Step3, #Step4, #Step5 {
       visibility: hidden;
     }
-
-    #frame {
-      margin-left: 2em;
-    }
-
   </style>
 
-  <style id="hidden">
+  <style class="show" id="hidden">
     body {
       visibility: hidden;
     }
@@ -85,27 +93,63 @@
 
 </head>
 <body>
+
 <h1>Dynamic Equations in MathJax</h1>
 
-<div id="frame">
-<p>
-Expand the following:
-\begin{align}
-  (x+1)^2
-    &= \cssId{Step1}{(x+1)(x+1)}            \\[3px]
-    &\cssId{Step2}{{} = x(x+1) + 1(x+1)}    \\[3px]
-    &\cssId{Step3}{{} = (x^2+x) + (x+1)}    \\[3px]
-    &\cssId{Step4}{{} = x^2 + (x + x) + 1}  \\[3px]
-    &\cssId{Step5}{{} = x^2 + 2x + 1}
-\end{align}
-</p>
+<div class="show display">
+ 
+  <p>
+  Expand the following:
+  \begin{align}
+    (x+1)^2
+      &= \cssId{Step1}{(x+1)(x+1)}            \\[3px]
+      &\cssId{Step2}{{} = x(x+1) + 1(x+1)}    \\[3px]
+      &\cssId{Step3}{{} = (x^2+x) + (x+1)}    \\[3px]
+      &\cssId{Step4}{{} = x^2 + (x + x) + 1}  \\[3px]
+      &\cssId{Step5}{{} = x^2 + 2x + 1}
+  \end{align}
+  </p>
 
-<p>
-<input type="button" onclick="ShowStep()" value="Show Next Step" id="step" />
-<input type="button" onclick="ResetSteps()" value="Reset" id="reset" disabled="true" />
-</p>
+  <p>
+  <input type="button" onclick="Reveal.Show()" value="Show Next Step" id="steps" />
+  <input type="button" onclick="Reveal.Reset()" value="Reset" id="reset" disabled="true" />
+  </p>
+ 
+</div>
+
+<div class="explain inset">
+
+<p>This example shows how to use the Javascript and CSS ids to display
+an equation that reveals the steps in a computation one at a time.
+The expression uses the <code>\cssId</code> macro to mark the parts of
+the expression to be revealed, and sets the CSS for those ids to be
+hidden initially. A javascript function tied to a button sets the
+styles for the individual elements to reveal them one at a time.</p>
+
+<p>It also shows one way to prevent the page from being displayed
+until after MathJax has completed its processing. That means that there
+will be no flashing of the unprocessed math before the typeset math is
+displayed. This is accomplished by having the document body be
+initially hidden, and using the <code>pageReady()</code> function in
+the <code>startup</code> block of the MathJax configuration to make
+the body visible once the math has been typeset.</p>
+
+<p>The javascript that reveals the steps of the expression is stored
+in a global object called <code>Reveal</code>.  It has a variable
+<code>n</code> that indicates the next step to be show.  The
+<code>Reveal.Show()</code> function shows step <code>n</code> and
+increments <code>n</code> so that it will show the next step when
+called again.  It also manages the state of the two buttons below the
+expression so that they are enabled at the proper times.</p>
+
+<p>The <code>Reveal.Reset()</code> function hides all the steps, sets
+<code>n</code> to 1 so the steps can be revelaed again, and makes make
+sure the correct buttons are enabled.</p>
+
 
 </div>
+
+<script src="source.js"></script>
 
 </body>
 </html>
