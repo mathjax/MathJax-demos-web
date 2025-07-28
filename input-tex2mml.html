@@ -74,7 +74,7 @@
         //
         // Set the options based on the checkbox states.
         //
-        const {MmlCore} = await import("./mml-core.js");
+        const {MmlCore} = await import("./scripts/mml-core.js");
         const jax = MathJax.startup.document.inputJax.tex;
         jax.parseOptions.options.allowTexHTML = document.querySelector('#allowhtml').checked;
         jax.postFilters.add(({data}) => MmlCore.unicodeVariants(data.root || data));
@@ -250,7 +250,7 @@ separate <a href="mml-core.js">mml-core.js</code> script.</p>
 </div>
 </div>
 
-<script src="source.js"></script>
+<script src="./scripts/source.js"></script>
 <script>
 document.querySelector('#frame').append(document.querySelector('#hide-show'));
 </script>
