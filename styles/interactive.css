@@ -1,0 +1,55 @@
+@import url("globals.css");
+
+/* Output Display */
+#output {
+  font-size: 120%;
+  margin-top: .75em;
+  padding: .25em;
+  min-height: 2em;
+  border: 1px solid var(--border-color);
+  background-color: var(--text-background);
+}
+
+#output > pre {
+  margin-left: 5px;
+  color: #AA0000;
+  text-align: center;
+}
+
+#frame {
+  max-width: 50em;
+  margin: auto;
+}
+
+#controls {
+  width: auto;
+}
+
+#controls select {
+  margin: 3px 0 0 .5em;
+  background-color: var(--select-background);
+  color: var(--select-text);
+  padding: 0.1em 0.4em 0.2em;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#controls hr {
+  border: none;
+  border-top:2px dotted;
+}
+
+#message {
+  text-align: center;
+  margin: 1em 0;
+}
+
+#hide-show {
+  font-size: 75%;
+}
+
+#source-frame {
+  max-width: 60em;
+  margin: auto;
+}

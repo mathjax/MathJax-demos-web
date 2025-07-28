@@ -54,7 +54,7 @@ input[type="button"]:not(mjx-help-dialog *, .CtxtMenu_Info *) {
   transition: all 0.075s ease-in-out;
 }
 
-input[type="button"]:not(mjx-help-dialog *, .CtxtMenu_Info *):active {
+input[type="button"]:not([disabled], mjx-help-dialog *, .CtxtMenu_Info *):active {
   box-shadow: 0.75px 1px var(--btn-shadow);
   transform: translateY(1.5px); /* simulate press-down effect */
 }
@@ -76,25 +76,7 @@ input[type="button"][disabled]:not(mjx-help-dialog *, .CtxtMenu_Info *) {
   border: 2px solid var(--border-color);
 }
 
-/* Output Display */
-#output {
-  font-size: 120%;
-  margin-top: .75em;
-  padding: .25em;
-  min-height: 2em;
-  border: 1px solid var(--border-color);
-  background-color: var(--text-background);
-}
-
-#output > pre {
-    margin-left: 5px;
-}
-
-#frame {
-  max-width: 40em;
-  margin: auto;
-}
-
+/* Positioning */
 .left {
   float: left;
   margin-top: 5px;
@@ -150,4 +132,20 @@ pre.code hr {
   border: 1px solid var(--code-border);
   margin-left: 0;
   margin-right: 2em;
+}
+
+code-comment {
+  color: var(--code-comment);
+}
+
+code-tag {
+  color: var(--code-tag);
+}
+
+code-attr {
+  color: var(--code-attr);
+}
+
+code-value {
+  color: var(--code-value);
 }

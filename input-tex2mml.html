@@ -1,84 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width">
-  <title>MathJax v3 with interactive TeX input and MathML output</title>
-  <script>
+  <link rel="stylesheet" href="./styles/interactive.css"></link>
+  <title>MathJax v4 interactive TeX input and MathML output</title>
+  <style class="show" id="mjx-explorer-styles"></style>
+  <style class="show">
+    mjx-container[display="block"] {
+      display: block;
+      margin: 1em 0;
+    }
+  </style>
+  <script class="show">
   MathJax = {
-    loader: {load: ['input/tex']}
-  };
+    //
+    // Load the texhtml package and configure it.
+    //
+    loader: {load: ['input/tex', '[tex]/texhtml', 'a11y/explorer', 'ui/menu']},
+    tex: {packages: {'[+]': ['texhtml']}},
+    options: {
+      //
+      // Override the usual typeset render action with one that generates MathML output.
+      // Disable the assisitve-mml extension.
+      //
+      renderActions: {
+        typeset: [150,
+          (doc) => {for (math of doc.math) {MathJax.config.renderMathML(math, doc)}},
+          (math, doc) => MathJax.config.renderMathML(math, doc)
+        ],
+        assistiveMml: [],
+      },
+      menuOptions: {
+        settings: {
+          assistiveMml: false,
+        }
+      }
+    },
+    //
+    // The action to use for rendering MathML:
+    //   Create the container and insert the MathML into it.
+    //   Mark it as a display expression, if needed.
+    //
+    renderMathML(math, doc) {
+      math.typesetRoot = document.createElement('mjx-container');
+      math.typesetRoot.innerHTML = MathJax.startup.toMML(math.root);
+      if (math.display) {
+        math.typesetRoot.setAttribute('display', 'block');
+      }
+    },
+    //
+    // Use the startup ready() function to create the styles needed
+    // by the explorer, and to set the options as they are in the
+    // browser (in case of a reload that retains input states).
+    // Finally, convert the input when MathJax is ready.
+    //
+    startup: {
+      async ready() {
+        MathJax.startup.defaultReady();
+        //
+        // Add the CSS needed for the explorer (since that is usually
+        // done by the output jax, and we don't have one).
+        //
+        const doc = MathJax.startup.document;
+        const {StyleJsonSheet} = MathJax._.util.StyleJson;
+        const css = new StyleJsonSheet(doc.constructor.speechStyles);
+        document.querySelector('#mjx-explorer-styles').textContent = css.cssText;
+        //
+        // Disable the some menu items.
+        //
+        doc.menu.menu.findID('Options', 'AssistiveMml').disable();
+        doc.menu.menu.findID('Settings', 'Renderer').disable();
+        //
+        // Set the options based on the checkbox states.
+        //
+        const {MmlCore} = await import("./mml-core.js");
+        const jax = MathJax.startup.document.inputJax.tex;
+        jax.parseOptions.options.allowTexHTML = document.querySelector('#allowhtml').checked;
+        jax.postFilters.add(({data}) => MmlCore.unicodeVariants(data.root || data));
+        //
+        // Typeset the initial math, when ready.
+        //
+        MathJax.whenReady(() => Interactive.convert());
+      }
+    },
+    //
+    // A function to get the URL for the fonts.  We use jsdelivr.net.
+    //
+    fontUrl: (font) => `https://cdn.jsdelivr.net/npm/@mathjax/${font}-font@4.0.0-rc.4`,
+  }
   </script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
-  <script>
-    function convert() {
+  <script class="show" defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-rc.4/startup.js"></script>
+  <script class="show">
+  const Interactive = {
+    async convert() {
       //
-      //  Get the TeX input
+      //  Disable the input controls until MathJax is done.
       //
-      var input = document.getElementById("input").value.trim();
+      this.enableControls(false);
       //
-      //  Disable the display and render buttons until MathJax is done
+      //  Get the TeX input and the node to use for output.
       //
-      var display = document.getElementById("display");
-      var button = document.getElementById("render");
-      button.disabled = display.disabled = true;
-      //
-      //  Clear the old output
-      //
-      output = document.getElementById('output');
-      output.innerHTML = '<pre></pre>';
+      const input = document.querySelector('#input').value.trim();
+      const output = document.querySelector('#output');
       //
       //  Reset the tex labels (and automatic equation numbers, though there aren't any here).
-      //  Convert the input to MathML output and use a promise to wait for it to be ready
-      //    (in case an extension needs to be loaded dynamically).
+      //  Clear any old typesetting data.
+      //  Get the conversion options (format and display settings).
+      //  Convert the input to MathML output and use a promise to wait for it to be ready.
       //
       MathJax.texReset();
-      MathJax.tex2mmlPromise(input, {display: display.checked}).then(function (mml) {
+      MathJax.startup.document.clear();
+      const options = {
+        format: 'TeX',
+        display: document.querySelector('#display').checked
+      };
+      await MathJax.startup.document.convertPromise(input, options).then((node) => {
         //
-        //  The promise returns the serialized MathML, and we add that
-        //  to the <pre> element in the output.
+        // The promise returns the typeset expression, which we add set as the output.
+        // Tell the menu system about this node (since we aren't using an output jax).
         //
-        output.firstChild.appendChild(document.createTextNode(mml));
-      }).catch(function (err) {
+        output.innerHTML = '';
+        output.append(node);
+        MathJax.startup.document.menu.menu.store.insert(node);
+      }).catch((err) => {
         //
-        //  If there was an error, put the message into the output instead
+        // If there was an error, put the message into the output,
+        // and report it to the console.
         //
-        output.firstChild.appendChild(document.createTextNode(err.message));
-      }).then(function () {
-        //
-        //  Error or not, re-enable the display and render buttons
-        //
-        button.disabled = display.disabled = false;
-      });
+        output.innerHTML = `<pre>Error: ${err.message}</pre>`;
+        console.error(err);
+      })
+      //
+      // Error or not, re-enable the display and render buttons
+      //
+      this.enableControls(true);
+    },
+
+    //
+    // Enable/disable the input controls
+    //
+    enableControls(enable = true) {
+      for (const name of ['display', 'allowhtml', 'mmlcore', 'render']) {
+        document.querySelector(`#${name}`).disabled = !enable;
+      }
+    },
+
+    //
+    // Set the allowTexHTML option and rerender.
+    //
+    allowHTML(allow) {
+      MathJax.startup.document.inputJax.tex.parseOptions.options.allowTexHTML = allow;
+      this.convert();
     }
+  };
   </script>
-  <link rel="stylesheet" href="./styles/globals.css"></link>
 </head>
 
 <body>
+
 <div id="frame">
+<div class="show display">
+ 
+  <h1>MathJax v4: TeX to MathML</h1>
 
-<h1>MathJax v3: TeX to MathML</h1>
-
-<textarea id="input" rows="15" cols="10">
+  <textarea id="input" rows="15" cols="10">
 %
 % Enter TeX commands below
 %
 x = {-b \pm \sqrt{b^2-4ac} \over 2a}.
-</textarea>
-<br />
-<div class="left">
-<input type="checkbox" id="display" checked onchange="convert()"> <label for="display">Display style</label>
+  </textarea>
+
+  <br />
+
+  <div class="left">
+    <div id="controls">
+
+      <input type="checkbox" id="display" checked onchange="Interactive.convert()">
+         <label for="display">Display style</label><br>
+
+      <input type="checkbox" id="allowhtml" onchange="Interactive.allowHTML(this.checked)">
+         <label for="allowHTML">Allow HTML in TeX</label><br>
+
+      <input type="checkbox" id="mmlcore" onchange="Interactive.convert()">
+         <label for="mmlcore">Convert mathvariants</label><br>
+
+    </div>
+  </div>
+
+  <div class="right">
+    <input type="button" value="Render TeX" id="render" onclick="Interactive.convert()" />
+  </div>
+
+  <br clear="all" />
+
+  <div id="output"></div>
+
+  <script>Interactive.enableControls(false)</script>
+ 
 </div>
-<div class="right">
-<input type="button" value="Convert TeX" id="render" onclick="convert()" />
+
+<div class="explain inset">
+
+<p>This example shows how to produce MathML output from MathJax's TeX
+input, without the need for a native MathML output jax.  We do this by
+defining a new <code>renderAction</code> that replaces the usual
+output jax's typesetting operation; its job is to create the usual
+<code>mjx-container</code> node and set its <code>innerHTML</code> to
+the serialzied version of the internal MathML produced by MathJax.</p>
+
+<p>We use <code>MathJax.startup.document.convertPromise</code>, the
+function that underlies the functions like `MathJax.tex2mmlPromise()`
+in order to obtain the container node, and when the promise resolves,
+we simply insert that container into the page and tell the menu code
+that it is there (since we don't have an output jax to do that for
+us).  Using the promise-based convertion function allows for the
+possibility that they use <code>\require</code> to load extensions
+dynamically, or one is loaded automatically by the
+<code>autoload</code> extension.</p>
+
+<p>When the user presses the <code>Render TeX</code> button or
+switches the <code>display</code> checkbox or one of the other
+controls, the <code>Interactive.convert()</code> function runs. The
+comments in the code explain how the conversion process is
+handled. Note that the user interface is disabled during the
+typesetting process, since the conversion is done asynchronously in
+this example. This prevents the user from starting a new typeset
+operation while one is already in progress.</p>
+
+<p>Most browser only implement MathML-Core, a limited version of
+MathML that doesn't include all the features that MathJax uses.  In
+particular, MathML-Core doesn't include the <code>mathvariant</code>
+attribute that MathJax uses to implement commands like `\mathbf`,
+`\mathbb`, and so on, so using MathJax MathML output directly may mean
+that some font variants may not show up properly here.  The
+<code>Convert mathvariants</code> checkbox will enable code that
+converts the characters within elements that use
+<code>mathvariant</code> attributes into their counterparts in the
+Math Alphanumerics uncide block, as required by MathML-Core.  Note,
+however, that not all characters have such counterparts, so you may
+not be able to generate a bold plus sign or an italic number, for
+example, as there are no unicode equivalents for those.  When this
+occurs, we add a <code>style</code> attribute as a fall-back to get
+the proper variant, when possible.</p>
+
+<p>The code for doing the <code>mathvariant</code> conversion is in a
+separate <a href="mml-core.js">mml-core.js</code> script.</p>
+
 </div>
-<br clear="all" />
-<div id="output"></div>
 </div>
+
+<script src="source.js"></script>
+<script>
+document.querySelector('#frame').append(document.querySelector('#hide-show'));
+</script>
 
 </body>
-
 </html>
