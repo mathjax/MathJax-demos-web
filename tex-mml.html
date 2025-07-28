@@ -15,27 +15,35 @@
   <script class="show">
   MathJax = {
     //
-    //  Load only TeX input and the contextual menu
+    // Load only TeX input and the contextual menu
     //
     loader: {load: ['input/tex', 'a11y/explorer', 'ui/menu']},
     tex: {inlineMath: {'[+]': [['$', '$']]}},
     startup: {
       //
-      //  Set the styles needed for the expression explorer
-      //  and disable the assistive MathML menu.
+      // Set the styles needed for the expression explorer and
+      // disable the assistive MathML menu and renderer menu.
       //
       ready() {
         MathJax.startup.defaultReady();
+        //
+        // Add the CSS needed for the explorer (since that is usually
+        // done by the output jax, and we don't have one).
+        //
         const doc = MathJax.startup.document;
         const {StyleJsonSheet} = MathJax._.util.StyleJson;
         const css = new StyleJsonSheet(doc.constructor.speechStyles);
         const sheet = document.getElementById('mjx-explorer-styles');
         sheet.textContent = css.cssText;
+        //
+        // Disable the some menu item.
+        //
         doc.menu.menu.findID('Options', 'AssistiveMml').disable();
+        doc.menu.menu.findID('Settings', 'Renderer').disable();
       },
       //
-      //  Perform the initial typesetting (we don't have an output
-      //  jax, so this isn't done automatically).
+      // Perform the initial typesetting (we don't have an output
+      // jax, so this isn't done automatically).
       //
       pageReady() {
         return MathJax.startup.document.renderPromise();
@@ -43,7 +51,7 @@
     },
     options: {
       //
-      //  Override the usual typeset render action with one that generates MathML output.
+      // Override the usual typeset render action with one that generates MathML output.
       //
       renderActions: {
         assistiveMml: [],  // disable assistive mathml
@@ -53,7 +61,7 @@
         ]
       },
       //
-      //  Don't add assistive MathML.
+      // Don't add assistive MathML.
       //
       menuOptions: {
         settings: {
