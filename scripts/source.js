@@ -41,10 +41,10 @@
       content = content.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
     }
     content = content.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    content = content.replace(/=""/g, '');
     content = content.replace(/(&lt;!--[^]*--&gt;)/g, '<code-comment>$1</code-comment>');
     content = content.replace(/&lt;\/?[a-zA-Z].*?&gt;/g, (tag) => {
       tag = tag.replace(/([^ ]+?)="([^]*?)"/g, '<code-attr>$1="<code-value>$2</code-value>"</code-attr>');
+      tag = tag.replace(/="<code-value><\/code-value>"/g, '');
       return `<code-tag>${tag}</code-tag>`;
     });
     if (isScript) {
