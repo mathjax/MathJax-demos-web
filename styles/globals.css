@@ -149,3 +149,17 @@ code-attr {
 code-value {
   color: var(--code-value);
 }
+
+code-string {
+  color: var(--code-string);
+}
+
+#frame {
+  max-width: 50em;
+  margin: auto;
+}
+
+#source-frame.minimum {
+  max-width: 60em;
+  margin: auto;
+}

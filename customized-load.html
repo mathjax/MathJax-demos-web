@@ -2,32 +2,78 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width">
-  <title>MathJax v3 with customized list of components</title>
-  <script>
+  <link rel="stylesheet" href="./styles/globals.css"></link>
+  <title>MathJax v4: customized list of components</title>
+  <script class="show">
   MathJax = {
     loader: {
-      load: [
-        'input/tex-base', '[tex]/newcommand', '[tex]/action',
-        'output/chtml'
-      ]
+      load: ['input/tex-base', '[tex]/newcommand', '[tex]/action', 'output/chtml']
     },
     tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']],
-      packages: ['base', 'newcommand', 'action']
+      packages: ['base', 'newcommand', 'action'],
+      inlineMath: {'[+]': [['$', '$']]},
+    },
+    chtml: {
+      font: 'mathjax-newcm'
     }
   };
   </script>
-  <link rel="stylesheet" href="./styles/colors.css"></link>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
+  <script class="show" defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-rc.4/startup.js"></script>
 </head>
 <body>
 
-    <p>
-    When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
-    $$x = {-b \pm \sqrt{\texttip{b^2-4ac}{descriminant}} \over 2a}.$$
-    </p>
+<div id="frame">
+
+<h1>Customized List of Components</h1>
+
+<div class="inset">
+
+<p>This examples shows how to load a specify list of components rather
+than one of the combined components.  In this case, we load the base
+TeX component, the newcommand extension, the action extension, and the
+CHTML output component.  The CHTML output is configured to use the
+<code>mathjax-newcm</code> font, since the individual output
+components don't automatically load a font.</p>
+
+</div>
+
+<div class="show display">
+ 
+  <p>
+  When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
+  $$x = {-b \pm \sqrt{\texttip{b^2-4ac}{descriminant}} \over 2a}.$$
+  </p>
+ 
+</div>
+</div>
+
+<div class="explain inset">
+
+<p>This example shows how to mix-and-match the components that are
+loaded (if there isn’t a combined component that includes what you
+need). This is done by setting the <code>load</code> array in the
+<code>loader</code> section of you MathJax configuration, as shown
+below.</p>
+
+<p>Here, we specify the <code>tex-base</code> input jax (which is TeX
+with no extra packages included), and explicitly load the
+<code>newcommand</code> and <code>action</code> extensions. We also
+load the <code>chtml</code> output jax, and configure it to use the 
+<code>mathjax-newcm</code> font, since the stand-alone output
+components don't include a font themselves.</p>
+
+<p>The TeX configuration registers the loaded packages with the TeX
+input jax (it is possible to load extensions without initially
+enabling them), and adds dollar signs as in-line math delimiters.</p>
+
+<p>The expression in the <code>\texttip</code> macro from the
+<code>action</code> module to add a tool-tip to part of the quadratic
+equation; hover the mouse over the discriminant to see.</p>
+
+</div>
+
+<script src="./scripts/source.js"></script>
 
 </body>
 </html>

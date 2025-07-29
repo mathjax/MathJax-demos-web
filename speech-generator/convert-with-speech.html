@@ -8,7 +8,7 @@
   <script>
   MathJax = {
     loader: {load: ['input/asciimath', 'input/mml', 'input/tex', 'output/svg', 'a11y/sre']},
-    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+    tex: {inlineMath: {'[+]': [['$', '$']]}},
     startup: {
       ready: function() {
         MathJax.startup.defaultReady();

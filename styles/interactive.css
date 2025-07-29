@@ -16,11 +16,6 @@
   text-align: center;
 }
 
-#frame {
-  max-width: 50em;
-  margin: auto;
-}
-
 #controls {
   width: auto;
 }
@@ -47,9 +42,4 @@
 
 #hide-show {
   font-size: 75%;
-}
-
-#source-frame {
-  max-width: 60em;
-  margin: auto;
 }
