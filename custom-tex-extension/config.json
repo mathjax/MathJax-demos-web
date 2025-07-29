@@ -1,0 +1,10 @@
+{
+  "webpack": {
+    "name": "mml",
+    "libs": [
+      "components/src/core/lib",
+      "components/src/input/tex-base/lib"
+    ],
+    "dist": "."
+  }
+}

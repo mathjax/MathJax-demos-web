@@ -57,6 +57,33 @@
       });
     }
     return content;
+  };
+
+  const makePre = (node, code, isScript) => {
+    const pre = document.createElement('pre');
+    pre.classList.add('code');
+    pre.classList.add('minimum');
+    pre.innerHTML = colorizeContent(code, isScript);
+    node.replaceWith(pre);
+  }
+
+  window.colorizeCode = () => {
+    const nodes = Array.from(document.querySelectorAll('script[type="text/x-colorize-code"]'));
+    for (const node of nodes) {
+      const text = node.textContent.replace(/^\n/, '');
+      makePre(node, text, !node.classList.contains('html'));
+    }
+  }
+
+  window.loadCode = async () => {
+    const nodes = Array.from(document.querySelectorAll('script[type="text/x-load-code"]'));
+    for (const node of nodes) {
+      const response = await fetch(node.src);
+      if (response.ok) {
+        const text = await response.text();
+        makePre(node, text, true);
+      }
+    }
   }
 
   const control = document.createElement('div');
@@ -113,6 +140,17 @@
       code.append(document.createElement('hr'));
     }
   }
+
+  colorizeCode();
+
+  if (typeof(MathJax) === 'undefined') window.MathJax = {};
+  if (!MathJax.startup) MathJax.startup = {};
+  const ready = MathJax.startup.ready || (() => MathJax.startup.defaultReady())
+  MathJax.startup.ready = async () => {
+    await ready();
+    await MathJax.startup.promise;
+    loadCode();
+  };
 
   let oldTop;
 
