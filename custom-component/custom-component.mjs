@@ -4,11 +4,6 @@
 import {startup} from '@mathjax/src/components/js/startup/init.js';
 
 //
-// Set up the MathJax path, if it isn't already.
-//
-import './custom-component-path.js';
-
-//
 // Load the components needed for this combined component.
 //
 import {Loader} from '@mathjax/src/js/components/loader.js';
@@ -47,7 +42,7 @@ registerTeX([
   'newcommand',
   'configmacros',
   'action'
-], false);
+]);
 
 //
 // Avoid the version number warning if this component is loaded by node-main.

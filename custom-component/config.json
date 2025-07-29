@@ -1,0 +1,6 @@
+{
+  "webpack": {
+    "name": "custom-component",
+    "dist": "."
+  }
+}

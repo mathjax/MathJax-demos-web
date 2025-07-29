@@ -2,19 +2,114 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width">
-  <title>MathJax v3 custom combined component file</title>
-  <script src="custom-component.min.js" id="MathJax-script" async></script>
+  <link rel="stylesheet" href="../styles/globals.css">
+  <title>MathJax v4 custom combined component file</title>
+  <script class="show" src="custom-component.min.js" id="MathJax-script" defer></script>
 </head>
 <body>
 
-<p>
-Custom combined component file with toggle included.  Click on the "x"
-in the expression to see.
-</p>
+<div id="frame">
 
-$$\toggle{x}{y}{z}\endtoggle + 1$$
+<h1>MathJax v4 Custom TeX Extension</h1>
+
+<!--
+<div style="inset">
+
+<p>This file uses a custom combined configuration file that includes
+only the components it needs. In this case, that is the base TeX input
+jax, the CHTML output jax, the <code>ams</code>,
+<code>newcommand</code>, <code>configmacros</code>, and
+<code>action</code> TeX packages, the expression explorer, and the
+contextual menu component.  These are combined into a single file that
+can be served from y9our own site.  The Use the "Show Source"
+button at the bottom to see more details.</p>
+
+</div>
+-->
+
+<div class="show display">
+ 
+  <p>
+  This file uses a custom combined component file with toggle included.  Click on the "x"
+  in the expression to see.
+  </p>
+
+  $$\toggle{x}{y}{z}\endtoggle + 1$$
+
+</div>
+</div>
+
+<div class="explain inset">
+
+<p>This example shows how to create a component that combines several
+of the predefined components into one single custom component that
+includes exactly the pieces that you want.</p>
+
+<p>The main code for the component is</p>
+
+<div class="indent">
+<details>
+<summary><code>custom-component.js</code></summary>
+<script type="text/x-load-code" src="custom-component.js"></script>
+</details>
+</div>
+
+<p>which contains comments describing it in detail. In order to use
+the component in your web pages, you must turn this into a MathJax
+component file, which you do by first defining the component using the
+file</p>
+
+<div class="indent">
+<details>
+<summary><code>config.json</code></summary>
+<script type="text/x-load-code" src="config.json"></script>
+</details>
+</div>
+
+<p>which gives the name of the component and where to pus the
+webpacked version of the code. The <code>dest</code> property being
+set to <code>'.'</code> means that the component will be placed in the
+directory with the source file, but with <code>.min.js</code> as the
+extension rather than <code>.js</code>.</p>
+
+<p>To make the final component, use the commands</p>
+
+<script type="text/x-colorize-code" class="html">
+npm install
+npm run make-custom-component
+</script>
+
+<p>from the main directory of this repository. That will create the
+<code>custom-component.min.js</code> file in the
+<code>custom-component</code> directory.</p>
+
+<p>To use this in your own web page, you only need one line:</p>
+
+<script type="text/x-colorize-code" class="html">
+<script src="custom-component.min.js">&lt;/script>
+</script>
+
+<p>(include the path to the <code>custom-component.min.js</code> file
+if needed). You can still use a MathJax configuration in your web
+page, or you could put additional configuration into the file</p>
+
+<div class="indent">
+<details>
+<summary><code>custom-component-path.js</code></summary>
+<script type="text/x-load-code" src="custom-component-path.js"></script>
+</details>
+</div>
+
+<p>if you want to set the defaults for other options.  This file sets
+the base Mathjax path to the <code>jsdelivr.net</code> CDN, so that
+the component can find the language files needed for speech
+generation, or other components if you were to load the
+<code>require</code> or <code>autoload</code> TeX extensions.</p>
+
+</div>
+
+<script src="../scripts/source.js"></script>
 
 </body>
 </html>

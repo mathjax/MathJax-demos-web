@@ -29,7 +29,7 @@
   };
 
   const colorScript = (script) => {
-    script = script.replace(/( |^)(\/\/.*?)\n/g, '$1<code-comment>$2</code-comment>\n');
+    script = script.replace(/( |^)(\/\/.*?)\n/gm, '$1<code-comment>$2</code-comment>\n');
     script = script.replace(/(\/\*[^]*?\*\/)\n/g, '<code-comment>$1</code-comment>\n');
     script = script.replace(/('(?:\.|.)*?')/g, '<code-string>$1</code-string>');
     script = script.replace(/("(?:\.|.)*?")/g, '<code-string>$1</code-string>');
