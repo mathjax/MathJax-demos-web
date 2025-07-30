@@ -42,7 +42,7 @@ var Translate = {
     'a11y/explorer': 'a11y/explorer',
     'a11y/semantic-enrich': 'a11y/semantic-enrich',
     'asciimath2jax': {ignore: true},
-    'AssistiveMML': {NA: ''},
+    'AssistiveMML': 'a11y/assistive-mml',
     'CHTML-preview': {NI: true},
     'fast-preview': {NI: true},
     'FontWarnings': {NA: ''},
@@ -53,7 +53,7 @@ var Translate = {
     'MathEvents': {ignore: true},
     'MathMenu': {ignore: true},
     'MathML/content-mathml': {NI: true},
-    'MathML/mml3': {NI: true},
+    'MathML/mml3': 'input/mml/extensions/mml3',
     'MathZoom': {ignore: true},
     'mml2jax': {ignore: true},
     'Safe': 'ui/safe',
@@ -64,7 +64,7 @@ var Translate = {
     'TeX/autobold': {NI: true},
     'TeX/autoload-all': '[tex]/autoload',
     'TeX/bbox': '[tex]/bbox',
-    'TeX/begingroup': {NI: true},
+    'TeX/begingroup': '[tex]/begingroup',
     'TeX/boldsymbol': '[tex]/boldsymbol',
     'TeX/cancel': '[tex]/cancel',
     'TeX/color': '[tex]/color',
@@ -82,6 +82,16 @@ var Translate = {
     'TeX/verb': '[tex]/verb',
     'tex2jax': {ignore: true},
     'toMathML': {ignore: true}
+  },
+
+  fonts: {
+    'TeX': 'mathjax-tex',
+    'STIX-Web': 'mathjax-stix2',
+    'Asana-Math': 'mathjax-asana',
+    'Neo-Euler': 'mathjax-euler',
+    'Gyre-Pagella': 'mathjax-pagella',
+    'Gyre-Termes': 'mathjax-termes',
+    'Latin-Modern': 'mathjax-modern'
   },
 
   set: function(name, value, config) {
@@ -216,8 +226,25 @@ var Translate = {
     var font = Translate.checkEval(prefix, key, value);
     if (!font) return;
     if (font instanceof Array) font = font[0];
-    if (font !== 'TeX') {
-      Convert.convertError(prefix, key, 'Currently only the TeX font is available (%s not implemented)');
+    if (!Object.hasOwn(Translate.fonts, font)) {
+      Convert.convertError(prefix, key, '%s not a known v2 font');
+    }
+    if (font === 'Neo-Euler') {
+      Convert.extensions['[mathjax-euler-extension]'] = true;
+      Translate.set('loader.paths.mathjax-euler-extension', 'https://cdn.jsdeliver.net/npm/@mathjax/mathjax-euler-font-extension@4', config);
+    } else {
+      Translate.set('output.font', `'${Translate.fonts[font]}'`, config);
+    }
+  },
+
+  linebreaks: function (prefix, key, value, config) {
+    if (Translate.checkValue(prefix, key, value)) {
+      if (key === 'automatic') {
+        Translate.set('options.displayOverflow', value[0] === 'true' ? "'linebreak'" : "'overflow'", config);
+      } else {
+        const width = value[0].replace(/container/, '').replace(/\s/g, '');
+        Translate.set('output.linebreaks.width', width, config);
+      }
     }
   },
 
@@ -252,7 +279,7 @@ var Translate = {
     if (!renderer) return;
     if (renderer === 'CommonHTML') renderer = 'CHTML';
     if (renderer !== 'CHTML' && renderer !== 'SVG') {
-      Convert.convertError([], renderer, 'Renderer %s is not implemented in v3')
+      Convert.convertError([], renderer, 'Renderer %s is not implemented in v4')
     } else {
       Translate.set('options.menuOptions.settings.renderer', "'" + renderer.toLowerCase() + "'", config);
     }
@@ -362,7 +389,7 @@ var Convert = {
       mpMouse: Translate.notAvailable,
       texHints: Translate.transfer('options.menuOptions.settings.texHints'),
       FastPreview: Translate.notAvailable,
-      assistiveMML: Translate.notAvailable,
+      assistiveMML: Translate.transfer('options.menuOptions.settings.assistiveMml'),
       inTabOrder: Translate.transfer('options.menuOptions.settings.inTabOrder'),
       semantics: Translate.transfer('options.menuOptions.settings.semantics')
     },
@@ -468,7 +495,10 @@ var Convert = {
       EqnChunkFactor: Translate.notImplemented,
       EqnChunkDelay: Translate.notImplemented,
       matchFontHeight: Translate.transfer('chtml.matchFontHeight'),
-      linebreaks: Translate.notImplemented,
+      linebreaks: {
+        automatic: Translate.linebreaks,
+        width: Translate.linebreaks,
+      },
       styles: Translate.styles,
       tooltip: Translate.message('Tooltip CSS can be overriden via direct CSS (%s)')
     },
@@ -490,7 +520,10 @@ var Convert = {
       EqnChunkDelay: Translate.notImplemented,
       matchFontHeight: Translate.transfer('chtml.matchFontHeight'),
       noReflows: Translate.notAvailable,
-      linebreaks: Translate.notImplemented,
+      linebreaks: {
+        automatic: Translate.linebreaks,
+        width: Translate.linebreaks,
+      },
       styles: Translate.styles,
       tooltip: Translate.message('Tooltip configuration currently is static and can\'t be configured (%s)')
     },
@@ -500,8 +533,8 @@ var Convert = {
       scale: Translate.scale('svg', 'scale'),
       minScaleAdjust: Translate.scale('svg', 'minScale'),
       font: Translate.font,
-      blacker: Translate.notImplemented,
-      undefinedFamily: Translate.transfer('%s is now handled through direct CSS'),
+      blacker: Translate.transfer('svg.blacker'),
+      undefinedFamily: Translate.message('%s is now handled through direct CSS'),
       mtextFontInherit: Translate.transfer('svg.mtextInheritFont'),
       addMMLclasses: Translate.message('MathML classes are always included (%s)'),
       useFontCache: Translate.fontCache,
@@ -511,7 +544,10 @@ var Convert = {
       EqnChunkDelay: Translate.notImplemented,
       matchFontHeight: Translate.message('Font height is always matched (%s)'),
       noReflows: Translate.notAvailable,
-      linebreaks: Translate.notImplemented,
+      linebreaks: {
+        automatic: Translate.linebreaks,
+        width: Translate.linebreaks,
+      },
       merrorStyle: Translate.notImplemented,
       styles: Translate.styles,
       tooltip: Translate.message('Tooltip configuration currently is static and can\'t be configured (%s)')
@@ -558,8 +594,8 @@ var Convert = {
                        '</span><span class="red">' + this.escape(this.text.slice(this.i)) + '</span></pre>');
     }
     if (this.errors.length === 0) {
-      var config3 = this.convertToV3(config, config2);
-      this.displayConfig(config3);
+      var config4 = this.convertToV4(config, config2);
+      this.displayConfig(config4);
     }
     this.displayErrors();
   },
@@ -755,16 +791,16 @@ var Convert = {
     return [value.replace(/\s+$/, ''), comment, end];
   },
 
-  convertToV3: function (config, config2) {
+  convertToV4: function (config, config2) {
     var params = this.parseParams('config=' + config);
-    var config3 = this.convertBlock([], this.translateParams, params, {});
+    var config4 = this.convertBlock([], this.translateParams, params, {});
     if (config2.jax) {
-      this.convertBlock([], this.translateConfig, {jax: config2.jax}, config3);
+      this.convertBlock([], this.translateConfig, {jax: config2.jax}, config4);
       delete config2.jax;
     }
-    this.convertBlock([], this.translateConfig, config2, config3);
-    this.convertFinalize(config3);
-    return config3;
+    this.convertBlock([], this.translateConfig, config2, config4);
+    this.convertFinalize(config4);
+    return config4;
   },
 
   parseParams: function (config) {
@@ -862,13 +898,13 @@ var Convert = {
     this.errors.push('<li>' + message.replace(/%s/g, name) + '</li>');
   },
 
-  displayConfig: function (config3) {
+  displayConfig: function (config4) {
     var script = this.displayScript();
-    this.loadFiles(config3);
-    var config = (Object.keys(config3).length === 0 ? '' :
-                  '<script>\nwindow.MathJax = ' + this.formatBlock(config3, '') + ';\n</script>\n'
+    this.loadFiles(config4);
+    var config = (Object.keys(config4).length === 0 ? '' :
+                  '<script>\nwindow.MathJax = ' + this.formatBlock(config4, '') + ';\n</script>\n'
                  ) + script;
-    document.getElementById('v3-config').appendChild(document.createTextNode(config));
+    document.getElementById('v4-config').appendChild(document.createTextNode(config));
   },
 
   displayScript: function () {
@@ -883,7 +919,7 @@ var Convert = {
         this.removeRedundancies();
       }
     }
-    return '<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/' + file + '.js" id="MathJax-script"></script>';
+    return '<script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/' + file + '.js"></script>';
   },
 
   removeRedundancies: function () {
@@ -934,7 +970,7 @@ var Convert = {
   },
 
   clearResults: function () {
-    document.getElementById("v3-config").innerHTML = '';
+    document.getElementById("v4-config").innerHTML = '';
     document.getElementById("errors").innerHTML = '';
     this.errors = [];
     this.inputJax = {};

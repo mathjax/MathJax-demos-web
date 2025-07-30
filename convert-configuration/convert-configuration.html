@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width">
-<title>Convert MathJax v2 configuration v3</title>
+<title>Convert MathJax v2 configuration v4</title>
 <style>
 body {
   font-family: sans-serif
@@ -70,7 +70,7 @@ td.fullwidth input {
   font-family: monospace;
   font-size: 100%
 }
-#v3-config {
+#v4-config {
   border: 1px solid #AAA;
   padding: .5em;
   white-space: pre;
@@ -105,29 +105,27 @@ td.fullwidth input {
 <p>
 
 This tool will convert a MathJax version 2 configuration to a
-corresponding MathJax version 3 configuration.  Copy and paste your
+corresponding MathJax version 4 configuration.  Copy and paste your
 <code>MathJax.Hub.Config()</code> or <code>window.MathJax = {};</code>
 configuration block into the text area at the right, enter the
 configuration file you are using (and any other parameters) in the
 input area below it, and press the <code>Convert</code> button.  The
-version 3 configuration will be displayed in the area indicated, and
+version 4 configuration will be displayed in the area indicated, and
 any comments about what could not be converted will be displayed
 below that.
 
 </p>
 <p>
 
-Not all version 2 features have been implemented yet in version 3
-(e.g., linebreaking, some TeX extensions, font selection for the
-various output formats, etc.), and some may not be available at all
-(e.g., v3 does not produce processing messages, so the options that
-control those are not available); these will be indicated in the
-comments section.
+A few version 2 features have been implemented yet in version, and
+some may not be available at all (e.g., v4 does not produce processing
+messages, so the options that control those are not available); these
+will be indicated in the comments section.
 
 </p>
 <p>
 
-Version 3 uses ES6 promises rather than version 2's signals and
+Version 4 uses ES6 promises rather than version 2's signals and
 queues, so if your configuration includes
 <code>MathJax.Hub.Register.StartupHooks()</code> or similar calls,
 these will have to be replaced by promises; this converter does not
@@ -165,8 +163,8 @@ onclick="Convert.convertConfiguration()"/></td>
 </tr>
 </table>
 
-<h2>Version 3 configuration:</h2>
-<pre id="v3-config">
+<h2>Version 4 configuration:</h2>
+<pre id="v4-config">
 </pre>
 
 <h2>Comments:</h2>
