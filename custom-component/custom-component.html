@@ -13,21 +13,6 @@
 
 <h1>MathJax v4 Custom TeX Extension</h1>
 
-<!--
-<div style="inset">
-
-<p>This file uses a custom combined configuration file that includes
-only the components it needs. In this case, that is the base TeX input
-jax, the CHTML output jax, the <code>ams</code>,
-<code>newcommand</code>, <code>configmacros</code>, and
-<code>action</code> TeX packages, the expression explorer, and the
-contextual menu component.  These are combined into a single file that
-can be served from y9our own site.  The Use the "Show Source"
-button at the bottom to see more details.</p>
-
-</div>
--->
-
 <div class="show display">
  
   <p>
@@ -48,24 +33,14 @@ includes exactly the pieces that you want.</p>
 
 <p>The main code for the component is</p>
 
-<div class="indent">
-<details>
-<summary><code>custom-component.js</code></summary>
 <script type="text/x-load-code" src="custom-component.js"></script>
-</details>
-</div>
 
 <p>which contains comments describing it in detail. In order to use
 the component in your web pages, you must turn this into a MathJax
 component file, which you do by first defining the component using the
 file</p>
 
-<div class="indent">
-<details>
-<summary><code>config.json</code></summary>
 <script type="text/x-load-code" src="config.json"></script>
-</details>
-</div>
 
 <p>which gives the name of the component and where to pus the
 webpacked version of the code. The <code>dest</code> property being
@@ -75,7 +50,7 @@ extension rather than <code>.js</code>.</p>
 
 <p>To make the final component, use the commands</p>
 
-<script type="text/x-colorize-code" class="html">
+<script type="text/x-colorize-code" class="shell">
 npm install
 npm run make-custom-component
 </script>
@@ -94,12 +69,7 @@ npm run make-custom-component
 if needed). You can still use a MathJax configuration in your web
 page, or you could put additional configuration into the file</p>
 
-<div class="indent">
-<details>
-<summary><code>custom-component-path.js</code></summary>
 <script type="text/x-load-code" src="custom-component-path.js"></script>
-</details>
-</div>
 
 <p>if you want to set the defaults for other options.  This file sets
 the base Mathjax path to the <code>jsdelivr.net</code> CDN, so that

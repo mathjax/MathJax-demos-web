@@ -21,22 +21,22 @@
  *  limitations under the License.
  */
 
-(() => {
-  const makeTag = (name) => {
+window.Colorize = {
+  makeTag(name) {
     const tag = document.createElement('code-tag');
     tag.textContent = `<${name}>\n`;
     return tag;
-  };
+  },
 
-  const colorScript = (script) => {
+  Script(script) {
     script = script.replace(/( |^)(\/\/.*?)\n/gm, '$1<code-comment>$2</code-comment>\n');
     script = script.replace(/(\/\*[^]*?\*\/)\n/g, '<code-comment>$1</code-comment>\n');
     script = script.replace(/('(?:\.|.)*?')/g, '<code-string>$1</code-string>');
     script = script.replace(/("(?:\.|.)*?")/g, '<code-string>$1</code-string>');
     return script;
-  }
+  },
 
-  window.colorizeContent = (content, isScript = false) => {
+  Content(content, isScript = false) {
     if (!isScript) {
       content = content.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
     }
@@ -48,115 +48,148 @@
       return `<code-tag>${tag}</code-tag>`;
     });
     if (isScript) {
-      content = colorScript(content);
+      content = Colorize.Script(content);
     } else {
       content = content.replace(/(&lt;textarea.*?&gt;)/g, '$1\n');
       content = content.replace(/&lt;script&gt;([^]*?)&lt;\/script&gt;/g, (match, script) => {
-        script = colorScript(script);
+        script = Colorize.Script(script);
         return `&lt;script&gt;${script}&lt;/script&gt;`;
       });
     }
     return content;
-  };
+  },
 
-  const makePre = (node, code, isScript) => {
+  makePre(node, code, isScript) {
     const pre = document.createElement('pre');
     pre.classList.add('code');
     pre.classList.add('minimum');
-    pre.innerHTML = colorizeContent(code, isScript);
+    pre.innerHTML = Colorize.Content(code, isScript);
     node.replaceWith(pre);
-  }
+    return pre;
+  },
 
-  window.colorizeCode = () => {
-    const nodes = Array.from(document.querySelectorAll('script[type="text/x-colorize-code"]'));
+  makeDetails(node, code, isScript) {
+    const pre = this.makePre(node, code, isScript);
+    const div = document.createElement('div');
+    const details = div.appendChild(document.createElement('details'));
+    const summary = details.appendChild(document.createElement('summary'));
+    summary.innerHTML = node.getAttribute('src') + ' &nbsp; <i>(click to show/hide code)</i>';
+    div.classList.add('indent');
+    pre.replaceWith(div);
+    details.append(pre);
+  },
+
+  Code(container) {
+    const nodes = Array.from(container.querySelectorAll('script[type="text/x-colorize-code"]'));
     for (const node of nodes) {
       const text = node.textContent.replace(/^\n/, '');
-      makePre(node, text, !node.classList.contains('html'));
+      this.makePre(node, text, !(['html','shell'].includes(node.className)));
     }
-  }
+  },
 
-  window.loadCode = async () => {
-    const nodes = Array.from(document.querySelectorAll('script[type="text/x-load-code"]'));
+  async Load(container) {
+    const nodes = Array.from(container.querySelectorAll('script[type="text/x-load-code"]'));
+console.log(nodes);
     for (const node of nodes) {
       const response = await fetch(node.src);
       if (response.ok) {
         const text = await response.text();
-        makePre(node, text, true);
+        this.makeDetails(node, text, true);
+      }
+    }
+  },
+
+  Source(code) {
+    for (const root of ['head', 'body']) {
+      const nodes = document[root].querySelectorAll('.show')
+      if (!nodes.length) continue;
+      code.appendChild(this.makeTag(root));
+      for (const node of nodes) {
+        const outer = node.classList.contains('outer') || ['SCRIPT', 'STYLE'].includes(node.nodeName);
+        const isScript = node.nodeName === 'SCRIPT';
+        node.classList.remove('show');
+        node.classList.remove('outer');
+        if (node.className === '') node.removeAttribute('class');
+        const content = Colorize.Content(
+          (outer ? node.outerHTML : node.innerHTML).replace(/^\n+/, '').replace(/\n+$/, '')
+        );
+        const div = document.createElement('div');
+        div.innerHTML = `  ${content}\n`; 
+        code.append(div);
+      }
+      code.append(this.makeTag(`/${root}`));
+      if (root !== 'body') {
+        code.append(document.createElement('hr'));
       }
     }
   }
+};
 
-  const control = document.createElement('div');
-  control.id = 'hide-show';
-  control.style = 'text-align: right; margin: 1em 0; padding-right: 2em;';
-  control.innerHTML = '<input type="button" value="Show Source" onclick="showSource()" />';
-  const button = control.firstChild;
-  const frame = document.querySelector('#frame');
-  (frame ?? document.body).append(control);
+window.Source = {
+  top: 0,
+  source: null,
+  button: null,
   
-  const source = document.createElement('div');
-  source.id = 'source-frame';
-  source.style.display = 'none';
-  source.style.overflow = 'hidden';
-  if (frame) {
-    source.classList.add('minimum');
-  }
-  document.body.append(source);
-  
-  const explain = document.createElement('div');
-  source.append(explain);
-  
-  const nodes = document.body.querySelectorAll('.explain');
-  if (nodes.length) {
-    for (let node of nodes) {
-      node.classList.remove('explain');
-      source.append(node);
+  Init() {
+    const control = document.createElement('div');
+    control.id = 'hide-show';
+    control.style = 'text-align: right; margin: 1em 0; padding-right: 2em;';
+    control.innerHTML = '<input type="button" value="Show Source" onclick="Source.HideShow()" />';
+    const button = this.button = control.firstChild;
+    const frame = document.querySelector('#frame');
+    (frame ?? document.body).append(control);
+    
+    const source = this.source = document.createElement('div');
+    source.id = 'source-frame';
+    source.style.display = 'none';
+    source.style.overflow = 'hidden';
+    if (frame) {
+      source.classList.add('minimum');
     }
-  }
+    document.body.append(source);
+    
+    this.moveExplains(source);
+    
+    const code = document.createElement('pre');
+    code.className = 'code';
+    source.append(code);
+    
+    Colorize.Source(code);
+    Colorize.Code(source);
 
-  const code = document.createElement('pre');
-  code.className = 'code';
-  source.append(code);
-  
-  for (const root of ['head', 'body']) {
-    const nodes = document[root].querySelectorAll('.show')
-    if (!nodes.length) continue;
-    code.appendChild(makeTag(root));
-    for (const node of nodes) {
-      const outer = node.classList.contains('outer') || ['SCRIPT', 'STYLE'].includes(node.nodeName);
-      const isScript = node.nodeName === 'SCRIPT';
-      node.classList.remove('show');
-      node.classList.remove('outer');
-      if (node.className === '') node.removeAttribute('class');
-      const content = colorizeContent(
-        (outer ? node.outerHTML : node.innerHTML).replace(/^\n+/, '').replace(/\n+$/, '')
-      );
-      const div = document.createElement('div');
-      div.innerHTML = `  ${content}\n`; 
-      code.append(div);
+    Source.addReady();
+  },
+
+  moveExplains(source) {
+    const explain = document.createElement('div');
+    source.append(explain);
+    
+    const nodes = document.body.querySelectorAll('.explain');
+    if (nodes.length) {
+      for (let node of nodes) {
+        node.classList.remove('explain');
+        source.append(node);
+      }
     }
-    code.append(makeTag(`/${root}`));
-    if (root !== 'body') {
-      code.append(document.createElement('hr'));
-    }
-  }
+  },
 
-  colorizeCode();
+  addReady() {
+    if (typeof(MathJax) === 'undefined') window.MathJax = {};
+    if (!MathJax.startup) MathJax.startup = {};
+    const ready = MathJax.startup.ready || (() => MathJax.startup.defaultReady());
+    MathJax.startup.ready = async () => {
+      await ready();
+      if (MathJax.startup?.promise) {
+        await MathJax.startup.promise;
+      }
+      await Colorize.Load(Source.source);
+    };
+  },
 
-  if (typeof(MathJax) === 'undefined') window.MathJax = {};
-  if (!MathJax.startup) MathJax.startup = {};
-  const ready = MathJax.startup.ready || (() => MathJax.startup.defaultReady())
-  MathJax.startup.ready = async () => {
-    await ready();
-    await MathJax.startup.promise;
-    loadCode();
-  };
-
-  let oldTop;
-
-  window.showSource = () => {
+  HideShow() {
+    const source = this.source;
     if (source.style.display) {
-      oldTop = window.pageYOffset;
+      Source.top = window.pageYOffset;
       source.style.display = '';
       source.animate(
         [{height: 0}, {height: source.offsetHeight + 'px'}],
@@ -164,18 +197,20 @@
       );
       setTimeout(() => {
         window.scrollTo({top: source.offsetTop - 50, behavior: 'smooth'});
-        button.value = 'Hide Source';
+        this.button.value = 'Hide Source';
       }, 300);
     } else {
-      window.scrollTo({top: oldTop, behavior: 'smooth'});
+      window.scrollTo({top: Source.top, behavior: 'smooth'});
       source.animate(
         [{height: source.offsetHeight + 'px'}, {height: 0}],
         {duration: 300, easing: 'ease-in-out', fill: 'backwards'}
       );
       setTimeout(() => {
         source.style.display = 'none';
-        button.value = 'Show Source';
+        this.button.value = 'Show Source';
       }, 290);
     }
   }
-})();
+};
+
+Source.Init();

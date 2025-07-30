@@ -18,6 +18,7 @@
 
 #controls {
   width: auto;
+  text-align: left;
 }
 
 #controls select {
@@ -42,4 +43,13 @@
 
 #hide-show {
   font-size: 75%;
+}
+
+.center {
+  text-align: center;
+}
+
+.controls {
+  display: inline-block;
+  text-align: left;  
 }

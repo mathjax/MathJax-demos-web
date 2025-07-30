@@ -1,12 +1,12 @@
 /*************************************************************************
  *
- *  custom-mathjax3.js
+ *  custom-mathjax.js
  *
- *  A custom build of MathJax version 3 for the browser
+ *  A custom build of MathJax version 4 for the browser
  *
  * ----------------------------------------------------------------------
  *
- *  Copyright (c) 2019 The MathJax Consortium
+ *  Copyright (c) 2019-2025 The MathJax Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,90 +22,143 @@
  */
 
 //
-//  Load the desired components
+// Load the desired components.
 //
-const mathjax     = require('mathjax-full/js/mathjax.js').mathjax;      // MathJax core
-const TeX         = require('mathjax-full/js/input/tex.js').TeX;        // TeX input
-const MathML      = require('mathjax-full/js/input/mathml.js').MathML;  // MathML input
-const browser     = require('mathjax-full/js/adaptors/browserAdaptor.js').browserAdaptor; // browser DOM
-const Enrich      = require('mathjax-full/js/a11y/semantic-enrich.js').EnrichHandler;     // semantic enrichment
-const Register    = require('mathjax-full/js/handlers/html.js').RegisterHTMLHandler;      // the HTML handler
-const AllPackages = require('mathjax-full/js/input/tex/AllPackages').AllPackages;         // all TeX packages
-const Serialize   = require('mathjax-full/js/core/MmlTree/SerializedMmlVisitor.js').SerializedMmlVisitor;  // toMML
-const STATE       = require('mathjax-full/js/core/MathItem.js').STATE;
-
-const sreReady    = require('mathjax-full/js/a11y/sre.js').sreReady();    // SRE promise;
+import {mathjax} from '@mathjax/src/js/mathjax.js';      // MathJax core
+import {TeX} from '@mathjax/src/js/input/tex.js';        // TeX input
+import {MathML} from '@mathjax/src/js/input/mathml.js';  // MathML input
+import {browserAdaptor} from '@mathjax/src/js/adaptors/browserAdaptor.js'; // browser DOM
+import {SpeechHandler} from '@mathjax/src/js/a11y/speech.js';              // speech generation
+import {RegisterHTMLHandler} from '@mathjax/src/js/handlers/html.js';      // the HTML handler
+import {SerializedMmlVisitor} from '@mathjax/src/js/core/MmlTree/SerializedMmlVisitor.js';  // toMML
+import {STATE} from '@mathjax/src/js/core/MathItem.js';
 
 //
-//  Register the HTML handler with the browser adaptor and add the semantic enrichment
+// Load the Te4X extensions to use.
 //
-Enrich(Register(browser()), new MathML());
+import '@mathjax/src/js/input/tex/ams/AmsConfiguration.js';
+import '@mathjax/src/js/input/tex/newcommand/NewcommandConfiguration.js';
+import '@mathjax/src/js/input/tex/textmacros/TextMacrosConfiguration.js';
+
+
+//
+// Register the HTML handler with the browser adaptor and add the speech generation.
+//
+SpeechHandler(RegisterHTMLHandler(browserAdaptor()), new MathML());
 
 //
 //  Initialize mathjax with the DOM document.
 //
 const html = mathjax.document(document, {
-  sre: {
-    speech: 'deep',                         // deep labels on the enriched MathML
+  worker: {
+    path: 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0-rc.4/sre',
+    maps: 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0-rc.4/sre/mathmaps',
   },
   renderActions: {
-    //
-    //  Remove the data-semantic-* attributes (and move speech to data-speech)
-    //
-    simplify: [STATE.ENRICHED + 1, null, (math, doc) => {
-      math.root.walkTree(node => {
-        const attributes = node.attributes.getAllAttributes();
-        if (attributes['data-semantic-speech']) {
-          node.attributes.set('data-speech', attributes['data-semantic-speech']);
-        }
-        delete attributes.xmlns;
-        for (const name of Object.keys(attributes)) {
-          if (name.substr(0, 14) === 'data-semantic-') {
-            delete attributes[name];
-          }
-        }
-      });
-    }]
+    typeset: [150, null, (math, doc) => renderMathML(math, doc)]
   },
   InputJax: new TeX({
-    packages: AllPackages.filter((name) => name !== 'bussproofs'),
-    macros: {
-      require: ['', 1]      // Make \require a no-op since all packages are loaded
-    }
+    packages: ['base', 'ams', 'newcommand', 'textmacros']
   })
 });
 
 //
 // Converts internal MathML to serialized string
 //
-const visitor = new Serialize();
+const visitor = new SerializedMmlVisitor();
+const toMML = (node) => visitor.visitTree(node, html);
 
 //
-//  The user's configuration object
+// A function to typeset the math as MathML (so speech can be attached).
 //
-const CONFIG = window.MathJax || {};
+let mathItem;
+function renderMathML(math, doc) {
+  mathItem = math; // save  to be able to access this later.
+  const adaptor = doc.adaptor;
+  const mml = toMML(math.root);
+  math.typesetRoot = adaptor.firstChild(adaptor.body(adaptor.parse(mml, 'text/html')))
+}
+
+//
+//  The user's configuration object.
+//
+const CONFIG = window.MathJax?.config || window.MathJax || {};
 
 //
 //  The global MathJax object
 //
 window.MathJax = {
-  version: mathjax.version,
-  html: html,
+  version: mathjax.version,   // the MathJax version
+  html: html,                 // in case the caller needs the MathDocument
 
-  toSpeechMML(tex, display = true) {
-    const math = new html.options.MathItem(tex, html.inputJax[0], display);
-    math.convert(html, STATE.CONVERT);
-    return visitor.visitTree(math.root);
+  //
+  // Create a serialized MathML verson of the TeX expression with speech/Braille labels.
+  //
+  async toSpeechMML(tex, options) {
+    //
+    // Merge the caller's options into the default options.
+    //
+    options = Object.assign({
+      display: true,
+      latex: false,
+      speech: true,
+      braille: true,
+      entities: true,
+    }, options);
+    //
+    // Set the document options for speecha dn Braille.
+    //
+    Object.assign(html.options, {
+      enableSpeech: options.speech,
+      enableBraille: options.braille,
+    });
+    //
+    // Convert the TeX string to a DOM tree.
+    //
+    const node = await html.convertPromise(tex, {display: options.display});
+    //
+    // Transfer the speech and Braille.
+    //
+    const adaptor = html.adaptor;
+    const speech = adaptor.getAttribute(node, 'data-semantic-speech-none');
+    const braille = adaptor.getAttribute(node, 'data-semantic-braille');
+    if (speech) {
+      mathItem.root.attributes.set('aria-label', speech);
+    }
+    if (braille) {
+      mathItem.root.attributes.set('aria-braillelabel', braille);
+    }
+    //
+    // Remove any data-semantic, data-latex, or aria-label attributes, if
+    // if desired.
+    //
+    mathItem.root.walkTree((node) => {
+      const attributes = node.attributes.getAllAttributes();
+      for (const key of Object.keys(attributes)) {
+        if (key.startsWith('data-semantic') ||
+            (!options.latex && key.startsWith('data-latex')) ||
+            key === 'aria-level') {
+          delete attributes[key];
+        }
+      }
+    });
+    //
+    // Serialize the result, and return it.
+    //
+    let mml = toMML(mathItem.root).replace(/<math (.*?)>/, (_, attr) => {
+      attr = attr.replace(/( .+?=".*?")/g, '\n $1');
+      return `<math ${attr}>`;
+    });
+    if (!options.entities) {
+      mml = mml.replace(/&#x(.*?);/g, (_, hex) => String.fromCodePoint(parseInt(hex, 16)));
+    }
+    return mml;
   },
-
-  speechLevel(level) {
-    html.options.sre.speech = level;
-  }
 }
 
 //
-// Perform ready function, if there is one
+// Perform ready function, if there is one.
 //
-if (CONFIG.ready) {
-  sreReady.then(CONFIG.ready);
+if (CONFIG.startup?.ready) {
+  CONFIG.startup.ready();
 }
