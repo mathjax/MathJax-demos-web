@@ -89,7 +89,6 @@ window.Colorize = {
 
   async Load(container) {
     const nodes = Array.from(container.querySelectorAll('script[type="text/x-load-code"]'));
-console.log(nodes);
     for (const node of nodes) {
       const response = await fetch(node.src);
       if (response.ok) {

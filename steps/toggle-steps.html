@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="../styles/globals.css">
+  <title>MathJax v4 dynamic equations using toggle</title>
+  <script class="show">
+  MathJax = {
+    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+    output: {
+      displayAlign: 'left'
+    },
+    options: {
+      menuOptions: {
+        settings: {
+          enrich: false,   // enrichment causes problems with the toggle
+        }
+      }
+    },
+    startup: {
+      async pageReady() {
+        //
+        //  Do the usual startup (which does a typeset).
+        //  When that is all done, un-hide the page.
+        //
+        await MathJax.startup.defaultPageReady();
+        document.getElementById("hidden").disabled = true;
+      }
+    }
+  };
+  </script>
+  <script class="show" defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-rc.4/tex-chtml.js"></script>
+
+  <style id="hidden" class="show">
+    body {
+      visibility: hidden;
+    }
+  </style>
+
+</head>
+<body>
+
+<div id="frame">
+
+<h1>Dynamic Equations in MathJax</h1>
+
+<div class="show display">
+ 
+  <p>
+  Expand the following:
+  $$
+  \require{action}
+  \def\longest{x(x+1) + 1(x+1)}
+  \def\click{\rlap{\enclose{roundedbox}{\small\text{next step}}}\hphantom{\longest}}
+  \def\={\phantom{{}={}}}
+  (x+1)^2
+  \toggle
+    {\begin{aligned}[t]& = \click\end{aligned}}
+    {\begin{aligned}[t]& = (x+1)(x+1)\\[3px]&\=\click\end{aligned}}
+    {\begin{aligned}[t]& = (x+1)(x+1)\\[3px]& = x(x+1) + 1(x+1)\\&\=\click\end{aligned}}
+    {\begin{aligned}[t]& = (x+1)(x+1)\\[3px]& = x(x+1) + 1(x+1)\\[3px]& = (x^2+x) + (x+1)\\[3px]&\=\click\end{aligned}}
+    {\begin{aligned}[t]& = (x+1)(x+1)\\[3px]& = x(x+1) + 1(x+1)\\[3px]& = (x^2+x) + (x+1)\\[3px]& = x^2 + (x + x) + 1\\[3px]&\=\click\end{aligned}}
+    {\begin{aligned}[t]& = (x+1)(x+1)\\[3px]& = x(x+1) + 1(x+1)\\[3px]& = (x^2+x) + (x+1)\\[3px]& = x^2 + (x + x) + 1\\[3px]& = x^2 + 2x + 1\end{aligned}}
+  \endtoggle
+  $$
+  </p>
+ 
+</div>
+</div>
+
+<div class="explain inset">
+
+<p>This example shows how to use the <code>\toggle</code> macro (which
+produce MathML <code>&lt;maction&gt;</code> elements) to display an
+equation that reveals the steps in a computation one step at a time.
+This is similar to the <a href="reveal-steps.html">reveal-steps.html</a>
+example, but this one does not require any javascript.</p>
+
+<p>The expression in \(\rm\TeX\) is given as a sequence of alignments
+that each has one more line of the expansion than the previous
+version, all enclosed in a <code>\toggle</code> so that clicking on
+the math will cycle through the expressions one after the other. It
+also defines a <code>\click</code> macro to introduce the button for
+moving to the next step (though the user can actually click anywhere
+on the expression to do that). Some effort is made to ensure that the
+expressions all have the same width (using <code>\rlap</code> and
+<code>\hphantom</code>), so that the previously displayed expressions
+don’t move around as new lines are revealed.</p>
+
+ </div>
+
+<script src="../scripts/source.js"></script>
+
+</body>
+</html>

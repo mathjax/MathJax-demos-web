@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="../styles/globals.css">
+  <title>MathJax v4 with TeX input and MathML output</title>
+  <style class="show">
+  mjx-container[display="block"] {
+    display: block;
+    margin: 1em 0;
+  }
+  </style>
+  <style class="show" id="mjx-explorer-styles"></style>
+  <script class="show">
+  MathJax = {
+    //
+    // Load only TeX input and the contextual menu
+    //
+    loader: {load: ['input/tex', 'a11y/explorer', 'ui/menu']},
+    tex: {inlineMath: {'[+]': [['$', '$']]}},
+    startup: {
+      //
+      // Set the styles needed for the expression explorer and
+      // disable the assistive MathML menu and renderer menu.
+      //
+      ready() {
+        MathJax.startup.defaultReady();
+        //
+        // Add the CSS needed for the explorer (since that is usually
+        // done by the output jax, and we don't have one).
+        //
+        const doc = MathJax.startup.document;
+        const {StyleJsonSheet} = MathJax._.util.StyleJson;
+        const css = new StyleJsonSheet(doc.constructor.speechStyles);
+        const sheet = document.getElementById('mjx-explorer-styles');
+        sheet.textContent = css.cssText;
+        //
+        // Disable the some menu item.
+        //
+        doc.menu.menu.findID('Options', 'AssistiveMml').disable();
+        doc.menu.menu.findID('Settings', 'Renderer').disable();
+      },
+      //
+      // Perform the initial typesetting (we don't have an output
+      // jax, so this isn't done automatically).
+      //
+      pageReady() {
+        return MathJax.startup.document.renderPromise();
+      }
+    },
+    options: {
+      //
+      // Override the usual typeset render action with one that generates MathML output.
+      //
+      renderActions: {
+        assistiveMml: [],  // disable assistive mathml
+        typeset: [150,
+          (doc) => {for (math of doc.math) {MathJax.config.renderMathML(math, doc)}},
+          (math, doc) => MathJax.config.renderMathML(math, doc)
+        ]
+      },
+      //
+      // Don't add assistive MathML.
+      //
+      menuOptions: {
+        settings: {
+          assistiveMml: false,
+        }
+      }
+    },
+    //
+    // The action to use for rendering MathML.
+    //   Create the container and insert the MathML into it.
+    //   Mark it as a display expression, if needed.
+    //
+    renderMathML(math, doc) {
+      math.typesetRoot = document.createElement('mjx-container');
+      math.typesetRoot.innerHTML = MathJax.startup.toMML(math.root);
+      if (math.display) {
+        math.typesetRoot.setAttribute('display', 'block');
+      }
+    }
+  };
+  </script>
+  <script class="show" defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-rc.4/startup.js"></script>
+</head>
+<body>
+
+<div id="frame">
+
+<h1>MathJax v4: TeX input and MathML Output</h1>
+
+<div class="inset">
+<p>Note that this example requires a browser with native MathML support.</p>
+</div>
+
+<div class="show display">
+ 
+  <p>
+  When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
+  $$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+  </p>
+ 
+</div>
+</div>
+
+<div class="explain inset">
+
+<p>This example shows how to process a complete HTML page containing
+TeX notation into math in MathML format, illustrating one way
+to get a replacement for the version 2 NativeMML output, which is not
+included in versions 3 or 4 of MathJax.</p>
+
+<p>The code below sets up a new <code>renderAction</code> that
+replaces the usual typeset one (due to it being named
+<code>typeset</code> with priority 150). This new action uses the
+<code>MathJax.startup.toMML()</code> function to convert the internal
+math items into serialized MathML, and then inserts the results into
+<code>mjx-container</code> elements that it sets as the
+<code>typesetRoot</code> of the math items. This will be put into the
+page automatically by a later <code>renderAction</code> that updates
+the page, one of the default actions.</p>
+
+<p>The first <code>&lt;style&gt;</code> element sets up CSS so that the
+<code>mjx-container</code> will be set as a separate line with space
+above and below it when the math is a displayed equation (usually set
+up by th eoutput jax, but we don't have one).  The second
+<code>&lt;style&gt;</code> element is used to store the styles needed
+by the expression explorer, which is set up below.</p>
+
+<p>The <code>ready()</code> function in the <code>startup</code>
+section first does the usual ready action (setting up the document,
+theinput and output jax, etc.), and then it gets the styles needed for
+the explorer and puts them into the <code>&lt;style&gt;</code> element
+described above.</p>
+
+<p>The <code>pageReady()</code> function renders the page when it
+first becomes available. This is needed because there is no
+<code>MathJax.typeset()</code> or
+<code>MathJax.typesetPromise()</code>, as no output jax is loaded, so
+the startup code does not create these two functions.</p>
+
+<p>Finally, the menu item for the assistive MathML extension is turned
+off (to prevent it from loading), and the <code>ready()</code>
+function is used to disable its menu item so it can’t be turned on.
+Since we are producing MathML directly, there is no need for it.</p>
+
+<p>Note that most modern browser implement a limited subset of MathML
+called MathML-Core.  MathJax produces MathML3, but MathML-Core does
+not include a number of the features that MathJax uses.  In
+particular, the <code>mathvariant</code> attribute is not supported
+(except on <code>&lt;mi&gt;</code> elements, and then only
+<code>mathvariant="normal"</code> is allowed.  MathJax uses
+<code>mathvariant</code> to handle characgter variants like those
+produced <code>\mathbb</code> and similar macros, and those will not
+display properly in browser that only support MathML-Core if this
+example code is used.  More sophisticated MathML conversion is
+available in the <a href="input-tex2mml.html">tex2mml with user
+input</a> example.</p>
+
+</div>
+
+<script src="../scripts/source.js"></script>
+
+</body>
+</html>

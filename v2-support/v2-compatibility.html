@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="../styles/globals.css">
+  <title>MathJax v4 with v2-compatibility</title>
+  <script class="show">
+  MathJax = {
+    loader: {
+      //
+      //  Mapping of old extension names to new ones
+      //
+      source: {
+        '[tex]/AMSmath': '[tex]/ams',
+        '[tex]/AMSsymbols': '[tex]/ams',
+        '[tex]/AMScd': '[tex]/amscd',
+        '[tex]/HTML': '[tex]/html',
+        'noErrors': 'noerrors',
+        'noUndefined': 'noundefined',
+      }
+    },
+    startup: {
+      typeset: false, // We call MathJax.Hub.Typeset later for this
+      ready: function () {
+        //
+        // Add a replacement for MathJax.Callback command
+        //
+        MathJax.Callback = (args) => {
+          if (Array.isArray(args)) {
+            const [arg0, arg1] = args;
+            if (args.length === 1 && typeof(arg0) === 'function') {
+              return arg0;
+            } else if (typeof(arg0) === 'string' && arg1 instanceof Object &&
+                      typeof(arg1[arg0]) === 'function') {
+              return Function.bind.apply(arg1[arg0], args.slice(1));
+            } else if (typeof(arg0) === 'function') {
+              return Function.bind.apply(arg0, [window].concat(args.slice(1)));
+            } else if (typeof(arg1) === 'function') {
+              return Function.bind.apply(arg1, [arg0].concat(args.slice(2)));
+            }
+          } else if (typeof(args) === 'function') {
+            return args;
+          }
+          throw Error("Can't make callback from given data");
+        };
+        //
+        // Add a replacement for MathJax.Hub commands
+        //
+        MathJax.Hub = {
+          Queue(...callbacks) {
+            for (const callback of callbacks) {
+               const fn = MathJax.Callback(callback);
+               MathJax.startup.promise = MathJax.startup.promise.then(fn);
+            }
+            return MathJax.startup.promise;
+          },
+          Typeset(elements, callback) {
+             let promise = MathJax.typesetPromise(elements);
+             if (callback) {
+               promise = promise.then(callback);
+             }
+             return promise;
+          },
+          Register: {
+             MessageHook() {console.log('MessageHooks are not supported in version 4')},
+             StartupHook() {console.log('StartupHooks are not supported in version 4')},
+             LoadHook() {console.log('LoadHooks are not supported in version 4')}
+          },
+          Config() {console.log('MathJax configurations should be converted for version 4')}
+        };
+        //
+        //  Warn about x-mathjax-config scripts
+        //
+        if (document.querySelector('script[type="text/x-mathjax-config"]')) {
+          throw Error('x-mathjax-config scripts should be converted to MathJax global variable');
+        }
+        //
+        //  Do the usual startup
+        //
+        MathJax.startup.defaultReady();
+      }
+    },
+    tex: {
+      autoload: {
+        color: [],          // don't autoload the color extension
+        colorv2: ['color'], // do autoload the colorv2 extension
+      }
+    }
+  };
+  </script>
+  <script class="show" defer src="https://cdn.jsdelivr.net/npm/mathjax@4.0.0-rc.4/tex-chtml.js"></script>
+</head>
+<body>
+
+<div id="frame">
+
+<h1>Compatibility with MathJax v2</h1>
+
+<div class="inset">
+
+<p>The API in MathJax v3 and v4 differs substantially from that in v2.
+This file demonstrates how to simulate some of the v2 API in v4.</p>
+
+</div>
+
+<div class="show display">
+ 
+  <h2>Color:</h2>
+
+  <p>Testing color: \(\color{red}{x} + y\)</p>
+
+  <h2>Require:</h2>
+
+  <p>Testing AMScd: \(\require{AMScd} \begin{CD} A @>f>> B\end{CD}\)</p>
+
+  <p>Testing HTML: \(\require{HTML} \href{https://www.mathjax.org/}{\text{a link}}\)</p>
+  
+  <h2>MathJax.Hub:</h2>
+  
+  <p id="hub" style="visibility: hidden"><span style="color:red">Hub calls Failed!</span></p>
+  
+  <script>
+    window.addEventListener('load', () => {
+      const hub = document.getElementById('hub'); // the message area
+      MathJax.Hub.Queue(
+        ['Typeset', MathJax.Hub],  // typeset the page
+        () => {
+          //
+          // Insert the success message and make it visible.
+          //
+          hub.innerHTML = '<span style="color:green">Success calling Queue and Typeset!</span>';
+          hub.style.visibility = '';
+        }
+      );
+      setTimeout(() => hub.style.visibility = '', 10000); // in case of failure
+    });
+  </script>
+ 
+</div>
+</div>
+
+<div class="explain inset">
+<p>This example shows how to set up MathJax version 3 to act somewhat
+more like MathJax version 2.  The main actions are to return the
+<code>\color</code> macro to the non-standard version-2 behavior, and to
+allow the <code>\require</code> macro to use the version-2 TeX extension
+names.  In addition, this example also defines versions of</p>
+
+<ul>
+<li><code>MathJax.Hub.Queue()</code></li>
+<li><code>MathJax.Hub.Typeset()</code></li>
+<li><code>MathJax.Callback()</code></li>
+</ul>
+
+<p>that you may be able to use to keep custom code that uses these
+version 2 features working.  It also defines</p>
+
+<ul>
+<li><code>MathJax.Hub.Register.StartupHook()</code></li>
+<li><code>MathJax.Hub.Register.MessageHook()</code></li>
+<li><code>MathJax.Hub.Register.LoadHook()</code></li>
+<li><code>MathJax.Hub.Config()</code></li>
+</ul>
+
+<p>to generate error messages, and looks for
+<code>&lt;script type="text/x-mathjax-config"&gt;</code> blocks, which are
+no longer supported, in order to alert you to the need to convert these to
+version 4 by hand.  You should use the <a
+href="https://mathjax.github.io/MathJax-demos-web/convert-configuration/convert-configuration.html">configuration
+converter</a> to help convert your version 2 configuration to a
+comparable version 4 configuration.</p>
+
+<p>
+The script in the last section of the body uses the 
+<code>MathJax.Hub.Queue()</code> to typeset the page, and then insert a 
+success message that verifies that the queue is working.
+</p>
+</div>
+
+<script src="../scripts/source.js"></script>
+
+</body>
+</html>
