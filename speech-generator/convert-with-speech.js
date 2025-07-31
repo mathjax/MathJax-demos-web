@@ -56,7 +56,8 @@ Convert.setupSre = function() {
 };
 
 Convert.init = function() {
-  SRE = MathJax._.a11y.sre.Sre;
+  SRE = MathJax._.a11y.sre_ts;
+  MathJax.startup.document.getWebworker();
   Convert.getElements();
   Convert.setupSre();
 };
@@ -80,12 +81,18 @@ Convert.preferenceSelection = function(pref, values) {
   });
 };
 
-Convert.setPreferences = function(locale) {
+Convert.setPreferences = async function(locale) {
   const container = Convert.divs.preferences;
   container.innerHTML = '';
   Convert.state.preferences = [];
 
-  const prefs = SRE.clearspeakPreferences.getLocalePreferences()[locale];
+  const map = new Map();
+  const mdoc= MathJax.startup.document;
+  mdoc.options.sre.locale = locale
+  await mdoc.webworker.Setup(mdoc.options.sre);
+  await mdoc.webworker.clearspeakLocalePreferences(mdoc.options.sre, map);
+  const prefs = map.get(locale);
+  
   if (!prefs) {
     Convert.state.clearspeak = false;
     Convert.textAreas.clearspeak.innerHTML = '';
@@ -160,20 +167,19 @@ Convert.setPreferences = function(locale) {
   }
 };
 
-Convert.updatePreferences = async function(locale) {
-  return SRE.setupEngine({locale: locale})
-    .then(() => Convert.setPreferences(locale));
+Convert.updatePreferences = function(locale) {
+  return Convert.setPreferences(locale);
 };
 
 
-Convert.computeClearspeak = async function() {
+Convert.computeClearspeak = function() {
   return Convert.computeSpeech(
     Convert.textAreas.clearspeak, 'clearspeak',
     Convert.state.preferences.map((x) => x.value).join(':'));
 };
 
 
-Convert.computeMathspeak = async function() {
+Convert.computeMathspeak = function() {
   return Convert.computeSpeech(
     Convert.textAreas.mathspeak, 'mathspeak', Convert.selectors.style.value);
 };
@@ -182,10 +188,28 @@ Convert.computeMathspeak = async function() {
 Convert.computeSpeech = async function(node, domain, style) {
   const locale = Convert.selectors.locale.value;
   const modality = locale === 'nemeth' ? 'braille' : 'speech';
-  return SRE.setupEngine(
-    {locale: locale, domain: domain, modality: modality,
-     style: style, markup: Convert.selectors.markup.value, pprint: true
-    }).then(() => node.innerHTML = SRE.toSpeech(Convert.input2Mathml()));
+  const mdoc = MathJax.startup.document;
+  const options = mdoc.options.sre = {...mdoc.options.sre,
+    locale, domain, modality, style, markup: Convert.selectors.markup.value, pprint: true
+  };
+  await mdoc.webworker.Setup(options);
+  const data = JSON.parse(await mdoc.webworker.Post({
+    cmd: 'speech',
+    data: {
+      mml: Convert.input2Mathml(),
+      options: options
+    }
+  }));
+  node.innerHTML = options.markup === 'ssml'
+    ? [
+        '<!--?xml version="1.0"?-->\n',
+        '<speak version="1.1" xmlns="http://www.w3.org/2001/10/synthesis">',
+        '<prosody rate="100%">',
+        data.ssml,
+        '</prosody>',
+        '</speak>'
+      ].join('')
+    : data.label;
 };
 
 
