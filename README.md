@@ -15,7 +15,7 @@ to use MathJax in web browsers and node.
 The examples below show how to use and configure MathJax components in
 your web pages.  The links take you to the live demos; most have a
 "Show Source" button at the bottom that you can use to see addition
-explanation and the important section of the source of the HTML
+explanation and the important sections of the source of the HTML
 document.  The last few examples show how to create your own custom
 components, custom tex extensions, or customized single-file webpacked
 versions of MathJax.
