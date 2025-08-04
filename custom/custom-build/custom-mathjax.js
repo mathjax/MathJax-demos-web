@@ -51,8 +51,8 @@ SpeechHandler(RegisterHTMLHandler(browserAdaptor()), new MathML());
 //
 const html = mathjax.document(document, {
   worker: {
-    path: 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0-rc.4/sre',
-    maps: 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0-rc.4/sre/mathmaps',
+    path: 'https://cdn.jsdelivr.net/npm/mathjax@4/sre',
+    maps: 'https://cdn.jsdelivr.net/npm/mathjax@4/sre/mathmaps',
   },
   renderActions: {
     typeset: [150, null, (math, doc) => renderMathML(math, doc)]

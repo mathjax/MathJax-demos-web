@@ -3,8 +3,8 @@
   "version": "4.0.0",
   "description": "Demos using MathJax version 4 in web pages",
   "dependencies": {
-    "@mathjax/mathjax-modern-font": "^4.0.0-rc.4",
-    "@mathjax/src": "^4.0.0-rc.4",
+    "@mathjax/mathjax-modern-font": "^4.0.0",
+    "@mathjax/src": "^4.0.0",
     "yargs": "^18.0.0"
   },
   "devDependencies": {
@@ -13,9 +13,9 @@
     "webpack-cli": "^6.0.1"
   },
   "scripts": {
-    "make-custom-tex-extension": "cd custom-tex-extension && node ../node_modules/@mathjax/src/components/bin/pack",
-    "make-custom-component": "cd custom-component && node ../node_modules/@mathjax/src/components/bin/pack",
-    "make-custom-build": "cd custom-build && node ../node_modules/@mathjax/src/components/bin/pack"
+    "make-custom-tex-extension": "cd custom/custom-tex-extension && node ../../node_modules/@mathjax/src/components/bin/pack",
+    "make-custom-component": "cd custom/custom-component && node ../../node_modules/@mathjax/src/components/bin/pack",
+    "make-custom-build": "cd custom/custom-build && node ../../node_modules/@mathjax/src/components/bin/pack"
   },
   "repository": {
     "type": "git",

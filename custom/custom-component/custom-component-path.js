@@ -6,7 +6,7 @@ import {insert} from '@mathjax/src/js/util/Options.js';
 insert(MathJax.config, {
   loader: {
     paths: {
-      mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0-rc.4',
+      mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@4',
     }
   }
 });
