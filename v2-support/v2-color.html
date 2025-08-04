@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="../styles/globals.css">
+  <title>MathJax v4 with v2 \color macro</title>
+  <script>
+  MathJax = {
+    loader: {
+      //
+      // Load both color extensions
+      //
+      load: ['[tex]/color', '[tex]/colorv2']
+    },
+    tex: {
+      packages: {'[+]': ['color', 'colorv2']},
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    },
+    startup: {
+      ready() {
+        MathJax.startup.defaultReady();
+        //
+        // Rename the v2 \color as \colorvii
+        //
+        const handlers = MathJax.startup.document.inputJax.tex.parseOptions.handlers;
+        const map = handlers.get('macro').applicable('color').map;
+        map.set('colorvii', map.get('color'));
+        map.get('colorvii')._token = 'colorvii';
+        map.delete('color');
+      }
+    }
+  };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+</head>
+<body>
+
+<div id="frame">
+
+<h1>MathJax v4 with v3 <code>\color</code> macro</h1>
+
+<div class="show display">
+ 
+  <p>
+  The MathJax v2 <code>\color</code> macro takes two arguments, the
+  color and the math to be colored, where the v3 version follows the
+  LaTeX approach, where it has one argument (the color) and switches
+  the color for the rest of the expression.
+  </p>
+
+  <p>
+  The expression <code>$\color{red}{Red}\ Black$</code> is rendered:
+  </p>
+
+  <table style="margin-left: 2em">
+  <tr><td align="center">In v2</td><td style="width:2em"></td><td align="center">In v3/v4</td></tr>
+  <tr><td>$\colorvii{red}{Red}\ Black$</td><td></td><td>$\color{red}{Red}\ Black$</td></tr>
+  </table>
+
+  <p>
+  To get the same effect in v4, use <code>${\color{red} Red}\ Black$</code> instead:
+  </p>
+
+  <div class="indent">
+   ${\color{red} Red}\ Black$
+  </div>
+
+  <p>
+  Or you can use the configuration
+  </p>
+  <pre class="code">
+  &lt;script&gt;
+  MathJax = {
+    tex: {
+      autoload: {
+        color: [],            // don't autoload the color extension
+        colorv2: ['color']    // autoload v2 color instead
+      }
+    }
+  };
+  &lt;/script&gt;
+  </pre>
+
+  <p>
+  before the script that loads MathJax in order to retain the original
+  v2 <code>\color</code> macro.
+  </p>
+ 
+</div>
+</div>
+
+</body>
+</html>

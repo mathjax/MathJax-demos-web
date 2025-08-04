@@ -1,7 +1,7 @@
 @import url("colors.css");
 
 /* Headings */
-h1 {
+h1:not(mjx-help-dialog *, .CtxtMenu_Info *) {
   text-align: center;
   background: linear-gradient(to bottom, var(--h1-bg-start), var(--h1-bg-end));
   padding: 0.4em 1.2em;
@@ -26,8 +26,8 @@ h2:first-child {
 
 /* Widgets */
 /* Form Elements */
-select,
-input {
+select:node(mjx-help-dialog *, .CtxtMenu_Info *),
+input:not(mjx-help-dialog *, .CtxtMenu_Info *) {
   background-color: var(--select-background);
   color: var(--select-text);
   border: 1px solid var(--border-color);
@@ -41,7 +41,7 @@ input[type="radio"] {
   margin-right: 0.25em;
 }
 
-input[type="button"] {
+input[type="button"]:not(mjx-help-dialog *, .CtxtMenu_Info *) {
   background: radial-gradient(ellipse 250% 120% at 50% 30%, var(--btn-bg-start), var(--btn-bg-end));
   color: var(--btn-text-color);
   padding: 0.3em 1em;
@@ -54,9 +54,13 @@ input[type="button"] {
   transition: all 0.075s ease-in-out;
 }
 
-input[type="button"]:active {
+input[type="button"]:not([disabled], mjx-help-dialog *, .CtxtMenu_Info *):active {
   box-shadow: 0.75px 1px var(--btn-shadow);
   transform: translateY(1.5px); /* simulate press-down effect */
+}
+
+input[type="button"][disabled]:not(mjx-help-dialog *, .CtxtMenu_Info *) {
+  opacity: 60%;
 }
 
 /* Textarea */
@@ -72,25 +76,7 @@ input[type="button"]:active {
   border: 2px solid var(--border-color);
 }
 
-/* Output Display */
-#output {
-  font-size: 120%;
-  margin-top: .75em;
-  padding: .25em;
-  min-height: 2em;
-  border: 1px solid var(--border-color);
-  background-color: var(--text-background);
-}
-
-#output > pre {
-    margin-left: 5px;
-}
-
-#frame {
-  max-width: 40em;
-  margin: auto;
-}
-
+/* Positioning */
 .left {
   float: left;
   margin-top: 5px;
@@ -101,4 +87,79 @@ input[type="button"]:active {
   margin-top: 3px;
 }
 
+/* Demo Display */
+.display {
+  background-color: var(--box-background);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1em 2em;
+}
 
+.indent {
+  padding-left: 2em;
+}
+
+.inset {
+  padding: 0 1em;
+}
+
+.description {
+  margin: 0 1em;
+}
+
+.explain {
+  display: none;
+}
+
+/* Code Display */
+code {
+  color: var(--code-color);
+  font-weight: bold;
+}
+
+pre.code {
+  color: var(--code-color);
+  background-color: var(--code-background);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  border-color: var(--code-border);
+  padding: 0.5em 0 0.5em 1.5em;
+  overflow: auto;
+}
+
+pre.code hr {
+  margin: 1em 0;
+  border: 1px solid var(--code-border);
+  margin-left: 0;
+  margin-right: 2em;
+}
+
+code-comment {
+  color: var(--code-comment);
+}
+
+code-tag {
+  color: var(--code-tag);
+}
+
+code-attr {
+  color: var(--code-attr);
+}
+
+code-value {
+  color: var(--code-value);
+}
+
+code-string {
+  color: var(--code-string);
+}
+
+#frame {
+  max-width: 50em;
+  margin: auto;
+}
+
+#source-frame.minimum {
+  max-width: 60em;
+  margin: auto;
+}

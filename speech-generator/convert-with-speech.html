@@ -2,26 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="../styles/convert.css">
   <title>Convert LaTeX or MathML to Speech</title>
   <script>
   MathJax = {
-    loader: {load: ['input/asciimath', 'input/mml', 'input/tex', 'output/svg', 'a11y/sre']},
-    tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]},
+    loader: {load: ['input/asciimath', 'input/mml', 'input/tex', 'output/svg', 'a11y/speech']},
+    tex: {inlineMath: {'[+]': [['$', '$']]}},
     startup: {
       ready: function() {
         MathJax.startup.defaultReady();
-        // Initialise convert when MathJax/SRE is fully loaded.
-        MathJax.startup.promise.then(function () {
-           Convert.init();
-        });
+        // Initialize convert when MathJax/SRE is fully loaded.
+        MathJax.startup.promise.then(() => Convert.init());
       }
     }
   };
   </script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js"></script>
-  <link rel="stylesheet" href="../styles/convert.css"></link>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@4/startup.js"></script>
   <script src="./convert-with-speech.js"></script>
 </head>
 <body>
@@ -72,9 +69,9 @@ text output.
 
   <h2>Expression:</h2>
   <div id="rendered"></div>
-</div>
+</div><!--
 
-<div class="output-panel converter" id="outputpanel">
+--><div class="output-panel converter" id="outputpanel">
 
   <h2>Mathspeak Output:</h2>
   <div class="style-selector">

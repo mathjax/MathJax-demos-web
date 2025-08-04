@@ -28,23 +28,23 @@ Convert.state = {
 };
 
 Convert.getElements = function() {
-  for (let key of Object.keys(Convert.textAreas)) {
+  for (const key of Object.keys(Convert.textAreas)) {
     Convert.textAreas[key] = document.getElementById(key);
   }
-  for (let key of Object.keys(Convert.selectors)) {
+  for (const key of Object.keys(Convert.selectors)) {
     Convert.selectors[key] = document.getElementById(key);
   }
-  for (let key of Object.keys(Convert.divs)) {
+  for (const key of Object.keys(Convert.divs)) {
     Convert.divs[key] = document.getElementById(key);
   }
-  for (let key of Object.keys(Convert.radios)) {
+  for (const key of Object.keys(Convert.radios)) {
     Convert.radios[key] = Array.from(document.getElementsByName(key));
   }
 };
 
 Convert.setupSre = function() {
-  for (let [loc, lang] of SRE.locales.entries()) {
-    let option = document.createElement('option');
+  for (const [loc, lang] of SRE.locales.entries()) {
+    const option = document.createElement('option');
     option.innerHTML = lang;
     option.setAttribute('value', loc);
     if (loc === 'en') {
@@ -56,16 +56,17 @@ Convert.setupSre = function() {
 };
 
 Convert.init = function() {
-  SRE = MathJax._.a11y.sre.Sre;
+  SRE = MathJax._.a11y.sre_ts;
+  MathJax.startup.document.getWebworker();
   Convert.getElements();
   Convert.setupSre();
 };
 
 Convert.createSelect = function(name, values) {
-  let label = document.createElement('label');
+  const label = document.createElement('label');
   label.innerHTML = name;
   label.setAttribute('for', name);
-  let select = document.createElement('select');
+  const select = document.createElement('select');
   select.id = name;
   values.forEach(x => select.appendChild(x));
   return [label, select];
@@ -73,19 +74,25 @@ Convert.createSelect = function(name, values) {
 
 Convert.preferenceSelection = function(pref, values) {
   return values.map(value => {
-    let option = document.createElement('option');
+    const option = document.createElement('option');
     option.setAttribute('value', value);
     option.innerHTML = value.replace(RegExp(`^${pref}_`), '');
     return option;
   });
 };
 
-Convert.setPreferences = function(locale) {
+Convert.setPreferences = async function(locale) {
   const container = Convert.divs.preferences;
   container.innerHTML = '';
   Convert.state.preferences = [];
 
-  const prefs = SRE.clearspeakPreferences.getLocalePreferences()[locale];
+  const map = new Map();
+  const mdoc= MathJax.startup.document;
+  mdoc.options.sre.locale = locale
+  await mdoc.webworker.Setup(mdoc.options.sre);
+  await mdoc.webworker.clearspeakLocalePreferences(mdoc.options.sre, map);
+  const prefs = map.get(locale);
+  
   if (!prefs) {
     Convert.state.clearspeak = false;
     Convert.textAreas.clearspeak.innerHTML = '';
@@ -99,13 +106,13 @@ Convert.setPreferences = function(locale) {
   const grid = document.createElement('div');
   grid.className = 'preferences-grid';
 
-  for (let [pref, values] of Object.entries(prefs)) {
+  for (const [pref, values] of Object.entries(prefs)) {
     if (pref.match(/^MultiLine/)) {
       multiline[pref] = values;
       continue;
     }
 
-    let [label, select] = Convert.createSelect(
+    const [label, select] = Convert.createSelect(
       pref,
       Convert.preferenceSelection(pref, values)
     );
@@ -137,8 +144,8 @@ Convert.setPreferences = function(locale) {
     const multiGrid = document.createElement('div');
     multiGrid.className = 'preferences-grid';
 
-    for (let [pref, values] of Object.entries(multiline)) {
-      let [label, select] = Convert.createSelect(
+    for (const [pref, values] of Object.entries(multiline)) {
+      const [label, select] = Convert.createSelect(
         pref.replace('MultiLine', ''),
         Convert.preferenceSelection(pref, values)
       );
@@ -160,37 +167,54 @@ Convert.setPreferences = function(locale) {
   }
 };
 
-Convert.updatePreferences = async function(locale) {
-  return SRE.setupEngine({locale: locale}).
-    then(() => {Convert.setPreferences(locale);});
+Convert.updatePreferences = function(locale) {
+  return Convert.setPreferences(locale);
 };
 
 
-Convert.computeClearspeak = async function() {
+Convert.computeClearspeak = function() {
   return Convert.computeSpeech(
     Convert.textAreas.clearspeak, 'clearspeak',
     Convert.state.preferences.map((x) => x.value).join(':'));
 };
 
 
-Convert.computeMathspeak = async function() {
+Convert.computeMathspeak = function() {
   return Convert.computeSpeech(
     Convert.textAreas.mathspeak, 'mathspeak', Convert.selectors.style.value);
 };
 
 
 Convert.computeSpeech = async function(node, domain, style) {
-  let locale = Convert.selectors.locale.value;
-  let modality = locale === 'nemeth' ? 'braille' : 'speech';
-  return SRE.setupEngine(
-    {locale: locale, domain: domain, modality: modality,
-     style: style, markup: Convert.selectors.markup.value, pprint: true
-    }).then(() => node.innerHTML = SRE.toSpeech(Convert.input2Mathml()));
+  const locale = Convert.selectors.locale.value;
+  const modality = locale === 'nemeth' ? 'braille' : 'speech';
+  const mdoc = MathJax.startup.document;
+  const options = mdoc.options.sre = {...mdoc.options.sre,
+    locale, domain, modality, style, markup: Convert.selectors.markup.value, pprint: true
+  };
+  await mdoc.webworker.Setup(options);
+  const data = JSON.parse(await mdoc.webworker.Post({
+    cmd: 'speech',
+    data: {
+      mml: Convert.input2Mathml(),
+      options: options
+    }
+  }));
+  node.innerHTML = options.markup === 'ssml'
+    ? [
+        '<!--?xml version="1.0"?-->\n',
+        '<speak version="1.1" xmlns="http://www.w3.org/2001/10/synthesis">',
+        '<prosody rate="100%">',
+        data.ssml,
+        '</prosody>',
+        '</speak>'
+      ].join('')
+    : data.label;
 };
 
 
 Convert.input2Mathml = function() {
-  let input = Convert.textAreas.input.value;
+  const input = Convert.textAreas.input.value;
   if (!input) {
     return '';
   }
@@ -206,7 +230,7 @@ Convert.input2Mathml = function() {
 
 
 Convert.radioValue = function(radios) {
-  for (let radio of radios) {
+  for (const radio of radios) {
     if (radio.checked) {
       return radio.value;
     }
@@ -225,7 +249,7 @@ Convert.convertExpression = async function() {
 
 
 Convert.render = function() {
-  let input = Convert.textAreas.input.value;
+  const input = Convert.textAreas.input.value;
   if (!input) {
     return '';
   }

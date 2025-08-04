@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="../styles/globals.css">
+  <title>Defining TeX macros in MathJax</title>
+  <script class="show" type="text/x-mathjax-macros">
+    \def\<#1>{\left<#1\right>}
+    \newcommand{\CC}{\mathbf{C}}
+  </script>
+  <script class="show">
+  MathJax = {
+    tex: {
+      macros: {
+        RR: '{\\bf R}',                    // a simple string replacement
+        bold: ['\\boldsymbol{#1}',1] ,     // this macro has one parameter
+        ddx: ['\\frac{d#2}{d#1}', 2, 'x'], // this macro has an optional parameter that defaults to 'x'
+        abc: ['(#1)', 1, [null, '\\cba']]  // equivalent to \def\abc#1\cba{(#1)}
+      }
+    },
+    startup: {
+      //
+      // The ready() function is used to pre-define macros that are
+      // stored in a <script type="tex/x-mathjax-macros"> above.
+      //
+      ready() {
+        MathJax.startup.defaultReady();
+        const definitions = document.head.querySelector('[type="text/x-mathjax-macros"]');
+        MathJax.tex2mml(definitions.textContent);
+      }
+    }
+  };
+  </script>
+  <script class="show" defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"></script>
+</head>
+<body>
+
+<div id="frame">
+
+<h1>Defining TeX macros in MathJax</h1>
+
+<div class="inset">
+<p>
+This page uses two different methods to define macros: either putting them 
+in JavaScript notation in the MathJax configuration, or in TeX notation in 
+a script tag in the document.
+</p>
+</div>
+
+<div class="show display">
+ 
+  <p>Some math that uses the definitions:
+  \[
+    f\colon\RR\to\RR^3 \hbox{ by } f(t)=\< t+1,{1\over 1+t^2}, \sqrt{t^2+1} >
+  \]
+  and
+  \[
+    \{\,z\in\CC \mid z^2 = \bold{\alpha}\,\}
+  \]
+  and
+  \[
+    \ddx{f} = \ddx[u]{f} \cdot \ddx{u}
+  \]
+  and
+  \[
+    f\abc x,y \cba = x^2 + y^2
+  \]
+  </p>
+ 
+</div>
+</div>
+
+<div class="explain inset">
+
+<p>This example shows how to predefine TeX macros for use in a web
+page in two different ways: either using the MathJax configuration to
+define them, or by using a special script tag that stores the
+macros.</p>
+
+<p>The comments in the <code>macros</code> section of the
+<code>tex</code> block of the MathJax configuration indicate how to
+interpret the arrays used to define the individual macros. The
+definitions in the script tag can be TeX or LaTeX <code>\def</code>,
+<code>\let</code> <code>\newcommand</code>,
+<code>\newenvironment</code>, or other similar commands.  The content
+of the script is passed to <code>MathJax.tex2mml()</code>, which
+processes them, but doesn't generate any output in the page (any
+output produced is discarded).</p>
+
+</div>
+
+<script src="../scripts/source.js"></script>
+
+</body>
+</html>

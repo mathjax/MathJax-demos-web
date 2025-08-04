@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="../styles/interactive.css">
+  <title>MathJax v4: interactive TeX and MathML input and HTML output</title>
+  <script class="show">
+  MathJax = {
+    //
+    // Load the texhtml package and configure it, and
+    // add dollar sign delimiters.
+    //
+    loader: {load: ['[tex]/texhtml']},
+    tex: {
+      packages: {'[+]': ['texhtml']},
+      inlineMath: {'[+]': [['$', '$']]},
+    },
+    //
+    // Use the startup ready() function to set the options as they
+    // are in the browser (in case of a reload that retains input states),
+    // but reset the font menu, since loading the font can take time.
+    //
+    startup: {
+      ready() {
+        //
+        // Do the usual startup actions (create document, input/output jax, etc.)
+        //
+        MathJax.startup.defaultReady();
+        //
+        // Set the options based on the checkbox states, but
+        // reset the font menu, since getting one can be time consuming.
+        //
+        const doc = MathJax.startup.document;
+        const allowhtml = document.querySelector('#allowhtml').checked;
+        doc.inputJax.tex.parseOptions.options.allowTexHTML = allowhtml;
+        doc.inputJax.mml.mathml.options.allowHtmlInTokenNodes = allowhtml;
+        doc.outputJax.options.mathmlSpacing = document.querySelector('#mathmlspacing').checked;
+        document.querySelector('#font').value = 'mathjax-newcm';
+        //
+        // Disable the some menu items.
+        //
+        doc.menu.menu.findID('Settings', 'Renderer').disable();
+        //
+        // Typeset the initial math, when ready.
+        //
+        MathJax.whenReady(() => Interactive.convert());
+      }
+    },
+    //
+    // A function to get the URL for the fonts.  We use jsdelivr.net.
+    //
+    fontUrl: (font) => `https://cdn.jsdelivr.net/npm/@mathjax/${font}-font@4`,
+  }
+  </script>
+  <script class="show" defer src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+  <script class="show">
+  const Interactive = {
+    convert() {
+      //
+      // Disable the input controls until MathJax is done.
+      //
+      this.enableControls(false);
+      //
+      // Get the TeX input and transfer it to the output node.
+      //
+      const input = document.querySelector('#input').value.trim();
+      const output = document.querySelector('#output');
+      output.innerHTML = input;
+      //
+      //  Reset the tex labels (and automatic equation numbers, though there aren't any here).
+      //  Reset the typesetting system (font caches, etc.)
+      //  Typeset the page, using a promise to let us know when that is complete
+      //
+      MathJax.texReset();
+      MathJax.typesetClear();
+      MathJax.typesetPromise()
+        .catch((err) => {
+          //
+          // If there was an error, put the message into the output,
+          // and report it to the console.
+          //
+          output.innerHTML = `<pre>Error: ${err.message}</pre>`;
+          console.error(err);
+        }).then(() => {
+          //
+          // Error or not, re-enable the display and render buttons
+          //
+          this.enableControls(true);
+        });
+    },
+
+    //
+    // Enable/disable the input controls
+    //
+    enableControls(enable = true) {
+      for (const name of ['display', 'allowhtml', 'mathmlspacing', 'font', 'render']) {
+        document.querySelector(`#${name}`).disabled = !enable;
+      }
+    },
+
+    //
+    // Set the allowTexHTML and allowHtmlInTokenNodes options and rerender.
+    //
+    allowHTML(allow) {
+      MathJax.startup.document.inputJax.tex.parseOptions.options.allowTexHTML = allow;
+      MathJax.startup.document.inputJax.mml.mathml.options.allowHtmlInTokenNodes = allow;
+      this.convert();
+    },
+
+    //
+    // Set the mathmlSpacing option and rerender.
+    //
+    mathmlSpacing(spacing) {
+      MathJax.startup.document.outputJax.options.mathmlSpacing = spacing;
+      this.convert();
+    },
+
+    //
+    // Load and initialize the new font.
+    //
+    async setFont(font) {
+      this.enableControls(false);
+      //
+      // If the font isn't already loaded, put up a message that we are loading
+      // the font (since it can take a few seconds), set up the font path and
+      // clear any font configuraiton options that were set by the previous font.
+      // Finally, load the new font and wait for it to arrive.
+      //
+      if (!MathJax._.output.fonts[font]) {
+        document.querySelector('#output').innerHTML = `<div id="message">Loading ${font} font...</div>`;
+        MathJax.config.loader.paths[font] = MathJax.config.fontUrl(font);
+        for (const key of Object.keys(MathJax.config.chtml.fontData.OPTIONS)) {
+          delete MathJax.config.chtml[key];
+        }
+        await MathJax.loader.load(`[${font}]/chtml.js`);
+      }
+      //
+      // Look up the FontData object for the font (its only export).
+      //
+      const fontData = Object.values(MathJax._.output.fonts[font].chtml_ts)[0];
+      //
+      // Ask the output jax to remove its stylesheet and reset its caches,
+      // then give it a new font and set its mathml spacing option.
+      //
+      const {selectOptionsFromKeys} = MathJax._.util.Options;
+      const jax = MathJax.startup.document.outputJax;
+      document.head.removeChild(jax.styleSheet());
+      jax.chtmlStyles = null;
+      jax.reset();
+      jax.font = new fontData(selectOptionsFromKeys(MathJax.config.chtml, fontData.OPTIONS));
+      jax.font.setOptions({mathmlSpacing: jax.options.mathmlSpacing});
+      jax.font.adaptiveCSS(jax.options.adaptiveCSS);
+      //
+      // Re-render the math using the new font.
+      //
+      this.convert();
+    }
+  };
+  </script>
+
+</head>
+
+<body>
+
+<div id="frame">
+<div class="show display">
+ 
+  <h1>MathJax v4: TeX &amp; MathML to CHTML</h1>
+
+  <textarea id="input" rows="15" cols="10">
+<!--  Enter HTML containing TeX or MathML below -->
+
+If $a \ne 0$, then $ax^2 + bx + c = 0$ has two solutions,
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+
+As MathML:
+<math>
+  <mi>a</mi>
+  <msup>
+    <mi>x</mi>
+    <mn>2</mn>
+  </msup>
+  <mo>+</mo>
+  <mi>b</mi>
+  <mi>x</mi>
+  <mo>+</mo>
+  <mi>c</mi>
+  <mo>=</mo>
+  <mn>0</mn>
+</math>.
+  </textarea>
+
+  <br />
+
+  <div class="left">
+    <div id="controls">
+
+      <input type="checkbox" id="display" checked onchange="Interactiveconvert()">
+         <label for="display">Display style</label><br>
+
+      <input type="checkbox" id="allowhtml" onchange="Interactive.allowHTML(this.checked)">
+         <label for="allowHTML">Allow HTML in TeX and MathML</label><br>
+
+      <input type="checkbox" id="mathmlspacing" onchange="Interactive.mathmlSpacing(this.checked)">
+         <label for="allowHTML">Use MathML spacing rules</label><br>
+
+      <hr>
+
+      <label for="font">Font:</label>
+        <select id="font" onchange="Interactive.setFont(this.value)">
+          <option>mathjax-asana</option>
+          <option>mathjax-bonum</option>
+          <option>mathjax-dejavu</option>
+          <option>mathjax-fira</option>
+          <option>mathjax-modern</option>
+          <option selected>mathjax-newcm</option>
+          <option>mathjax-pagella</option>
+          <option>mathjax-schola</option>
+          <option>mathjax-stix2</option>
+          <option>mathjax-termes</option>
+          <option>mathjax-tex</option>
+        </select>
+
+    </div>
+  </div>
+
+  <div class="right">
+    <input type="button" value="Render HTML" id="render" onclick="Interactive.convert()" />
+  </div>
+
+  <br clear="all" />
+
+  <div id="output"></div>
+ 
+  <script>Interactive.enableControls(false)</script>
+ 
+</div>
+
+<div class="explain inset">
+
+<p>This example shows how to use the
+<code>MathJax.typesetPromise()</code> function to process user input
+that is HTML containing delimited TeX expressions and/or MathML tags,
+allowing for the possibility that they use <code>\require</code> to
+load extensions dynamically, or one is loaded automatically by the
+<code>autoload</code> extension, or the font needs to load additional
+data for the characters used in the expression.</p>
+
+<p>When the user presses the <code>Render HTML</code> button or
+switches the <code>display</code> checkbox or one of the other
+controls, the <code>Interactive.convert()</code> function runs. The
+comments in the code explain how the conversion process is
+handled. Note that the user interface is disabled during the
+typesetting process, since the conversion is done asynchronously in
+this example. This prevents the user from starting a new typeset
+operation while one is already in progress.</p>
+
+</div>
+</div>
+
+<script src="../scripts/source.js"></script>
+
+</body>
+</html>

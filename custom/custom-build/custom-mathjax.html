@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>A custom build of MathJax v4 with speech processing</title>
+  <link rel="stylesheet" href="../../styles/interactive.css">
+  <script class="show">
+    MathJax = {
+      startup: {
+        ready() {
+          Interactive.convert();
+        }
+      }
+    };
+  </script>
+  <script class="show" src="custom-mathjax.min.js" defer></script>
+  <script class="show">
+  const Interactive = {
+    //
+    // Convert TeX to MathML with speech labels
+    //
+    async convert() {
+      //
+      // Disable controls while we are processing.
+      //
+      Interactive.enableControls(false);
+      //
+      // Get the TeX expression and the output area.
+      //
+      const input = document.querySelector('#input').value.trim();
+      output = document.querySelector('#mml').firstChild;
+      //
+      // Get the MathML with speech.
+      //
+      const mml = await MathJax.toSpeechMML(input, {
+        display: document.querySelector('#display').checked,
+        latex: document.querySelector('#latex').checked,
+        speech: document.querySelector('#speech').checked,
+        braille: document.querySelector('#braille').checked,
+        entities: document.querySelector('#entities').checked,
+      });
+      //
+      // Set the output to the serialized MathML.
+      //
+      output.innerHTML = '';
+      output.appendChild(document.createTextNode(mml));
+      //
+      // Re-enable the controls again.
+      //
+      Interactive.enableControls(true);
+    },
+
+    //
+    // Enable/disable the input controls
+    //
+    enableControls(enable = true) {
+      for (const name of ['display', 'latex', 'speech', 'braille', 'entities', 'render']) {
+        document.querySelector(`#${name}`).disabled = !enable;
+      }
+    },
+  };
+  </script>
+</head>
+
+<body>
+
+<div id="frame">
+
+<h1>Custom Build of MathJax with <code>toSpeech()</code></h1>
+
+<div class="show display">
+ 
+  <textarea id="input" rows="15" cols="10">
+%
+% Enter TeX commands below
+%
+y = \sqrt{1-x^2}
+  </textarea>
+  <br />
+
+  <div class="center">
+
+    <div class="left">
+      <div id="controls">
+
+        <input type="checkbox" id="display" checked onchange="Interactive.convert()">
+          <label for="display">Display style</label><br>
+
+        <input type="checkbox" id="entities" onchange="Interactive.convert()">
+          <label for="braille">Use Entities</label><br>
+
+      </div>
+    </div>
+
+    <div class="controls">
+
+      <input type="checkbox" id="speech" checked onchange="Interactive.convert()">
+        <label for="speech">Include Speech</label><br>
+
+      <input type="checkbox" id="braille" checked onchange="Interactive.convert()">
+        <label for="braille">Include Braille</label><br>
+
+      <input type="checkbox" id="latex" onchange="Interactive.convert()">
+        <label for="latex">Include LaTeX attributes</label><br>
+
+    </div>
+
+    <div class="right">
+      <input type="button" value="Convert to MML" id="render" onclick="Interactive.convert()">
+    </div>
+
+  </div>
+
+  <br clear="all">
+
+  <div id="mml"><pre class="code"></pre></div>
+
+  <script>Interactive.enableControls(false)</script>
+ 
+</div>
+</div>
+
+<div class="explain inset">
+
+<p>This example shows how to create a completely custom build of
+MathJax v4 that does not use the predefined MathJax components at
+all. This example provides a command to convert a TeX string to a
+speech string for that expression (and does no other typesetting).</p>
+
+<p>The main code for the build is</p>
+
+<script type="text/x-load-code" src="custom-mathjax.js"></script>
+
+<p>which contains comments describing it in detail. In order to use
+the component in your web pages, you must package it into a single
+file using webpack. Although this build does not use any of the
+MathJax component files, you can still use the component building
+tools to make it easy to create the combined file. You do that by
+first defining the component using the file</p>
+
+<script type="text/x-load-code" src="config.json"></script>
+
+<p>which gives the name of the combined file. The <code>dist</code>
+property being set to <code>'.'</code> means that the combined file
+will be placed in the directory with the source file, but with
+<code>.min.js</code> as the extension rather than
+<code>.js</code>.</p>
+
+<p>To make the actual combined file, use the commands</p>
+
+<script type="text/x-colorize-code" class="shell">
+npm install
+npm run make-custom-build
+</script>
+
+<p>from the main directory of this repository. That will create the
+<code>custom-mathjax.min.js</code> file in the <code>custom-build</code>
+directory.</p>
+
+<p>To include this in your own web page, you only need one line:</p>
+
+<script type="text/x-colorize-code" class="html">
+<script src="custom-mathjax.min.js" defer>&lt;/script>
+</script>
+
+<p>Our custom MathJax build creates a <code>MathJax</code> global
+variable that contains the command <code>toSpeechMML()</code>. The
+example HTML file uses this to convert user-provided TeX expressions
+and displays MathML node trees with the attached speech strings.</p>
+
+<p>This build of MathJax includes the ability to provide a
+<code>ready()</code> function that is called when MathJax has
+initialized itself and is ready to process math. The example HTML file
+takes advantage of that to enable the user interface elements (which are
+initially disabled so that the user can’t press them until MathJax is
+ready).  See the source code below.</p>
+
+</div>
+
+<script src="../../scripts/source.js"></script>
+
+</body>
+
+</html>
