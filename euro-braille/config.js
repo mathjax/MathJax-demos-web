@@ -2,6 +2,7 @@ MathJax = {
   options: {
     enableMenu: true,
     enableExplorer: true,
+    enableEnrichment: true,
     menuOptions: {
       settings: {
         assistiveMml: false
@@ -22,9 +23,9 @@ MathJax = {
                       if (!doc.processed.isSet('addtext')) {
                         for (const math of doc.math) {
                           MathJax.config.addCopyText(math, doc);
-                          if (math.typesetRoot.children[0]) {
-                            math.typesetRoot.children[0].setAttribute('style', 'user-select: none');
-                            math.typesetRoot.children[0].setAttribute('onselectstart', 'return false');
+                          if (math.typesetRoot.children[0].children[0]) {
+                            math.typesetRoot.children[0].children[0].setAttribute('style', 'user-select: none');
+                            math.typesetRoot.children[0].children[0].setAttribute('onselectstart', 'return false');
                           }
                         }
                         doc.processed.set('addtext');
@@ -45,9 +46,12 @@ MathJax = {
         const text = adaptor.node('mjx-copytext', {'aria-hidden': true}, [
           adaptor.text(math.start.delim + math.math + math.end.delim)
         ]);
-        adaptor.append(math.typesetRoot, text);
-        adaptor.append(math.typesetRoot, adaptor.text('\u200C'));
-        adaptor.insert(adaptor.text('\u200C'), adaptor.firstChild(math.typesetRoot));
+        const group = adaptor.node('mjx-group');
+        adaptor.append(math.typesetRoot, group);
+        adaptor.append(group, adaptor.text('\u200C'));
+        adaptor.append(group, adaptor.firstChild(math.typesetRoot));
+        adaptor.append(group, text);
+        adaptor.append(group, adaptor.text('\u200C'));
       }
       math.state(MathJax.STATE.ADDTEXT);
     }
@@ -74,7 +78,6 @@ MathJax = {
 let saved = null;
 let converted = false;
 function convertAll() {
-  const SRE = MathJax._.a11y?.sre?.Sre || MathJax._.a11y?.sre;
   if (!MathJax.typesetPromise) return;
   MathJax.typesetPromise().then(() => {
     if (!saved) {
@@ -84,16 +87,11 @@ function convertAll() {
       converted = true;
       let augenbit = document.getElementsByClassName('augenbit');
       let euroBraille = document.getElementsByClassName('euroBraille');
-      
-      let promise = SRE.setupEngine({modality: "braille", locale: "euro"});
-      SRE.sreReady().then(() => {
-        for (let i = 0, item, output; item = saved[i], output = euroBraille[i]; i++) {
-          let node = document.createTextNode(item.typesetRoot.getAttribute('aria-braillelabel'));
+        for (let i = 0, item, output; item = augenbit[i], output = euroBraille[i]; i++) {
+          let node = document.createTextNode(item.childNodes[0].getAttribute('data-semantic-braille'));
           output.innerHtml = node;
           output.appendChild(node);
         }
-        SRE.setupEngine({modality: "speech", locale: "de"});
-      });
     }
   }).catch((e) => {});
 }
@@ -136,14 +134,9 @@ function convert() {
     MathJax.startup.document.clear();
     MathJax.startup.document.updateDocument();
     // We could do something clever here, but for now we simply run SRE twice. 
-    SRE.setupEngine({modality: "braille", locale: "euro"});
-    SRE.sreReady().then(() => {
-      let mml = MathJax.startup.toMML(MathJax.startup.input[0].mathNode);
-      output = document.getElementById('braille');
-      output.innerHTML = '';
-      output.innerHTML = SRE.toSpeech(mml);
-      SRE.setupEngine({modality: "speech", locale: "de"});
-    });
+    output = document.getElementById('braille');
+    output.innerHTML = '';
+    output.innerHTML = node.getAttribute('data-semantic-braille');
   }).catch(function (err) {
     //
     //  If there was an error, put the message into the output instead
