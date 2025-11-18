@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MathJax Demo for Euro Braille Integration</title>
+    <script async src="./config.js"></script>
+    <link rel="stylesheet" href="../styles/convert.css"></link>
+    <style>
+      table {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      td {
+        border: 1px solid var(--border-color);
+      }
+    </style>
+
+    <script defer src="./tex-chtml.js"></script>
+  </head>
+
+  <body>
+    <h1>MathJax Demo for Euro Braille Integration</h1>
+
+    <p>Explore math expressions by focusing and hitting return. This should
+    bring up the explorer with subtitles: Euro Braille and speech in
+    German. Note that the context menu is disabled on this page.</p>
+    
+    <h2>Interactive Demo</h2>
+
+    <div id="frame">
+      <textarea id="input" rows="15" cols="10">
+        x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}
+      </textarea>
+      <br />
+      <div class="left">
+        <input type="checkbox" id="display" checked onchange="convert()"> <label for="display">Display style</label>
+      </div>
+      <div class="right">
+        <input type="button" value="Render TeX" id="render" onclick="convert()" />
+      </div>
+      <br clear="all" />
+      <div class="output" id="output"></div>
+      <div class="output" id="braille"></div>
+    </div>
+
+
+    <h2>Some Simple Examples from Augenbit.de</h2>
+    Press the <kbd>Show Braille</kbd> button to display Braille output.
+    <div class="right">
+      <input disabled=true type="button" value="Show Braille" id="showBraille" onclick="convertAll()" />
+    </div>
+
+    <h3>Grundregeln</h3>
+
+    <table>
+      <tr><td class="augenbit">\[ 2 +x =5 \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ |x - 1| = |1 - x| \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  n! = n*(n-1)! \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x^2  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x^{10}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a_1 +a_n  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x^{n +m}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a_{n -1}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a_{12}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  n \to \infty  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x \notin \{ 3; 4 \} \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \frac{a + b}{a - b}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sqrt{a + b}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sum_{n=1}^\infty \frac{1}{2^n} = 1  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \overline{A \cup B}  \]</td><td class="euroBraille"></td></tr>
+    </table>
+
+    <h3>Sekundarstufe 1</h3>
+
+    <table>
+      <tr><td class="augenbit">\[ \{ 1, 2, 3, 4 \} \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 3 \in P \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 4 \notin P \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  A \subset B \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  A \subseteq B \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  A \cup B  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  A \cap B \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  A \backslash B \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \{ \}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \emptyset  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \overline{A}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \mathbb{N}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \mathbb{Z}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \mathbb{Z}_0^-  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \mathbb{Q} \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \mathbb{R} \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \mathcal P \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 2 +4 = 7  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 9 -3 \not= 5  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x \pm 3  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 2*8 \gt  15  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 8 : 4 \lt  5  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x \le 10  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a \ge b  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \pi \approx 3,14 \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ (a +b)^2  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ [x -y]^3  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  s \sim t  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a \hat{=} b  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 7|28  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x \in \mathbb{N} \wedge x \lt  3  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  A \Rightarrow B \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ x \to \infty \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  x =1 \vee x =2  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 3x =12 \Leftrightarrow x =4  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \frac{2}{3}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  4\frac{3}{5}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \frac{1}{x}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \frac{1}{x +2} \not= \frac{1}{x} +2  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \frac{ \frac{a+b}{2}}{\frac{x}{a-b}} =1  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 0,1\overline{6} = 1/6  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 75\% = 3/4  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a^2  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a^{12}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ 2^{-3} =1/8  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a^{n+1} \not= a^n +1  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sqrt{25} = 5  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sqrt{x^2 +y^2} \not= x +y  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sqrt[3]{8} = 2  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sqrt[3]{a^2}  =a^{2/3}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a_1 + a_n  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  a_{n -1}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ {}_{95}^{238}\mathrm{U} \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  f(x) =2x +1  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  f(3) =7  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  f \;: \; y = 2x +1  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  f: x \mapsto 2x +1  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ P(3,5 | 8)  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ |a| \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \log_a x  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \ln x  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sin \alpha  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \cos^2 \beta  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \tan \gamma  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \cot 45° \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sin (\pi /6)  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \overline{AB}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \triangle ABC  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \angle BAC  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \alpha, \beta, \gamma, \delta, \epsilon  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ g \parallel h \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ g \nparallel h \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  g \perp h  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  F \cong F'  \]</td><td class="euroBraille"></td></tr>
+    </table>
+
+    <h3>Sekundarstufe 2</h3>
+
+    <table>
+      <tr><td class="augenbit">\[  n \to \infty  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \lim_{h \to 0}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \lim_{x \to x_0}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  f\ ' (x), f\ ''(x)  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sum_{i=0}^n A_n  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \int_a^b f(x) dx  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  n!  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ {n \choose k}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \sigma \qquad  \Omega  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \vec{p} = \begin{pmatrix} x; & y; & z-3 \end{pmatrix} \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \vec{q} = \begin{pmatrix} -5 \\ 0,5 \\ k+4 \end{pmatrix}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[ \vec{p} \times \vec{q}  \]</td><td class="euroBraille"></td></tr>
+      <tr><td class="augenbit">\[  \begin{pmatrix} a&b&c \\ d&e&f \end{pmatrix}  \]</td><td class="euroBraille"></td></tr>
+    </table>
+
+    <h2>Some Standard Examples</h2>
+
+    <h3>The Quadratic Formula</h3>
+    <div class="augenbit">  \[x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}\]</div><div class="euroBraille"></div>
+
+    <h3>Cauchy's Integral Formula</h3>
+    <div class="augenbit">  \[f(a) = \frac{1}{2\pi i} \oint\frac{f(z)}{z-a}dz\]</div><div class="euroBraille"></div>
+
+    <h3>Angle Sum Formula for Cosines</h3>
+    <div class="augenbit">  \[ \cos(\theta+\phi)=\cos(\theta)\cos(\phi)-\sin(\theta)\sin(\phi) \]</div><div class="euroBraille"></div>
+
+    <h3>Gauss' Divergence Theorem</h3>
+    <div class="augenbit">  \[ \int_D ({\nabla\cdot} F)dV=\int_{\partial D} F\cdot ndS \]</div><div class="euroBraille"></div>
+
+    <h3>Curl of a Vector Field</h3>
+    <div class="augenbit">  \[ \vec{\nabla} \times \vec{F} =
+    \left( \frac{\partial F_z}{\partial y} - \frac{\partial F_y}{\partial z} \right) \mathbf{i}
+    + \left( \frac{\partial F_x}{\partial z} - \frac{\partial F_z}{\partial x} \right) \mathbf{j}
+    + \left( \frac{\partial F_y}{\partial x} - \frac{\partial F_x}{\partial y} \right) \mathbf{k} \]</div><div class="euroBraille"></div>
+
+    <h3>Standard Deviation</h3>
+    <div class="augenbit">  \[\sigma = \sqrt{ \frac{1}{N} \sum_{i=1}^N (x_i -\mu)^2} \]</div><div class="euroBraille"></div>
+
+    <h3>Definition of Christoffel Symbols</h3>
+    <div class="augenbit">  \[(\nabla_X Y)^k = X^i (\nabla_i Y)^k =
+    X^i \left( \frac{\partial Y^k}{\partial x^i} + \Gamma_{im}^k Y^m \right)\]</div><div class="euroBraille"></div>
+
+  </body>
+</html>
